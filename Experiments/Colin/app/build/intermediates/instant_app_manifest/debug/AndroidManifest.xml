@@ -26,6 +26,27 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        <activity
+            android:name="com.example.test.DisplayCounter"
+            android:parentActivityName="com.example.test.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name="com.example.test.DisplayRandom"
+            android:parentActivityName="com.example.test.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name="com.example.test.DisplayToast"
+            android:parentActivityName="com.example.test.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <activity android:name="com.example.test.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

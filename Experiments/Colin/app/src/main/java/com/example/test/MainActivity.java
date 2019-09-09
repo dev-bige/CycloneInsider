@@ -29,4 +29,25 @@ public class MainActivity extends AppCompatActivity{
         startActivity(intent);
 
     }
+
+    public void openCounter(View view){
+
+        Intent intent = new Intent(this, DisplayCounter.class);
+        startActivity(intent);
+
+    }
+
+    public void openRandom(View view){
+
+        Intent intent = new Intent(this,DisplayRandom.class);
+        startActivity(intent);
+
+    }
+
+    public void openToast(View view){
+
+        Intent intent = new Intent(this,DisplayToast.class);
+        startActivity(intent);
+
+    }
 }
