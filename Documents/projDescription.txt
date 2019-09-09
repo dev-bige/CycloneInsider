@@ -1,0 +1,19 @@
+Application Name: Cyclone Insider
+
+Besides email, college administrators, staff, and students don’t have the best means of communication. Our project will solve these problems. 
+Our plan is to create an application that allows students, staff and administrators to communicate and collaborate via our application. Our 
+application will show the most recent announcements, alerts, and more.
+
+Our project will consist of 2 parts
+
+     A REST based backend that handles all the request from the clients - Spring Boot
+    An Android application
+
+ Some of the initial requirements for the project are:
+
+    1.Needs to have administrators / moderators (different authentication levels)
+    2.Allows students to create posts and have comments, but “verified/moderator” accounts show up on the top of comments
+    3.Allows tags to be added and allows filtering based on the tags
+    4.Allows picture uploading for posts
+    5.Allows rooms to be created for posts such as different classrooms, clubs, and more.
+    6.To request a room, you need to contact a school administrator
