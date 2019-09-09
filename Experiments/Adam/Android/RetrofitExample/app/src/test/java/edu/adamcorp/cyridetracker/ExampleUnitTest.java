@@ -1,4 +1,4 @@
-package edu.cycloneinsider;
+package edu.adamcorp.cyridetracker;
 
 import org.junit.Test;
 
