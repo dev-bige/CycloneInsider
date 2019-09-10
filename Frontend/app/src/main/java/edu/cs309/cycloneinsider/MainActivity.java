@@ -26,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
         String netIDString = netID.getText().toString(); //extracts the string of the netID
         String passwordString = password.getText().toString(); //extracts the string of the password
         String hiddenTextString = hiddenText.getText().toString(); //extracts the string value of hiddenText in order to set this value when users enter bad username/passwords
-        System.out.println("NetID "+netIDString.length());
-        System.out.println("Password "+passwordString.length());
 
         if(netIDString.length() == 0 && passwordString.length() == 0){ //Net ID and Password must be entered
 
