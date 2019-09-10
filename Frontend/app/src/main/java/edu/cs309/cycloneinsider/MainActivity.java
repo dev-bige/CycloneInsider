@@ -31,12 +31,12 @@ public class MainActivity extends AppCompatActivity {
 
             hiddenText.getText().clear();
             hiddenText.setText("You must enter your Net ID and Password");
-            hiddenText.setVisibility(View.VISIBLE);
+            hiddenText.setVisibility(View.VISIBLE); //sets the error box to VISIBLE
             return;
 
         }
 
-        if(netIDString.length() == 0){ //Net ID must be entered
+        else if(netIDString.length() == 0){ //Net ID must be entered
 
             hiddenText.getText().clear();
             hiddenText.setText("You must enter your Net ID");
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        if(passwordString.length() == 0){ //Password must be entered
+        else if(passwordString.length() == 0){ //Password must be entered
 
             hiddenText.getText().clear();
             hiddenText.setText("You must enter your Password");
