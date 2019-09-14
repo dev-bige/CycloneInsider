@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, OpenMainPage.class); //starts an indent
         EditText netID = (EditText) findViewById(R.id.net_id); //finds the user name in netID box by ID
         EditText password = (EditText) findViewById(R.id.password); //finds the password in password box by ID
-        EditText hiddenText = (EditText) findViewById(R.id.hidden_text); //finds the hidden text box that communicates errors to user when entering wrong values
+        TextView hiddenText = (TextView) findViewById(R.id.hidden_text); //finds the hidden text box that communicates errors to user when entering wrong values
         hiddenText.setVisibility(View.INVISIBLE); //makes sure to have the text box INVISIBLE, unless a conditional statement triggers it to be VISIBLE
         String netIDString = netID.getText().toString(); //extracts the string of the netID
         String passwordString = password.getText().toString(); //extracts the string of the password
@@ -29,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
         if(netIDString.length() == 0 && passwordString.length() == 0){ //Net ID and Password must be entered
 
-            hiddenText.getText().clear();
             hiddenText.setText("You must enter your Net ID and Password");
             hiddenText.setVisibility(View.VISIBLE); //sets the error box to VISIBLE
             return;
@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
         else if(netIDString.length() == 0){ //Net ID must be entered
 
-            hiddenText.getText().clear();
             hiddenText.setText("You must enter your Net ID");
             hiddenText.setVisibility(View.VISIBLE);
             return;
@@ -47,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
         else if(passwordString.length() == 0){ //Password must be entered
 
-            hiddenText.getText().clear();
             hiddenText.setText("You must enter your Password");
             hiddenText.setVisibility(View.VISIBLE);
             return;
