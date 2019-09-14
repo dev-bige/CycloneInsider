@@ -18,7 +18,7 @@ build:
 
 deploy:
     stage: deploy
-    image: docker:stable
+    image: teke97/sshpass_alpine:latest
     before_script:
     - apt-get update -y && apt-get install sshpass
     script:
