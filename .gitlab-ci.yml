@@ -16,3 +16,12 @@ build:
         expire_in: 1 week
     only:
         - master
+
+deploy:
+    stage: deploy
+    image: java:8-jdk
+    script:
+    - sshpass -p 
+    - sshpass -p $DEPLOY_PASS ssh $DEPLOY_USER@coms-309-sb-5.misc.iastate.edu sudo su;/etc/init.d/cyclone_insider stop
+    - sshpass -p $DEPLOY_PASS scp ./Backend/build/libs/Cyclone_Insider.jar $DEPLOY_USER@coms-309-sb-5.misc.iastate.edu:Cyclone_Insider.jar
+    - sshpass -p $DEPLOY_PASS ssh $DEPLOY_USER@coms-309-sb-5.misc.iastate.edu sudo su;/etc/init.d/cyclone_insider start
