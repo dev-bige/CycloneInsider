@@ -8,7 +8,7 @@ build:
     image: java:8-jdk
     script:
     - cd ./Backend
-    - gradlew build
+    - ./gradlew build
     artifacts:
         paths:
             - ./Backend/build/libs/*.jar
