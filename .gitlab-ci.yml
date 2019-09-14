@@ -1,9 +1,3 @@
-image: java:8-stretch
-
-before_script:
- - apt-get update
- - apt-get install -y -qq sshpass
-
 stages:
   - build
   - deploy
@@ -24,8 +18,11 @@ build:
 
 deploy:
     stage: deploy
-    image: java:8-jdk
+    image: docker:stable
+    before_script:
+    - apt-get update -y && apt-get install sshpass
     script:
+    - ls ./Backend/build/libs
     - sshpass -p 
     - sshpass -p $DEPLOY_PASS ssh $DEPLOY_USER@coms-309-sb-5.misc.iastate.edu sudo su;/etc/init.d/cyclone_insider stop
     - sshpass -p $DEPLOY_PASS scp ./Backend/build/libs/Cyclone_Insider.jar $DEPLOY_USER@coms-309-sb-5.misc.iastate.edu:Cyclone_Insider.jar
