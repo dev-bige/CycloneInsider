@@ -1,0 +1,17 @@
+image: java:8-jdk
+
+stages:
+  - build
+  
+build:
+	stage: build
+    image: java:8-jdk
+	script:
+		- cd Backend
+		- gradlew build
+	artifacts:
+		paths:
+			- ./Backend/build/libs/*.jar
+		expire_in: 1 week
+	only:
+		- master
