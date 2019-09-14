@@ -5,9 +5,9 @@ stages:
   
 build:
 	stage: build
-    image: java:8-jdk
+	image: java:8-jdk
 	script:
-		- cd Backend
+		- cd ./Backend
 		- gradlew build
 	artifacts:
 		paths:
