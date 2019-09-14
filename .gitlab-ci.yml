@@ -21,6 +21,6 @@ deploy:
     image: teke97/sshpass_alpine:latest
     script:
     - ls ./Backend/build/libs
-    - sshpass -p "${DEPLOY_PASS}" ssh -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no ${DEPLOY_USER}@coms-309-sb-5.misc.iastate.edu sudo su;/etc/init.d/cyclone_insider stop
+    - sshpass -p "${DEPLOY_PASS}" ssh -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no ${DEPLOY_USER}@coms-309-sb-5.misc.iastate.edu bash -c "echo ${DEPLOY_PASS} | sudo su";/etc/init.d/cyclone_insider stop
     - sshpass -p "${DEPLOY_PASS}" scp -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no ./Backend/build/libs/Cyclone_Insider.jar ${DEPLOY_USER}@coms-309-sb-5.misc.iastate.edu:Cyclone_Insider.jar
-    - sshpass -p "${DEPLOY_PASS}" ssh -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no ${DEPLOY_USER}@coms-309-sb-5.misc.iastate.edu sudo su;/etc/init.d/cyclone_insider start
+    - sshpass -p "${DEPLOY_PASS}" ssh -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no ${DEPLOY_USER}@coms-309-sb-5.misc.iastate.edu bash -c "echo ${DEPLOY_PASS} | sudo su";/etc/init.d/cyclone_insider start
