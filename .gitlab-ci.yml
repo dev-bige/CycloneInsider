@@ -8,6 +8,7 @@ build:
     image: java:8-jdk
     script:
     - cd ./Backend
+    - chmod +x ./gradlew
     - ./gradlew build
     artifacts:
         paths:
