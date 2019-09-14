@@ -9,9 +9,9 @@ build:
     script:
     - cd ./Backend
     - gradlew build
-	artifacts:
-	    paths:
-	        - ./Backend/build/libs/*.jar
-	    expire_in: 1 week
-	only:
-	    - master
+    artifacts:
+        paths:
+            - ./Backend/build/libs/*.jar
+        expire_in: 1 week
+    only:
+        - master
