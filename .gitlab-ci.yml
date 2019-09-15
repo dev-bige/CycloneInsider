@@ -1,5 +1,6 @@
 stages:
   - build
+  - deploy
   
 build:
     stage: build
@@ -8,6 +9,7 @@ build:
     - cd ./Backend
     - chmod +x ./gradlew
     - ./gradlew build
+    - ./gradlew war
     artifacts:
         paths:
             - ./Backend/build/libs/*.jar
@@ -15,3 +17,11 @@ build:
         expire_in: 1 week
     only:
         - master
+
+deploy:
+    stage: deploy
+    image: teke97/sshpass_alpine:latest
+    script:
+    - ls ./Backend/build/libs
+    - sshpass -p "${DEPLOY_PASS}" scp ./Backend/build/libs/Cyclone_Insider.jar ${DEPLOY_USER}@coms-309-sb-5.misc.iastate.edu:/var/lib/tomcat/webapps/Cyclone_Insider.jar
+    - ssh cyclone_insider@coms-309-sb-5.misc.iastate.edu 'echo ${DEPLOY_PASS} | sudo -S systemctl restart cyclone_insider.service'

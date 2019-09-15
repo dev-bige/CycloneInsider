@@ -18,7 +18,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:orientation="vertical">
-
             <EditText
                 android:id="@+id/net_id"
                 android:layout_width="match_parent"
