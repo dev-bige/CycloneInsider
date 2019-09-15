@@ -8,9 +8,18 @@ build:
     - cd ./Backend
     - chmod +x ./gradlew
     - ./gradlew build
+    - ./gradlew war
     artifacts:
         paths:
             - ./Backend/build/libs/*.jar
+            - ./Backend/build/libs/*.war
         expire_in: 1 week
     only:
         - master
+
+deploy:
+    stage: deploy
+    image: teke97/sshpass_alpine:latest
+    script:
+    - ls ./Backend/build/libs
+    - sshpass -p "${DEPLOY_PASS}" scp ./Backend/build/libs/Cyclone_Insider.war ${DEPLOY_USER}@coms-309-sb-5.misc.iastate.edu:/var/lib/tomcat/webapps/Cyclone_Insider.war

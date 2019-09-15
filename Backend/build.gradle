@@ -1,7 +1,12 @@
 plugins {
     id 'java'
+    id 'application'
     id 'org.springframework.boot' version '2.1.7.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+}
+
+application {
+    mainClassName = 'edu.cyclone.insider.Application'
 }
 
 group 'edu.cyclone.insider'
