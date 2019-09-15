@@ -8,7 +8,6 @@ build:
     - cd ./Backend
     - chmod +x ./gradlew
     - ./gradlew build
-    - ./gradlew war
     artifacts:
         paths:
             - ./Backend/build/libs/*.jar
