@@ -1,8 +1,8 @@
 stages:
-  - build_backend
-  - build_android:
+- build_backend
+- build_android:
     - requires: []
-  - deploy_backend
+- deploy_backend
 
 
 
