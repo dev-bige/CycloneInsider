@@ -30,7 +30,7 @@ build_android:
     - ./gradlew assembleDebug
     artifacts:
         paths:
-        - ./Frontend/app/build/outputs/apk/app-debug.apk
+        - ./Frontend/app/build/outputs/apk/debug/app-debug.apk
         expire_in: 1 week
     only:
         - master
