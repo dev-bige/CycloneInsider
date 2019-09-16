@@ -20,6 +20,7 @@ build:
 deploy:
     stage: deploy
     image: teke97/sshpass_alpine:latest
+    when: manual
     script:
     - ls ./Backend/build/libs
     - sshpass -p "${DEPLOY_PASS}" scp -o StrictHostKeyChecking=no -o PreferredAuthentications=password -o PubkeyAuthentication=no ./Backend/build/libs/Cyclone_Insider.jar ${DEPLOY_USER}@coms-309-sb-5.misc.iastate.edu:Cyclone_Insider.jar
