@@ -5,9 +5,9 @@ stages:
 
 build_backend:
     cache:
-    paths:
-    - ./Backend/.gradle/wrapper
-    - ./Backend/.gradle/caches
+        paths:
+        - ./Backend/.gradle/wrapper
+        - ./Backend/.gradle/caches
     stage: build_backend
     image: java:8-jdk
     script:
