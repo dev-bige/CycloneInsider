@@ -3,9 +3,11 @@ stages:
 - build_android
 - deploy_backend
 
-
-
 build_backend:
+    cache:
+    paths:
+        - .gradle/wrapper
+        - .gradle/caches
     stage: build_backend
     image: java:8-jdk
     script:
