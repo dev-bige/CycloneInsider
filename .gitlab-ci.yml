@@ -1,7 +1,6 @@
 stages:
 - build_backend
-- build_android:
-    - requires: []
+- build_android
 - deploy_backend
 
 
@@ -23,11 +22,9 @@ build_backend:
 build_android:
     stage: build_android
     image: jangrewe/gitlab-ci-android
-    before_script:
-    - cd ./Frontend
-    - export GRADLE_USER_HOME=$(pwd)/.gradle
-    - chmod +x ./gradlew
     script:
+    - cd ./Frontend
+    - chmod +x ./gradlew
     - ./gradlew assembleDebug
     artifacts:
         paths:
