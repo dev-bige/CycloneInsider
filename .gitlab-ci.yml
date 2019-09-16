@@ -1,7 +1,23 @@
 stages:
   - build_backend
   - build_android
-  - deploy
+  - deploy_backend
+
+
+
+build_backend:
+    stage: build_backend
+    image: java:8-jdk
+    script:
+    - cd ./Backend
+    - chmod +x ./gradlew
+    - ./gradlew build
+    artifacts:
+        paths:
+            - ./Backend/build/libs/*.jar
+        expire_in: 1 week
+    only:
+        - master
 
 build_android:
     stage: build_android
@@ -15,21 +31,6 @@ build_android:
     artifacts:
         paths:
         - ./Frontend/app/build/outputs/apk/app-debug.apk
-        expire_in: 1 week
-    only:
-        - master
-
-build_backend:
-    stage: build_backend
-    image: java:8-jdk
-    script:
-    - cd ./Backend
-    - chmod +x ./gradlew
-    - ./gradlew build
-    artifacts:
-        paths:
-            - ./Backend/build/libs/*.jar
-            - ./Backend/build/libs/*.war
         expire_in: 1 week
     only:
         - master
