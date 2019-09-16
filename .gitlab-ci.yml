@@ -1,9 +1,27 @@
 stages:
-  - build
-  - deploy
+  - build_backend
+  - build_android
+  - deploy:
+    - requires: build_backend
 
-build:
-    stage: build
+build_android:
+    stage: build_android
+    image: jangrewe/gitlab-ci-android
+    before_script:
+    - cd ./Frontend
+    - export GRADLE_USER_HOME=$(pwd)/.gradle
+    - chmod +x ./gradlew
+    script:
+    - ./gradlew assembleDebug
+    artifacts:
+        paths:
+        - ./Frontend/app/build/outputs/apk/app-debug.apk
+        expire_in: 1 week
+    only:
+        - master
+
+build_backend:
+    stage: build_backend
     image: java:8-jdk
     script:
     - cd ./Backend
@@ -17,8 +35,8 @@ build:
     only:
         - master
 
-deploy:
-    stage: deploy
+deploy_backend:
+    stage: deploy_backend
     image: teke97/sshpass_alpine:latest
     when: manual
     script:
