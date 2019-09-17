@@ -17,12 +17,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity"/>
         </activity>
+<<<<<<< HEAD
         <activity android:name=".DefaultForum"
             android:parentActivityName=".activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity"/>
         </activity>
+=======
+>>>>>>> 3e82fcc4a5dbb9fd7a458db220ebbdbd44ead4c3
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
