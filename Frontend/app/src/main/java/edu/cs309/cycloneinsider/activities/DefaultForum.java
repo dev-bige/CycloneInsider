@@ -1,13 +1,13 @@
-package edu.cs309.cycloneinsider;
+package edu.cs309.cycloneinsider.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toolbar;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import edu.cs309.cycloneinsider.R;
 
 public class DefaultForum extends AppCompatActivity {
 
@@ -19,8 +19,7 @@ public class DefaultForum extends AppCompatActivity {
 
     }
 
-    public void PostThread(View view)
-    {
+    public void PostThread(View view) {
         EditText postTitle = (EditText) findViewById(R.id.post_title); //finds the post title by ID
         EditText initialText = (EditText) findViewById(R.id.poster_comment); //finds the initial comment from poster by ID
         String title = postTitle.getText().toString(); //title of thread as a string
@@ -29,21 +28,21 @@ public class DefaultForum extends AppCompatActivity {
         hiddenText.setVisibility(View.INVISIBLE); //initially has hidden text box invisible
         String initialComments = initialText.getText().toString(); //posters initial comments as a string
 
-        if(title.length() == 0 && initialComments.length() == 0){ //poster must enter a title and have an initial comment
+        if (title.length() == 0 && initialComments.length() == 0) { //poster must enter a title and have an initial comment
 
             hiddenText.setText("Need to enter a title and place an initial comment");
             hiddenText.setVisibility(View.VISIBLE);
             return;
         }
 
-        if(title.length() == 0){ //poster must enter a title
+        if (title.length() == 0) { //poster must enter a title
 
             hiddenText.setText("Need to enter a title");
             hiddenText.setVisibility(View.VISIBLE);
             return;
         }
 
-        if(initialComments.length() == 0){ //poster needs to have an initial comment
+        if (initialComments.length() == 0) { //poster needs to have an initial comment
 
             hiddenText.setText("Need to enter an initial comment");
             hiddenText.setVisibility(View.VISIBLE);
@@ -53,9 +52,9 @@ public class DefaultForum extends AppCompatActivity {
         int counterTitle = 0;
         int counterComment = 0;
 
-        for(int i = 0; i < title.length(); i++){ //loop finds out if the title is only made up of spaces (this is not allowed)
+        for (int i = 0; i < title.length(); i++) { //loop finds out if the title is only made up of spaces (this is not allowed)
 
-            if(title.charAt(i) != ' '){
+            if (title.charAt(i) != ' ') {
                 break;
             }
 
@@ -63,16 +62,16 @@ public class DefaultForum extends AppCompatActivity {
 
         }
 
-        if(counterTitle == title.length()){ //poster needs to enter at least one character
+        if (counterTitle == title.length()) { //poster needs to enter at least one character
 
             hiddenText.setText("Need to enter at least one character for title");
             hiddenText.setVisibility(View.VISIBLE);
             return;
         }
 
-        for(int i = 0; i < initialComments.length(); i++){ //loop finds out if the initial comments section is only filled with spaces
+        for (int i = 0; i < initialComments.length(); i++) { //loop finds out if the initial comments section is only filled with spaces
 
-            if(initialComments.charAt(i) != ' '){
+            if (initialComments.charAt(i) != ' ') {
                 break;
             }
 
@@ -80,7 +79,7 @@ public class DefaultForum extends AppCompatActivity {
 
         }
 
-        if(counterComment == initialComments.length()){ //poster needs to enter at least
+        if (counterComment == initialComments.length()) { //poster needs to enter at least
 
             hiddenText.setText("Need to enter at least one character for the initial comment section");
             hiddenText.setVisibility(View.VISIBLE);
@@ -91,10 +90,6 @@ public class DefaultForum extends AppCompatActivity {
 
         return;
     }
-
-
-
-
 
 
 }

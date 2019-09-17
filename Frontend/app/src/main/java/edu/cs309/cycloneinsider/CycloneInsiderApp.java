@@ -21,8 +21,9 @@ public class CycloneInsiderApp extends Application {
         if (session == null) {
             session = new Session() {
                 SharedPreferences preferences = getSharedPreferences("CycloneInsiderPrefs", 0);
+
                 @Override
-                     public boolean isLoggedIn() {
+                public boolean isLoggedIn() {
                     return getToken() != null;
                 }
 

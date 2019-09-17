@@ -5,7 +5,7 @@ import java.io.IOException;
 import okhttp3.Interceptor;
 import okhttp3.Response;
 
-public class AuthorizationInterceptor  implements Interceptor {
+public class AuthorizationInterceptor implements Interceptor {
     Session session;
 
     public AuthorizationInterceptor(Session session) {
