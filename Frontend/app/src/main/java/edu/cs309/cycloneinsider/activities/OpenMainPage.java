@@ -1,10 +1,12 @@
-package edu.cs309.cycloneinsider;
+package edu.cs309.cycloneinsider.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class OpenMainPage extends AppCompatActivity {
+import edu.cs309.cycloneinsider.R;
+
+public class OpenMainPage extends InsiderActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
