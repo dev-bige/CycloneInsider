@@ -1,30 +1,21 @@
 package edu.cyclone.insider.models;
 
-import org.hibernate.annotations.GenericGenerator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
-import java.util.UUID;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
-public class InsiderUser {
-    @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID uuid;
-
+public class InsiderUser extends BaseModel {
     private String username;
+    @JsonIgnore
     private String password;
 
-    @Column(name = "name")
-    private String name;
+    private String firstName;
+    private String lastName;
 
     public InsiderUser() {
-    }
-
-    public UUID getUuid() {
-        return uuid;
     }
 
     public String getUsername() {
@@ -35,14 +26,6 @@ public class InsiderUser {
         return password;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
-    }
-
     public void setUsername(String username) {
         this.username = username;
     }
@@ -51,7 +34,19 @@ public class InsiderUser {
         this.password = password;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
