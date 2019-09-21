@@ -3,6 +3,7 @@ package edu.cyclone.insider.auth;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.cyclone.insider.controllers.user.models.LoginRequestModel;
 import edu.cyclone.insider.models.InsiderUser;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,8 +31,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
-            InsiderUser creds = new ObjectMapper().readValue(request.getInputStream(), InsiderUser.class);
-            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(creds.getUsername(), creds.getPassword()));
+            LoginRequestModel creds = new ObjectMapper().readValue(request.getInputStream(), LoginRequestModel.class);
+            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(creds.username, creds.password));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -4,7 +4,8 @@ import edu.cyclone.insider.controllers.user.models.SignUpRequestModel;
 import edu.cyclone.insider.models.InsiderUser;
 import edu.cyclone.insider.repos.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,17 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     private UsersRepository usersRepository;
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UsersRepository usersRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserController(UsersRepository usersRepository, PasswordEncoder passwordEncoder) {
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    @RequestMapping(value = "authorized", method = RequestMethod.GET)
-    public boolean authorized() {
-        return true;
+    @RequestMapping(value = "current", method = RequestMethod.GET)
+    public InsiderUser current() {
+        return usersRepository.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     @RequestMapping(value = "sign-up", method = RequestMethod.POST)

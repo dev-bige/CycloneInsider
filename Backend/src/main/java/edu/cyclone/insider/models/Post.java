@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "Post")
+@Table(name = "post")
 public class Post extends BaseModel {
     @ManyToOne
     private InsiderUser user;
