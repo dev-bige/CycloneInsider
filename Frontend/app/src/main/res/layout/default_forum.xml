@@ -44,12 +44,13 @@
                 android:visibility="invisible"
                 android:textColor="#ff0000"
                 />
-            
+
             <Switch
                 android:id="@+id/switch1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Allow Explicit Comments?" />
+                android:text="Allow Explicit Comments?"
+                />
 
 
             <Button
@@ -57,7 +58,7 @@
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_marginHorizontal="240dp"
-                android:layout_marginVertical="305dp"
+                android:layout_marginVertical="275dp"
                 android:onClick="PostThread"
                 android:text="Post" />
 
