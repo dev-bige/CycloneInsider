@@ -3,6 +3,7 @@ package edu.cs309.cycloneinsider.activities;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import java.util.Scanner;
 import java.util.Map;
@@ -121,8 +122,9 @@ public class DefaultForum extends AppCompatActivity {
         String hidden = hiddenText.getText().toString(); //gets the hidden text box as a string
         hiddenText.setVisibility(View.INVISIBLE); //initially has hidden text box invisible
         String initialComments = initialText.getText().toString(); //posters initial comments as a string
-        String[] titleWords = title.split(" ",0);
-        String[] initialCommentsWords = initialComments.split(" ",0);
+        String[] titleWords = title.split(" ",0); //splits up all of the words in the title by spaces
+        String[] initialCommentsWords = initialComments.split(" ",0); //splits up all of the initial comments by spaces
+
         if (title.length() == 0 && initialComments.length() == 0) { //poster must enter a title and have an initial comment
 
             hiddenText.setText("Need to enter a title and place an initial comment");
@@ -181,26 +183,32 @@ public class DefaultForum extends AppCompatActivity {
             return;
         }
 
-        for (int i = 0; i < titleWords.length; i++) {
+        Switch s = (Switch) findViewById(R.id.switch1); //finds the explicit switch by id
+        Boolean switchState = s.isChecked(); //checks if switch is on or off
 
-            if (dict.containsKey(titleWords[i].toLowerCase())) {
+        if(!switchState) { //explicit filter is on if false, scans title and initial comments for explicit words
 
-                hiddenText.setText("Cannot have explicit word: '" + titleWords[i] + "' in the title");
-                hiddenText.setVisibility(View.VISIBLE);
-                return;
+            for (int i = 0; i < titleWords.length; i++) {
+
+                if (dict.containsKey(titleWords[i].toLowerCase())) {
+
+                    hiddenText.setText("Cannot have explicit word: '" + titleWords[i] + "' in the title");
+                    hiddenText.setVisibility(View.VISIBLE);
+                    return;
+
+                }
 
             }
 
-        }
+            for (int i = 0; i < initialCommentsWords.length; i++) {
 
-        for (int i = 0; i < initialCommentsWords.length; i++) {
+                if (dict.containsKey(initialCommentsWords[i].toLowerCase())) {
 
-            if (dict.containsKey(initialCommentsWords[i].toLowerCase())) {
+                    hiddenText.setText("Cannot have explicit word: '" + initialCommentsWords[i] + "' in the initial comments");
+                    hiddenText.setVisibility(View.VISIBLE);
+                    return;
 
-                hiddenText.setText("Cannot have explicit word: '" + initialCommentsWords[i] + "' in the initial comments");
-                hiddenText.setVisibility(View.VISIBLE);
-                return;
-
+                }
             }
         }
 

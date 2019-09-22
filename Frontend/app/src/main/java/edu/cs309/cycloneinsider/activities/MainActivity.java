@@ -18,7 +18,7 @@ public class MainActivity extends InsiderActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+       
         //Used to logout so we can test login comment out to test session persistence
         getInsiderApplication().getSession().invalidate();
 
