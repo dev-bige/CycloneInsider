@@ -1,6 +1,8 @@
 # Cyclone Insider Backend
 
-### Swagger UI
+### Swagger UI Api Docs
+
+Latest Swagger UI can be accessed at http://coms-309-sb-5.misc.iastate.edu:8080/swagger-ui.html
 
 After running the application, you can visit the Swagger UI at http://localhost:8080/swagger-ui.html
 
