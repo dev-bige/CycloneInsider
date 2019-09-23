@@ -14,10 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -46,31 +44,40 @@ public class MainActivity extends InsiderActivity {
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.nvView);
 
+
         setSupportActionBar(toolbar);
 
         drawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
         drawerToggle.setDrawerIndicatorEnabled(true);
         drawerToggle.syncState();
 
-        getInsiderApplication().getApiService().getMemberships().observeOn(AndroidSchedulers.mainThread()).subscribe(response -> {
-            if (response.code() == 200) {
-                Log.d(TAG, "onCreate: " + response);
-                memberships = response.body();
-                classrooms = navigationView.getMenu().addSubMenu("Classrooms");
-                for (MembershipModel membership : memberships) {
-                    classrooms.add(membership.room.name);
-                }
-                navigationView.invalidate();
-            }
-        }, error -> {
-            Log.d(TAG, error.toString());
-        });
+
 
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             selectDrawerItem(menuItem);
             return true;
         });
+
+        getInsiderApplication().getApiService()
+                .getMemberships()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if (response.code() == 200) {
+                        Log.d(TAG, "onCreate: " + response);
+                        memberships = response.body();
+                        classrooms = navigationView.getMenu().addSubMenu("Classrooms");
+                        for (MembershipModel membership : memberships) {
+                            classrooms.add(membership.room.name);
+                        }
+                        navigationView.invalidate();
+                        navigationView.setCheckedItem(R.id.nav_front_page);
+                        selectDrawerItem(navigationView.getCheckedItem());
+                    }
+                }, error -> {
+                    Log.d(TAG, error.toString());
+                });
     }
+
 
     public void unselectAllItems() {
         int size = navigationView.getMenu().size();
