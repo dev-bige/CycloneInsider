@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+
 import edu.cs309.cycloneinsider.R;
 
 public class OpenMainPage extends InsiderActivity {
