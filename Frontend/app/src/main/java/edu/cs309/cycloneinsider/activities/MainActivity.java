@@ -1,88 +1,142 @@
 package edu.cs309.cycloneinsider.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
+import com.google.android.material.navigation.NavigationView;
+
+import java.util.List;
 
 import edu.cs309.cycloneinsider.R;
-import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
+import edu.cs309.cycloneinsider.api.models.MembershipModel;
+import edu.cs309.cycloneinsider.fragments.PostListFragment;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 
 public class MainActivity extends InsiderActivity {
     private static final String TAG = "MainActivity";
-    private Disposable loginSub;
+    private DrawerLayout mDrawer;
+    private Toolbar toolbar;
+    private ActionBarDrawerToggle drawerToggle;
+    private NavigationView navigationView;
+    private SubMenu classrooms;
+    private List<MembershipModel> memberships;
 
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       
-        //Used to logout so we can test login comment out to test session persistence
-        getInsiderApplication().getSession().invalidate();
+        setContentView(R.layout.open_main_page);
+        mDrawer = findViewById(R.id.drawer_layout);
+        toolbar = findViewById(R.id.toolbar);
+        navigationView = findViewById(R.id.nvView);
 
-        if (getInsiderApplication().getSession().isLoggedIn()) {
-            Intent intent = new Intent(this, OpenMainPage.class);
-            startActivity(intent);
-        }
-        setContentView(R.layout.activity_main);
+        setSupportActionBar(toolbar);
+
+        drawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
+        drawerToggle.setDrawerIndicatorEnabled(true);
+        drawerToggle.syncState();
+
+        getInsiderApplication().getApiService().getMemberships().observeOn(AndroidSchedulers.mainThread()).subscribe(response -> {
+            if (response.code() == 200) {
+                Log.d(TAG, "onCreate: " + response);
+                memberships = response.body();
+                classrooms = navigationView.getMenu().addSubMenu("Classrooms");
+                for (MembershipModel membership : memberships) {
+                    classrooms.add(membership.room.name);
+                }
+                navigationView.invalidate();
+            }
+        }, error -> {
+            Log.d(TAG, error.toString());
+        });
+
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            selectDrawerItem(menuItem);
+            return true;
+        });
     }
 
-
-    public void openMainPage(View view) {
-        EditText netID = findViewById(R.id.net_id); //finds the user name in netID box by ID
-        EditText password = findViewById(R.id.password); //finds the password in password box by ID
-        TextView hiddenText = findViewById(R.id.hidden_text); //finds the hidden text box that communicates errors to user when entering wrong values
-        hiddenText.setVisibility(View.GONE); //makes sure to have the text box INVISIBLE, unless a conditional statement triggers it to be VISIBLE
-        String netIDString = netID.getText().toString(); //extracts the string of the netID
-        String passwordString = password.getText().toString(); //extracts the string of the password
-        String hiddenTextString = hiddenText.getText().toString(); //extracts the string value of hiddenText in order to set this value when users enter bad username/passwords
-
-        if (netIDString.length() == 0 && passwordString.length() == 0) { //Net ID and Password must be entered
-            hiddenText.setText(R.string.login_no_id_password);
-            hiddenText.setVisibility(View.VISIBLE); //sets the error box to VISIBLE
-            return;
-        } else if (netIDString.length() == 0) { //Net ID must be entered
-            hiddenText.setText(R.string.login_no_id);
-            hiddenText.setVisibility(View.VISIBLE);
-            return;
-        } else if (passwordString.length() == 0) { //Password must be entered
-            hiddenText.setText(R.string.login_no_password);
-            hiddenText.setVisibility(View.VISIBLE);
-            return;
+    public void unselectAllItems() {
+        int size = navigationView.getMenu().size();
+        for (int i = 0; i < size; i++) {
+            navigationView.getMenu().getItem(i).setChecked(false);
         }
-        findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+        size = classrooms.size();
+        for (int i = 0; i < size; i++) {
+            classrooms.getItem(i).setChecked(false);
+        }
+    }
 
-        LoginRequestModel loginRequestModel = new LoginRequestModel();
-        loginRequestModel.setPassword(passwordString);
-        loginRequestModel.setUsername(netIDString);
-        loginSub = getInsiderApplication()
-                .getApiService()
-                .login(loginRequestModel)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    //Successful login!
-                    if (getInsiderApplication().getSession().isLoggedIn()) {
-                        Intent intent = new Intent(this, OpenMainPage.class);
-                        startActivity(intent);
-                    }
+    public MembershipModel getSelectedMembership(MenuItem menuItem) {
+        int size = classrooms.size();
+        for (int i = 0; i < size; i++) {
+            if (classrooms.getItem(i) == menuItem) {
+                return memberships.get(i);
+            }
+        }
+        return null;
+    }
 
-                    findViewById(R.id.progress_bar).setVisibility(View.GONE);
-                }, error -> {
-                    //Login error!
-                    hiddenText.setText(R.string.login_invalid_login);
-                    hiddenText.setVisibility(View.VISIBLE);
+    public void selectDrawerItem(MenuItem menuItem) {
+        unselectAllItems();
+        Fragment fragment;
+        switch (menuItem.getItemId()) {
+            case R.id.nav_front_page:
+                fragment = PostListFragment.newInstance(null);
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+                break;
+            default: {
+                MembershipModel selectedMembership = getSelectedMembership(menuItem);
+                fragment = PostListFragment.newInstance(selectedMembership.room.uuid);
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+            }
+        }
 
-                    findViewById(R.id.progress_bar).setVisibility(View.GONE);
-                });
+        menuItem.setChecked(true);
+        setTitle(menuItem.getTitle());
+        mDrawer.closeDrawers();
+    }
+
+    public void openDefaultThread(View view) {
+        Intent intent = new Intent(this, DefaultForum.class);
+        startActivity(intent);
+        return;
     }
 
     @Override
-    protected void onDestroy() {
-        if (!loginSub.isDisposed()) {
-            loginSub.dispose();
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
         }
-        super.onDestroy();
+        return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onPostCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        drawerToggle.syncState();
+        super.onPostCreate(savedInstanceState, persistentState);
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        drawerToggle.syncState();
+        super.onConfigurationChanged(newConfig);
+    }
+
 }

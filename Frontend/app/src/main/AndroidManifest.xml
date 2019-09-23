@@ -11,13 +11,13 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:name=".CycloneInsiderApp"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.OpenMainPage"
-            android:parentActivityName=".activities.MainActivity">
+        <activity android:name=".activities.MainActivity"
+            android:parentActivityName=".activities.LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MainActivity"/>
+                android:value=".activities.LoginActivity"/>
         </activity>
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -8,6 +8,7 @@ import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.Session;
 import edu.cs309.cycloneinsider.api.TokenRenewInterceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -65,6 +66,13 @@ public class CycloneInsiderApp extends Application {
 
     private OkHttpClient provideOkHttpClient() {
         OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
+        okhttpClientBuilder.addInterceptor(chain -> {
+            if (getSession().isLoggedIn()) {
+                Request request = chain.request().newBuilder().addHeader("Authorization", getSession().getToken()).build();
+                return chain.proceed(request);
+            }
+            return chain.proceed(chain.request());
+        });
         okhttpClientBuilder.addInterceptor(new TokenRenewInterceptor(getSession()));
         okhttpClientBuilder.addInterceptor(new AuthorizationInterceptor(getSession()));
         return okhttpClientBuilder.build();

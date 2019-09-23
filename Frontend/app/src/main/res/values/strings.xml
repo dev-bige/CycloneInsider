@@ -1,4 +1,7 @@
 <resources>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
     <string name="app_name">Cyclone Insider</string>
     <string name="login_no_id_password">You must enter your Net ID and Password</string>
     <string name="login_no_id">You must enter your Net ID</string>
