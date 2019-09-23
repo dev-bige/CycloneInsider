@@ -5,6 +5,7 @@
  */
 package edu.cyclone.insider.controllers.post;
 
+import edu.cyclone.insider.controllers.BaseController;
 import edu.cyclone.insider.controllers.post.models.PostCreateRequestModel;
 import edu.cyclone.insider.models.Post;
 import edu.cyclone.insider.repos.PostRepository;
@@ -20,14 +21,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("posts")
-public class PostController {
+public class PostController extends BaseController {
     private PostRepository postRepository;
-    private UsersRepository usersRepository;
 
     @Autowired
     public PostController(PostRepository postRepository, UsersRepository usersRepository) {
+        super(usersRepository);
         this.postRepository = postRepository;
-        this.usersRepository = usersRepository;
     }
 
     @RequestMapping(value = "front-page", method = RequestMethod.GET)
