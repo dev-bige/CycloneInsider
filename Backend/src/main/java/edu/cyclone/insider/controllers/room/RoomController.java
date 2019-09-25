@@ -40,6 +40,14 @@ public class RoomController extends BaseController {
         if(!byId.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
+
+        //Check if membership already exists
+        RoomMembership membership = roomMembershipRepository.findMembership(getCurrentUser().getUuid(), room_uuid);
+        if(membership != null) {
+            //Return current membership if already exists...
+            return membership;
+        }
+
         RoomMembership roomMembership = new RoomMembership();
         roomMembership.setRoom(byId.get());
         roomMembership.setUser(getCurrentUser());
