@@ -5,8 +5,8 @@ import java.util.List;
 
 public class PostModel {
     String content;
-    String tittle;
-    InsiderUserModel insiderUserModel;
+    String title;
+    InsiderUserModel user;
     RoomModel room;
     List<String> tags;
 }
