@@ -1,9 +1,7 @@
 package edu.cs309.cycloneinsider.api.models;
 
 public class PostGetModel {
-    public String uuid;
-    public String content;
-//    public user user???
-    // Add tags
-
+    public Room room;
+    public Post post;
+    public InsiderUserModel user;
 }
