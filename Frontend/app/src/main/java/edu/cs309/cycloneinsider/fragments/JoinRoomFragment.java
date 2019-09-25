@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +19,7 @@ import edu.cs309.cycloneinsider.activities.InsiderActivity;
 import edu.cs309.cycloneinsider.api.models.RoomModel;
 import edu.cs309.cycloneinsider.fragments.adapters.RoomListRecyclerViewAdapter;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import retrofit2.Response;
 
@@ -48,7 +50,11 @@ public class JoinRoomFragment extends Fragment {
         Observable<Response<List<RoomModel>>> allRooms = ((InsiderActivity) getActivity())
                 .getInsiderApplication()
                 .getApiService()
-                .getAllRooms();
+                .getAllRooms()
+                .observeOn(AndroidSchedulers.mainThread());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
         roomsListSubscription = allRooms.subscribe(roomsResponse -> {
             if (roomsResponse.isSuccessful()) {
                 List<RoomModel> roomsList = roomsResponse.body();

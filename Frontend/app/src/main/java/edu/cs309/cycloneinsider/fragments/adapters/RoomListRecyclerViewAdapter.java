@@ -3,6 +3,7 @@ package edu.cs309.cycloneinsider.fragments.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,7 +27,8 @@ public class RoomListRecyclerViewAdapter extends RecyclerView.Adapter<RoomListRe
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+        RoomModel room = rooms.get(position);
+        holder.title.setText(room.name);
     }
 
     @Override
@@ -35,8 +37,11 @@ public class RoomListRecyclerViewAdapter extends RecyclerView.Adapter<RoomListRe
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView title;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            title = itemView.findViewById(R.id.list_item_room_title);
         }
     }
 
