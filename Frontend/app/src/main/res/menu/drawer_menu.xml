@@ -5,5 +5,9 @@
             android:id="@+id/nav_front_page"
             android:icon="@drawable/ic_home_black_24dp"
             android:title="Front Page" />
+        <item
+            android:id="@+id/nav_join_room"
+            android:icon="@drawable/ic_add_circle_outline_black_24dp"
+            android:title="Join Room" />
     </group>
 </menu>
