@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
 import edu.cs309.cycloneinsider.api.models.MembershipModel;
+import edu.cs309.cycloneinsider.api.models.PostModel;
 import io.reactivex.Observable;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -20,5 +21,5 @@ public interface CycloneInsiderService {
     Observable<Response<List<MembershipModel>>> getMemberships();
 
     @GET("posts/front-page")
-    Observable<Response<List<PostGetModel>>> getFrontPagePosts();
+    Observable<Response<List<PostModel>>> getFrontPagePosts();
 }
