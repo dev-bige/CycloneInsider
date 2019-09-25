@@ -1,6 +1,6 @@
 package edu.cs309.cycloneinsider.api.models;
 
-public class Room {
+public class RoomModel {
     public String name;
     public String uuid;
 }
