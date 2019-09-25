@@ -69,6 +69,7 @@ public class PostListFragment extends Fragment {
         postSub = postListObservable.subscribe(postsResponse -> {
             if (postsResponse.isSuccessful()) {
                 List<PostModel> posts = postsResponse.body();
+
                 //TODO Do something with posts
             }
         });

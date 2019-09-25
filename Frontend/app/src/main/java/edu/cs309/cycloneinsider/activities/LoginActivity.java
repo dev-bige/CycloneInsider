@@ -18,7 +18,6 @@ public class LoginActivity extends InsiderActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       getInsiderApplication().getSession().invalidate();
         if (getInsiderApplication().getSession().isLoggedIn()) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
