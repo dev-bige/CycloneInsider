@@ -73,6 +73,7 @@ public class RoomController extends BaseController {
     public Room createRoom(@RequestBody CreateRoomRequestModel model) {
         Room room = new Room();
         room.setName(model.name);
+        room.setDescription(model.description);
         room = roomRepository.save(room);
         return room;
     }
