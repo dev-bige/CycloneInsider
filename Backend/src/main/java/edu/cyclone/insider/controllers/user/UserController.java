@@ -5,11 +5,13 @@ import edu.cyclone.insider.controllers.user.models.SignUpRequestModel;
 import edu.cyclone.insider.models.InsiderUser;
 import edu.cyclone.insider.repos.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController()
 @RequestMapping("users")
@@ -30,6 +32,12 @@ public class UserController extends BaseController {
 
     @RequestMapping(value = "sign-up", method = RequestMethod.POST)
     public void signUp(@RequestBody SignUpRequestModel request) {
+        InsiderUser userByUsername = usersRepository.findUserByUsername(request.username);
+
+        if(userByUsername != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
+        }
+
         InsiderUser newUser = new InsiderUser();
         newUser.setFirstName(request.firstName);
         newUser.setLastName(request.lastName);
