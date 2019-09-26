@@ -115,6 +115,9 @@ public class MainActivity extends InsiderActivity {
                 break;
             default: {
                 MembershipModel selectedMembership = getSelectedMembership(menuItem);
+                if(selectedMembership == null) {
+                    return;
+                }
                 fragment = PostListFragment.newInstance(selectedMembership.room.uuid);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
             }

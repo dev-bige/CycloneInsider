@@ -13,9 +13,12 @@ import java.util.List;
 
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.models.RoomModel;
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 
 public class RoomListRecyclerViewAdapter extends RecyclerView.Adapter<RoomListRecyclerViewAdapter.ViewHolder> {
     private List<RoomModel> rooms = new ArrayList();
+    private final PublishSubject<RoomModel> onClickSubject = PublishSubject.create();
 
     @NonNull
     @Override
@@ -27,8 +30,10 @@ public class RoomListRecyclerViewAdapter extends RecyclerView.Adapter<RoomListRe
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        RoomModel room = rooms.get(position);
+        final RoomModel room = rooms.get(position);
         holder.title.setText(room.name);
+
+        holder.itemView.setOnClickListener(view -> onClickSubject.onNext(room));
     }
 
     @Override
@@ -48,5 +53,9 @@ public class RoomListRecyclerViewAdapter extends RecyclerView.Adapter<RoomListRe
     public void updateList(List<RoomModel> rooms) {
         this.rooms = rooms;
         this.notifyDataSetChanged();
+    }
+
+    public Observable<RoomModel> getItemClicks() {
+        return onClickSubject.hide();
     }
 }
