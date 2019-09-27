@@ -70,7 +70,7 @@ public class MainActivity extends InsiderActivity {
                 break;
             }
         }
-        selectDrawerItem(classrooms.findItem(i));
+        selectDrawerItem(classrooms.getItem(i));
     }
 
 
@@ -99,10 +99,7 @@ public class MainActivity extends InsiderActivity {
         if (classrooms == null) {
             classrooms = navigationView.getMenu().addSubMenu("Classrooms");
         } else {
-            int size = classrooms.size();
-            for (int i = 0; i < size; i++) {
-                classrooms.removeItem(i);
-            }
+            classrooms.clear();
         }
         getInsiderApplication().getApiService()
                 .getMemberships()

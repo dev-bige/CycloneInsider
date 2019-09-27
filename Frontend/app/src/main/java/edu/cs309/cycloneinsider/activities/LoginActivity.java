@@ -78,7 +78,7 @@ public class LoginActivity extends InsiderActivity {
 
     @Override
     protected void onDestroy() {
-        if (!loginSub.isDisposed()) {
+        if (loginSub != null && !loginSub.isDisposed()) {
             loginSub.dispose();
         }
         super.onDestroy();
