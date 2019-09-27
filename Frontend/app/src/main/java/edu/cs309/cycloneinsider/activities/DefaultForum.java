@@ -209,6 +209,52 @@ public class DefaultForum extends AppCompatActivity {
 
     }
 
+    /**
+     *Method is used to italicize&bold or un-italicize&bold
+     */
+    public void ItalicizeAndBold(View view){
+
+        Switch mySwitch = (Switch) findViewById(R.id.switchItalicizeBold);
+        EditText commentBox = (EditText) findViewById(R.id.poster_comment);
+        EditText title = (EditText) findViewById(R.id.post_title);
+        boolean isOn = mySwitch.isChecked();
+        EditText myText = (EditText) findViewById(R.id.poster_comment);
+
+        if(isOn){
+
+            if(commentBox.hasFocus()){
+
+                commentBox.setTypeface(null,Typeface.BOLD_ITALIC);
+                return;
+            }
+
+            if(title.hasFocus()){
+
+                title.setTypeface(null,Typeface.BOLD_ITALIC);
+                return;
+
+            }
+
+        }
+        else {
+
+            if(commentBox.hasFocus()) {
+
+                myText.setTypeface(null, Typeface.NORMAL);
+                return;
+
+            }
+
+            if(title.hasFocus()){
+
+                title.setTypeface(null, Typeface.NORMAL);
+                return;
+
+            }
+        }
+
+    }
+
     public void PostThread(View view) {
 
         EditText postTitle = (EditText) findViewById(R.id.post_title); //finds the post title by ID

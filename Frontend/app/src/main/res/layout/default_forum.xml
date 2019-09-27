@@ -57,12 +57,20 @@
                 android:layout_height="wrap_content"
                 android:text="BOLD"
                 android:onClick="Bold"/>
+
             <Switch
                 android:id="@+id/switchItalicize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="ITALICIZE"
                 android:onClick="Italicize"/>
+
+            <Switch
+                android:id="@+id/switchItalicizeBold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ITALICIZE AND BOLD"
+                android:onClick="ItalicizeAndBold"/>
 
 
             <Button
