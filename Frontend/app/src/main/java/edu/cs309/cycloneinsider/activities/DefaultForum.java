@@ -145,6 +145,53 @@ public class DefaultForum extends AppCompatActivity {
 
         }
         else {
+
+            if(commentBox.hasFocus()) {
+
+                myText.setTypeface(null, Typeface.NORMAL);
+                return;
+
+            }
+
+            if(title.hasFocus()){
+
+                title.setTypeface(null, Typeface.NORMAL);
+                return;
+
+            }
+        }
+
+    }
+
+    /**
+     *Method is used to italicize or un-italicize
+     */
+    public void Italicize(View view){
+
+        Switch mySwitch = (Switch) findViewById(R.id.switchItalicize);
+        EditText commentBox = (EditText) findViewById(R.id.poster_comment);
+        EditText title = (EditText) findViewById(R.id.post_title);
+        boolean isOn = mySwitch.isChecked();
+        EditText myText = (EditText) findViewById(R.id.poster_comment);
+
+        if(isOn){
+
+            if(commentBox.hasFocus()){
+
+                commentBox.setTypeface(null,Typeface.ITALIC);
+                return;
+            }
+
+            if(title.hasFocus()){
+
+                title.setTypeface(null,Typeface.ITALIC);
+                return;
+
+            }
+
+        }
+        else {
+
             if(commentBox.hasFocus()) {
 
                 myText.setTypeface(null, Typeface.NORMAL);
