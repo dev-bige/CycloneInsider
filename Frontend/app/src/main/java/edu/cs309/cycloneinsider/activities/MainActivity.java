@@ -20,12 +20,14 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
+import java.util.function.Function;
 
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.models.MembershipModel;
 import edu.cs309.cycloneinsider.fragments.JoinRoomFragment;
 import edu.cs309.cycloneinsider.fragments.PostListFragment;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Action;
 
 public class MainActivity extends InsiderActivity {
     private static final String TAG = "MainActivity";
@@ -53,30 +55,22 @@ public class MainActivity extends InsiderActivity {
         drawerToggle.syncState();
 
 
-
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             selectDrawerItem(menuItem);
             return true;
         });
 
-        getInsiderApplication().getApiService()
-                .getMemberships()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    if (response.code() == 200) {
-                        Log.d(TAG, "onCreate: " + response);
-                        memberships = response.body();
-                        classrooms = navigationView.getMenu().addSubMenu("Classrooms");
-                        for (MembershipModel membership : memberships) {
-                            classrooms.add(membership.room.name);
-                        }
-                        navigationView.invalidate();
-                        navigationView.setCheckedItem(R.id.nav_front_page);
-                        selectDrawerItem(navigationView.getCheckedItem());
-                    }
-                }, error -> {
-                    Log.d(TAG, error.toString());
-                });
+        this.loadRooms();
+    }
+
+    public void selectRoom(String uuid) {
+        int i;
+        for (i = 0; i < memberships.size(); i++) {
+            if (memberships.get(i).room.uuid.equals(uuid)) {
+                break;
+            }
+        }
+        selectDrawerItem(classrooms.findItem(i));
     }
 
 
@@ -101,6 +95,39 @@ public class MainActivity extends InsiderActivity {
         return null;
     }
 
+    public void loadRooms(Action complete) {
+        if (classrooms == null) {
+            classrooms = navigationView.getMenu().addSubMenu("Classrooms");
+        } else {
+            int size = classrooms.size();
+            for (int i = 0; i < size; i++) {
+                classrooms.removeItem(i);
+            }
+        }
+        getInsiderApplication().getApiService()
+                .getMemberships()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if (response.code() == 200) {
+                        Log.d(TAG, "onCreate: " + response);
+
+                        memberships = response.body();
+                        for (MembershipModel membership : memberships) {
+                            classrooms.add(membership.room.name);
+                        }
+                        navigationView.invalidate();
+                        navigationView.setCheckedItem(R.id.nav_front_page);
+                        selectDrawerItem(navigationView.getCheckedItem());
+                    }
+                }, error -> {
+                    Log.d(TAG, error.toString());
+                }, complete);
+    }
+
+    public void loadRooms() {
+        loadRooms(() -> {});
+    }
+
     public void selectDrawerItem(MenuItem menuItem) {
         unselectAllItems();
         Fragment fragment;
@@ -115,7 +142,7 @@ public class MainActivity extends InsiderActivity {
                 break;
             default: {
                 MembershipModel selectedMembership = getSelectedMembership(menuItem);
-                if(selectedMembership == null) {
+                if (selectedMembership == null) {
                     return;
                 }
                 fragment = PostListFragment.newInstance(selectedMembership.room.uuid);

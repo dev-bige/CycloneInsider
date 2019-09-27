@@ -1,4 +1,4 @@
-package com.example.post;
+package edu.cyclone.insider.models;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;

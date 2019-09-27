@@ -12,10 +12,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.List;
 
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.activities.InsiderActivity;
+import edu.cs309.cycloneinsider.activities.MainActivity;
 import edu.cs309.cycloneinsider.api.models.RoomModel;
 import edu.cs309.cycloneinsider.fragments.adapters.RoomListRecyclerViewAdapter;
 import io.reactivex.Observable;
@@ -27,6 +30,7 @@ public class JoinRoomFragment extends Fragment {
     private Disposable roomsListSubscription;
     private LinearLayoutManager layoutManager;
     private RoomListRecyclerViewAdapter mAdapter;
+    private Disposable onClickSubscription;
 
     @Nullable
     @Override
@@ -61,12 +65,41 @@ public class JoinRoomFragment extends Fragment {
                 mAdapter.updateList(roomsList);
             }
         });
+
+        onClickSubscription = mAdapter.getItemClicks().subscribe(roomModel -> {
+            new MaterialAlertDialogBuilder(getContext())
+                    .setTitle("Join room?")
+                    .setMessage("You are about to join a room. This action can be undone in the room settings")
+                    .setPositiveButton("Join", (dialogInterface, i) -> {
+                        Disposable subscribe = ((InsiderActivity) getActivity())
+                                .getInsiderApplication()
+                                .getApiService()
+                                .joinRoom(roomModel.uuid)
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(roomMembershipModelResponse -> {
+                                    if (roomMembershipModelResponse.isSuccessful()) {
+                                        ((MainActivity) getActivity()).loadRooms(() -> {
+                                            ((MainActivity) getActivity()).selectRoom(roomModel.uuid);
+                                        });
+                                    }
+                                });
+                    })
+                    .setNegativeButton("Cancel", (dialogInterface, i) -> {
+
+                    })
+                    .create()
+                    .show();
+        });
     }
 
     @Override
     public void onDestroy() {
         if (!roomsListSubscription.isDisposed()) {
             roomsListSubscription.dispose();
+        }
+
+        if (!onClickSubscription.isDisposed()) {
+            onClickSubscription.dispose();
         }
         super.onDestroy();
     }
