@@ -51,6 +51,12 @@
                 android:layout_height="wrap_content"
                 android:text="Allow Explicit Comments?"
                 />
+            <Switch
+                android:id="@+id/switchBold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BOLD"
+                android:onClick="Bold"/>
 
 
             <Button
@@ -82,6 +88,8 @@
                 android:text="Testing"
                 android:textColor="#ff0000"
                 android:visibility="gone" />
+
+
 
 
         </LinearLayout>
