@@ -8,27 +8,27 @@ import javax.validation.constraints.Size;
 
 
 @Entity
-@Table(name = "Comments")
-public class Comments extends BaseModel {
+@Table(name = "comments")
+public class Comment extends BaseModel {
     @NotNull
     @Size(max = 2000)
     @ManyToOne
-    private String user_Comment;
+    private String comment;
     @ManyToOne
     private InsiderUser user;
     @ManyToOne
     private Post post;
 
-    public Comments() {
+    public Comment() {
     }
 
 
     public String getComment() {
-        return user_Comment;
+        return comment;
     }
 
     public void setComment(String user_Comment) {
-        this.user_Comment = user_Comment;
+        this.comment = user_Comment;
     }
 
     public InsiderUser getUser() {
@@ -47,6 +47,4 @@ public class Comments extends BaseModel {
     public Post getPost() {
         return post;
     }
-
-
 }
