@@ -67,9 +67,6 @@ public class PostListFragment extends Fragment {
         mAdapter = new PostListRecyclerViewAdapter();
         recyclerView.setAdapter(mAdapter);
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-                layoutManager.getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
 
         getView().findViewById(R.id.new_post_button).setOnClickListener(view1 -> {
             startActivity(new Intent(getActivity(), DefaultForum.class));
