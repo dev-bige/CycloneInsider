@@ -1,10 +1,14 @@
 package edu.cs309.cycloneinsider.activities;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.ToggleButton;
+
+import java.sql.Time;
 import java.util.Scanner;
 import java.util.Map;
 import java.util.HashMap;
@@ -110,6 +114,144 @@ public class DefaultForum extends AppCompatActivity {
           dict.put(word,1);
 
       }
+
+    }
+
+    /**
+     *Method is used to bold or un-bold text
+     */
+    public void Bold(View view){
+
+        Switch mySwitch = (Switch) findViewById(R.id.switchBold);
+        EditText commentBox = (EditText) findViewById(R.id.poster_comment);
+        EditText title = (EditText) findViewById(R.id.post_title);
+        boolean isOn = mySwitch.isChecked();
+        EditText myText = (EditText) findViewById(R.id.poster_comment);
+
+        if(isOn){
+
+            if(commentBox.hasFocus()){
+
+                commentBox.setTypeface(null,Typeface.BOLD);
+                return;
+            }
+
+            if(title.hasFocus()){
+
+                title.setTypeface(null,Typeface.BOLD);
+                return;
+
+            }
+
+        }
+        else {
+
+            if(commentBox.hasFocus()) {
+
+                myText.setTypeface(null, Typeface.NORMAL);
+                return;
+
+            }
+
+            if(title.hasFocus()){
+
+                title.setTypeface(null, Typeface.NORMAL);
+                return;
+
+            }
+        }
+
+    }
+
+    /**
+     *Method is used to italicize or un-italicize
+     */
+    public void Italicize(View view){
+
+        Switch mySwitch = (Switch) findViewById(R.id.switchItalicize);
+        EditText commentBox = (EditText) findViewById(R.id.poster_comment);
+        EditText title = (EditText) findViewById(R.id.post_title);
+        boolean isOn = mySwitch.isChecked();
+        EditText myText = (EditText) findViewById(R.id.poster_comment);
+
+        if(isOn){
+
+            if(commentBox.hasFocus()){
+
+                commentBox.setTypeface(null,Typeface.ITALIC);
+                return;
+            }
+
+            if(title.hasFocus()){
+
+                title.setTypeface(null,Typeface.ITALIC);
+                return;
+
+            }
+
+        }
+        else {
+
+            if(commentBox.hasFocus()) {
+
+                myText.setTypeface(null, Typeface.NORMAL);
+                return;
+
+            }
+
+            if(title.hasFocus()){
+
+                title.setTypeface(null, Typeface.NORMAL);
+                return;
+
+            }
+        }
+
+    }
+
+    /**
+     *Method is used to italicize&bold or un-italicize&bold
+     */
+    public void ItalicizeAndBold(View view){
+
+        Switch mySwitch = (Switch) findViewById(R.id.switchItalicizeBold);
+        EditText commentBox = (EditText) findViewById(R.id.poster_comment);
+        EditText title = (EditText) findViewById(R.id.post_title);
+        boolean isOn = mySwitch.isChecked();
+        EditText myText = (EditText) findViewById(R.id.poster_comment);
+
+        if(isOn){
+
+            if(commentBox.hasFocus()){
+
+                commentBox.setTypeface(null,Typeface.BOLD_ITALIC);
+                return;
+            }
+
+            if(title.hasFocus()){
+
+                title.setTypeface(null,Typeface.BOLD_ITALIC);
+                return;
+
+            }
+
+        }
+        else {
+
+            if(commentBox.hasFocus()) {
+
+                myText.setTypeface(null, Typeface.NORMAL);
+                return;
+
+            }
+
+            if(title.hasFocus()){
+
+                title.setTypeface(null, Typeface.NORMAL);
+                return;
+
+            }
+        }
 
     }
 

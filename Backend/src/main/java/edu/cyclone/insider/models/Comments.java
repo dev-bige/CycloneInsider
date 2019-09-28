@@ -35,7 +35,7 @@ public class Comments extends BaseModel {
         return user;
     }
 
-    void setUser(InsiderUser user) {
+    public void setUser(InsiderUser user) {
         this.user = user;
     }
 
