@@ -28,7 +28,7 @@ public class Comment extends BaseModel {
     }
 
     public void setComment(String user_Comment) {
-        this.comment = user_Comment;
+        this.comment = comment;
     }
 
     public InsiderUser getUser() {

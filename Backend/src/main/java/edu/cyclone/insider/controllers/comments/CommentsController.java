@@ -36,7 +36,7 @@ public class CommentsController extends BaseController {
     }
 
     @RequestMapping(value = "{uuid}", method = RequestMethod.POST)
-    public void postFrontPagePost(@PathVariable("uuid") UUID postUuid, @RequestBody CommentCreateRequestModel request) {
+    public void postFrontPagePostComment(@PathVariable("uuid") UUID postUuid, @RequestBody CommentCreateRequestModel request) {
         Optional<Post> post = postRepository.findById(postUuid);
         if (!post.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
