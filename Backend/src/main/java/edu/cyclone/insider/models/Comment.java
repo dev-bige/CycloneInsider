@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 public class Comment extends BaseModel {
     @NotNull
     @Size(max = 2000)
-    @ManyToOne
+
     private String comment;
     @ManyToOne
     private InsiderUser user;
@@ -27,7 +27,7 @@ public class Comment extends BaseModel {
         return comment;
     }
 
-    public void setComment(String user_Comment) {
+    public void setComment(String comment) {
         this.comment = comment;
     }
 
