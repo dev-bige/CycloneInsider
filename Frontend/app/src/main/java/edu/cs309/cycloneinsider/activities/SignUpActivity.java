@@ -18,7 +18,7 @@ import edu.cs309.cycloneinsider.R;
 Eventually send info to server
 Things to add
 -check for possible explicit username
--assign uuid to user
+-assign uuid to user randomly
 -if someone enters both a wrong name and an invalid password possibility
  */
 
