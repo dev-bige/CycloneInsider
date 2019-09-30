@@ -122,13 +122,17 @@ public class DefaultForum extends AppCompatActivity {
      */
     public void Bold(View view){
 
-        Switch mySwitch = (Switch) findViewById(R.id.switchBold);
+        Switch mySwitchBold = (Switch) findViewById(R.id.switchBold);
+        Switch mySwitchItalic = (Switch) findViewById(R.id.switchItalicize);
+        Switch mySwitchBAndT = (Switch) findViewById(R.id.switchItalicizeBold);
         EditText commentBox = (EditText) findViewById(R.id.poster_comment);
         EditText title = (EditText) findViewById(R.id.post_title);
-        boolean isOn = mySwitch.isChecked();
+        boolean isOn = mySwitchBold.isChecked();
+        boolean isItalicOn = mySwitchItalic.isChecked();
+        boolean isBAndIOn = mySwitchBAndT.isChecked();
         EditText myText = (EditText) findViewById(R.id.poster_comment);
 
-        if(isOn){
+        if(isOn &&!isItalicOn &&!isBAndIOn){ //only activates when it is the only text editing button on
 
             if(commentBox.hasFocus()){
 
@@ -144,7 +148,12 @@ public class DefaultForum extends AppCompatActivity {
             }
 
         }
-        else {
+        else if(isItalicOn || isBAndIOn){ //if any other button is on, force this button off
+
+            mySwitchBold.setChecked(false);
+        }
+
+        else { //no other button is on, so it is ok to turn off
 
             if(commentBox.hasFocus()) {
 
@@ -169,12 +178,16 @@ public class DefaultForum extends AppCompatActivity {
     public void Italicize(View view){
 
         Switch mySwitch = (Switch) findViewById(R.id.switchItalicize);
+        Switch mySwitchBold = (Switch) findViewById(R.id.switchBold);
+        Switch mySwitchBAndI = (Switch) findViewById(R.id.switchItalicizeBold);
         EditText commentBox = (EditText) findViewById(R.id.poster_comment);
         EditText title = (EditText) findViewById(R.id.post_title);
         boolean isOn = mySwitch.isChecked();
+        boolean isBoldOn = mySwitchBold.isChecked();
+        boolean isBAndIOn = mySwitchBAndI.isChecked();
         EditText myText = (EditText) findViewById(R.id.poster_comment);
 
-        if(isOn){
+        if(isOn &&!isBoldOn &&!isBAndIOn){
 
             if(commentBox.hasFocus()){
 
@@ -190,6 +203,12 @@ public class DefaultForum extends AppCompatActivity {
             }
 
         }
+        else if(isBoldOn || isBAndIOn){
+
+            mySwitch.setChecked(false);
+
+        }
+
         else {
 
             if(commentBox.hasFocus()) {
@@ -215,12 +234,16 @@ public class DefaultForum extends AppCompatActivity {
     public void ItalicizeAndBold(View view){
 
         Switch mySwitch = (Switch) findViewById(R.id.switchItalicizeBold);
+        Switch mySwitchBold = (Switch) findViewById(R.id.switchBold);
+        Switch mySwitchItalic = (Switch) findViewById(R.id.switchItalicize);
         EditText commentBox = (EditText) findViewById(R.id.poster_comment);
         EditText title = (EditText) findViewById(R.id.post_title);
         boolean isOn = mySwitch.isChecked();
+        boolean isBoldOn = mySwitchBold.isChecked();
+        boolean isItalicOn = mySwitchItalic.isChecked();
         EditText myText = (EditText) findViewById(R.id.poster_comment);
 
-        if(isOn){
+        if(isOn &&!isBoldOn &&!isItalicOn){
 
             if(commentBox.hasFocus()){
 
@@ -236,6 +259,12 @@ public class DefaultForum extends AppCompatActivity {
             }
 
         }
+        else if(isBoldOn || isItalicOn){
+
+            mySwitch.setChecked(false);
+
+        }
+
         else {
 
             if(commentBox.hasFocus()) {
