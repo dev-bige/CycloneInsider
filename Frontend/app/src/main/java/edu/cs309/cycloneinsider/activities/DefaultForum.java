@@ -151,6 +151,7 @@ public class DefaultForum extends AppCompatActivity {
         else if(isItalicOn || isBAndIOn){ //if any other button is on, force this button off
 
             mySwitchBold.setChecked(false);
+            return;
         }
 
         else { //no other button is on, so it is ok to turn off
@@ -206,6 +207,7 @@ public class DefaultForum extends AppCompatActivity {
         else if(isBoldOn || isBAndIOn){
 
             mySwitch.setChecked(false);
+            return;
 
         }
 
@@ -262,6 +264,7 @@ public class DefaultForum extends AppCompatActivity {
         else if(isBoldOn || isItalicOn){
 
             mySwitch.setChecked(false);
+            return;
 
         }
 
