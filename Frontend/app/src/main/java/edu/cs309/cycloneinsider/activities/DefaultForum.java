@@ -385,12 +385,7 @@ public class DefaultForum extends AppCompatActivity {
                 }
             }
         }
-
-
-
-
-        //TODO intent goes here
-
+        
         return;
     }
 
