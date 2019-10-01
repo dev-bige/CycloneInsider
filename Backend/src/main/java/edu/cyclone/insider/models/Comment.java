@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 public class Comment extends BaseModel {
     @NotNull
     @Size(max = 2000)
-
     private String comment;
     @ManyToOne
     private InsiderUser user;
