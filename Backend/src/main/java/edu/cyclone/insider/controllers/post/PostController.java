@@ -43,15 +43,16 @@ public class PostController extends BaseController {
         post.setTitle(request.title);
         postRepository.save(post);
     }
+
     @RequestMapping(value = "room/{roomUuid}/post", method = RequestMethod.POST)
     public Post postToRoom(@PathVariable("roomUuid") UUID roomUuid, @RequestBody PostCreateRequestModel model) {
         Post postRoom = new Post();
         postRoom.setRoom(null);//make null if not working
         postRoom.setContent(model.content);
         postRoom = postRepository.save(postRoom);
-        return  postRoom;
+        return postRoom;
     }
-    }
+}
 
 
 

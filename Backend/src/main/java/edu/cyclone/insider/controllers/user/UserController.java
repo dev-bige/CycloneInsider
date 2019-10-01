@@ -34,7 +34,7 @@ public class UserController extends BaseController {
     public void signUp(@RequestBody SignUpRequestModel request) {
         InsiderUser userByUsername = usersRepository.findUserByUsername(request.username);
 
-        if(userByUsername != null) {
+        if (userByUsername != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
         }
 

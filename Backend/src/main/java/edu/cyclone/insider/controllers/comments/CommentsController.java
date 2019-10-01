@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("Comments")
+@RequestMapping("comments")
 public class CommentsController extends BaseController {
     private final CommentsRepository commentsRepository;
     private PostRepository postRepository;
@@ -28,7 +28,6 @@ public class CommentsController extends BaseController {
         this.commentsRepository = commentsRepository;
         this.postRepository = postRepository;
     }
-
 
     @RequestMapping(value = "all", method = RequestMethod.GET)
     public List<Comment> getAllComments() {
