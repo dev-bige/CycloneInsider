@@ -26,14 +26,9 @@ public class LoginActivity extends InsiderActivity {
 
         setContentView(R.layout.activity_login);
 
-//        Button signUpButton = findViewById(R.id.sign_up);
-//        signUpButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
-//            }
-//        });
 
+        Button signUpButton = findViewById(R.id.sign_up);
+        signUpButton.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, SignUpActivity.class)));
     }
 
 

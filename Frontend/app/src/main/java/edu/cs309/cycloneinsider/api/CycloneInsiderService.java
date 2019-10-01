@@ -2,7 +2,6 @@ package edu.cs309.cycloneinsider.api;
 
 
 import java.util.List;
-import java.util.UUID;
 
 import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
 import edu.cs309.cycloneinsider.api.models.MembershipModel;

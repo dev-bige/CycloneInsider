@@ -17,8 +17,8 @@ import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
 public class RoomListRecyclerViewAdapter extends RecyclerView.Adapter<RoomListRecyclerViewAdapter.ViewHolder> {
-    private List<RoomModel> rooms = new ArrayList();
     private final PublishSubject<RoomModel> onClickSubject = PublishSubject.create();
+    private List<RoomModel> rooms = new ArrayList();
 
     @NonNull
     @Override
@@ -41,15 +41,6 @@ public class RoomListRecyclerViewAdapter extends RecyclerView.Adapter<RoomListRe
         return rooms.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            title = itemView.findViewById(R.id.list_item_room_title);
-        }
-    }
-
     public void updateList(List<RoomModel> rooms) {
         this.rooms = rooms;
         this.notifyDataSetChanged();
@@ -57,5 +48,14 @@ public class RoomListRecyclerViewAdapter extends RecyclerView.Adapter<RoomListRe
 
     public Observable<RoomModel> getItemClicks() {
         return onClickSubject.hide();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView title;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            title = itemView.findViewById(R.id.list_item_room_title);
+        }
     }
 }
