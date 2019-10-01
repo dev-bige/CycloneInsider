@@ -385,7 +385,7 @@ public class DefaultForum extends AppCompatActivity {
                 }
             }
         }
-        
+
         return;
     }
 
