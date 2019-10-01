@@ -37,13 +37,13 @@ public class RoomController extends BaseController {
     @RequestMapping(value = "{uuid}/join", method = RequestMethod.POST)
     public RoomMembership joinRoom(@PathVariable("uuid") UUID room_uuid) {
         Optional<Room> byId = roomRepository.findById(room_uuid);
-        if(!byId.isPresent()) {
+        if (!byId.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
         //Check if membership already exists
         RoomMembership membership = roomMembershipRepository.findMembership(getCurrentUser().getUuid(), room_uuid);
-        if(membership != null) {
+        if (membership != null) {
             //Return current membership if already exists...
             return membership;
         }

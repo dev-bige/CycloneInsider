@@ -20,7 +20,6 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
-import java.util.function.Function;
 
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.models.MembershipModel;
@@ -122,7 +121,8 @@ public class MainActivity extends InsiderActivity {
     }
 
     public void loadRooms() {
-        loadRooms(() -> {});
+        loadRooms(() -> {
+        });
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
@@ -153,7 +153,7 @@ public class MainActivity extends InsiderActivity {
     }
 
     public void openDefaultThread(View view) {
-        Intent intent = new Intent(this, DefaultForum.class);
+        Intent intent = new Intent(this, DefaultForumActivity.class);
         startActivity(intent);
         return;
     }

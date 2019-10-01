@@ -5,23 +5,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import edu.cs309.cycloneinsider.R;
-import edu.cs309.cycloneinsider.activities.DefaultForum;
+import edu.cs309.cycloneinsider.activities.DefaultForumActivity;
 import edu.cs309.cycloneinsider.activities.InsiderActivity;
 import edu.cs309.cycloneinsider.api.models.PostModel;
 import edu.cs309.cycloneinsider.fragments.adapters.PostListRecyclerViewAdapter;
-import edu.cs309.cycloneinsider.fragments.adapters.RoomListRecyclerViewAdapter;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -69,7 +66,7 @@ public class PostListFragment extends Fragment {
 
 
         getView().findViewById(R.id.new_post_button).setOnClickListener(view1 -> {
-            startActivity(new Intent(getActivity(), DefaultForum.class));
+            startActivity(new Intent(getActivity(), DefaultForumActivity.class));
         });
         Observable<Response<List<PostModel>>> postListObservable = null;
         //If the room uuid is null then we should get the front page posts.
@@ -78,7 +75,7 @@ public class PostListFragment extends Fragment {
                     .getInsiderApplication()
                     .getApiService()
                     .getFrontPagePosts()
-            .observeOn(AndroidSchedulers.mainThread());
+                    .observeOn(AndroidSchedulers.mainThread());
         } else {
             //TODO GET POSTS FOR ROOM UUID... for now, just have an empty steam so we don't crash.
             postListObservable = Observable.empty();
