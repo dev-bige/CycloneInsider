@@ -3,6 +3,7 @@ package edu.cs309.cycloneinsider.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -24,6 +25,10 @@ public class LoginActivity extends InsiderActivity {
         }
 
         setContentView(R.layout.activity_login);
+
+
+        Button signUpButton = findViewById(R.id.sign_up);
+        signUpButton.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, SignUpActivity.class)));
     }
 
 
