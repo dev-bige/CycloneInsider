@@ -9,13 +9,18 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 import edu.cs309.cycloneinsider.R;
+import edu.cs309.cycloneinsider.api.models.PostCreateRequestModel;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 
-public class DefaultForumActivity extends AppCompatActivity {
+public class DefaultForumActivity extends InsiderActivity {
     private HashMap<String, Integer> dict = new HashMap<>();
+    private Disposable subscribe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -372,9 +377,35 @@ public class DefaultForumActivity extends AppCompatActivity {
                 }
             }
         }
+        PostCreateRequestModel postCreateRequestModel = new PostCreateRequestModel();
+        postCreateRequestModel.content = "blah";
+        postCreateRequestModel.title = "blah title";
+        postCreateRequestModel.tags = null;
 
+        subscribe = getInsiderApplication()
+                .getApiService()
+                .createFrontPagePost(postCreateRequestModel)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(postModelResponse -> {
+
+                    System.out.println(postCreateRequestModel);
+                    if (postModelResponse.isSuccessful()) {
+                        //Handle 200 response
+                        postModelResponse.body();
+                    }
+                }, error -> {
+                    //Handle error
+                }, () -> {
+                    //Cleanup...
+                });
         return;
     }
 
-
+    @Override
+    protected void onDestroy() {
+        if(subscribe != null && !subscribe.isDisposed()) {
+            subscribe.dispose();
+        }
+        super.onDestroy();
+    }
 }

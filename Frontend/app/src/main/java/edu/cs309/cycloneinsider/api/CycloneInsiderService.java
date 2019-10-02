@@ -3,6 +3,7 @@ package edu.cs309.cycloneinsider.api;
 
 import java.util.List;
 
+import edu.cs309.cycloneinsider.api.models.PostCreateRequestModel;
 import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
 import edu.cs309.cycloneinsider.api.models.MembershipModel;
 import edu.cs309.cycloneinsider.api.models.PostModel;
@@ -31,4 +32,7 @@ public interface CycloneInsiderService {
 
     @GET("rooms/all")
     Observable<Response<List<RoomModel>>> getAllRooms();
+
+    @POST("posts/front-page")
+    Observable<Response<PostModel>> createFrontPagePost(@Body PostCreateRequestModel body);
 }
