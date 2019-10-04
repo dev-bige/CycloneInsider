@@ -43,6 +43,11 @@ public class PostController extends BaseController {
         return createPost(request);
     }
 
+    @RequestMapping(value = "{roomUuid}", method = RequestMethod.GET)
+    public List<Post> getRoomPosts(@PathVariable("roomUuid") UUID roomUuid) {
+        return postRepository.getPostsByRoom(roomUuid);
+    }
+
     private Post createPost(@RequestBody PostCreateRequestModel request) {
         Post post = new Post();
         post.setContent(request.content);
@@ -53,11 +58,6 @@ public class PostController extends BaseController {
         post.setDate(new Date());
         post = postRepository.save(post);
         return post;
-    }
-
-    @RequestMapping(value = "{roomUuid}", method = RequestMethod.GET)
-    public List<Post> getRoomPosts(@PathVariable("roomUuid") UUID roomUuid) {
-        return postRepository.getPostsByRoom(roomUuid);
     }
 }
 

@@ -1,10 +1,9 @@
 package edu.cyclone.insider.models;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 
 @Entity
@@ -17,10 +16,12 @@ public class Comment extends BaseModel {
     private InsiderUser user;
     @ManyToOne
     private Post post;
+    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
 
     public Comment() {
     }
-
 
     public String getComment() {
         return comment;
@@ -43,7 +44,14 @@ public class Comment extends BaseModel {
     }
 
     public void setPost(Post post) {
-
         this.post = post;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
