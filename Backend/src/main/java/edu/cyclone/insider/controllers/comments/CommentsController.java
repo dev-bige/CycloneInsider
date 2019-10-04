@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("comments")
+@RequestMapping("posts/{postUuid}/comments")
 public class CommentsController extends BaseController {
     private final CommentsRepository commentsRepository;
     private PostRepository postRepository;
