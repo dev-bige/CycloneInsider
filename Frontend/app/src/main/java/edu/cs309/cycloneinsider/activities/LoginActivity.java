@@ -22,6 +22,7 @@ public class LoginActivity extends InsiderActivity {
         if (getInsiderApplication().getSession().isLoggedIn()) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            finish();
         }
 
         setContentView(R.layout.activity_login);

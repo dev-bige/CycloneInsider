@@ -23,6 +23,7 @@
             android:textColor="@android:color/white" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/sign_out"
             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
             android:layout_width="52dp"
             android:layout_height="52dp"

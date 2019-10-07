@@ -59,6 +59,13 @@ public class MainActivity extends InsiderActivity {
             return true;
         });
 
+        navigationView.getHeaderView(0).findViewById(R.id.sign_out).setOnClickListener(view -> {
+            getInsiderApplication().getSession().invalidate();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+
+        });
+
         this.loadRooms();
     }
 
