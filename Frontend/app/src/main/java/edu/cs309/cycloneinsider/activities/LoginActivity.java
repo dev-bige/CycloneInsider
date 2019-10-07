@@ -19,11 +19,7 @@ public class LoginActivity extends InsiderActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getInsiderApplication().getSession().isLoggedIn()) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
+
 
         setContentView(R.layout.activity_login);
 
