@@ -26,7 +26,7 @@ public class SettingsActivity extends InsiderActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings_page);
+        setContentView(R.layout.activity_settings);
 
     }
 
