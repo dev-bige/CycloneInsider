@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.SettingsActivity">
+    tools:context=".activities.FeedbackActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -20,16 +20,22 @@
             android:orientation="vertical">
 
 
-            <TextView
-                android:id="@+id/feedback_button"
+            <EditText
+                android:id="@+id/feedback_message"
                 android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:clickable="true"
-                android:onClick="openFeedBack"
-                android:text="Send Feedback?"
-                android:background="#E53935"
-                android:gravity="center"
-                android:textColor="#FFFFFF" />
+                android:layout_height="529dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="Enter feedback here"
+                android:gravity="top|left"
+                android:textSize="10dp"/>
+            <Button
+                android:id="@+id/email_button"
+                android:layout_width="100dp"
+                android:layout_height="55dp"
+                android:layout_gravity="right"
+                android:onClick="sendEmail"
+                android:text="Send Email" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>

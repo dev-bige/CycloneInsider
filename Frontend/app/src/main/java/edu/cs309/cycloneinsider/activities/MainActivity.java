@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,11 +42,11 @@ public class MainActivity extends InsiderActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startActivity(new Intent(this,SettingsActivity.class));
         setContentView(R.layout.open_main_page);
         mDrawer = findViewById(R.id.drawer_layout);
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.nvView);
-
 
         setSupportActionBar(toolbar);
 
@@ -71,6 +72,7 @@ public class MainActivity extends InsiderActivity {
         }
         selectDrawerItem(classrooms.getItem(i));
     }
+
 
 
     public void unselectAllItems() {
@@ -160,6 +162,13 @@ public class MainActivity extends InsiderActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if(item.getItemId() == R.id.settings){ //TODO this does not work!!!
+
+            startActivity(new Intent(this,SettingsActivity.class));
+            return true;
+
+        }
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }

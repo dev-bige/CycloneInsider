@@ -1,5 +1,6 @@
 package edu.cs309.cycloneinsider.activities;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +20,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
 public class SettingsActivity extends InsiderActivity {
-    private HashMap<String, Integer> dict = new HashMap<>();
     private Disposable subscribe;
 
     @Override
@@ -30,7 +30,11 @@ public class SettingsActivity extends InsiderActivity {
 
     }
 
+    public void openFeedBack(View view){
 
+        startActivity(new Intent(this,FeedbackActivity.class));
+
+    }
 
 
 
