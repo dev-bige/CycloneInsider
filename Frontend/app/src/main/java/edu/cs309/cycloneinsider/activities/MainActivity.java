@@ -42,7 +42,6 @@ public class MainActivity extends InsiderActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startActivity(new Intent(this,SettingsActivity.class));
         setContentView(R.layout.open_main_page);
         mDrawer = findViewById(R.id.drawer_layout);
         toolbar = findViewById(R.id.toolbar);
@@ -135,10 +134,16 @@ public class MainActivity extends InsiderActivity {
                 fragment = PostListFragment.newInstance(null);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                 break;
+            case R.id.settings:
+                startActivity(new Intent(this,SettingsActivity.class));
+                return;
+
+
             case R.id.nav_join_room:
                 fragment = new JoinRoomFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                 break;
+
             default: {
                 MembershipModel selectedMembership = getSelectedMembership(menuItem);
                 if (selectedMembership == null) {
@@ -163,12 +168,6 @@ public class MainActivity extends InsiderActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if(item.getItemId() == R.id.settings){ //TODO this does not work!!!
-
-            startActivity(new Intent(this,SettingsActivity.class));
-            return true;
-
-        }
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
