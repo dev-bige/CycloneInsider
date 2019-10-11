@@ -31,7 +31,7 @@ public class PostListRecyclerViewAdapter extends RecyclerView.Adapter<PostListRe
     public void onBindViewHolder(@NonNull PostListRecyclerViewAdapter.ViewHolder holder, int position) {
         final PostModel post = posts.get(position);
         holder.title.setText(post.getTitle());
-        holder.content.setText(post.getContent());
+        holder.username.setText(post.getUser().username);
 
         holder.itemView.setOnClickListener(view -> postModelPublishSubject.onNext(post));
     }
@@ -48,12 +48,12 @@ public class PostListRecyclerViewAdapter extends RecyclerView.Adapter<PostListRe
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
-        TextView content;
+        TextView username;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.list_item_post_title);
-            content = itemView.findViewById(R.id.list_item_post_content);
+            username = itemView.findViewById(R.id.list_item_post_username);
         }
     }
 }
