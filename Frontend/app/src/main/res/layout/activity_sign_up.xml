@@ -18,6 +18,20 @@
             android:layout_height="wrap_content"
             android:text="Back" />
 
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:textSize="20sp"
+            android:text="Affiliation with Iowa State:"
+            android:layout_marginBottom="5dp"/>
+
+        <Spinner
+            android:id="@+id/sign_up_drop_down"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+<!--            android:prompt="@string/spinner_title"-->
+
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
