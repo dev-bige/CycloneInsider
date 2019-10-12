@@ -2,8 +2,9 @@ package edu.cs309.cycloneinsider.api;
 
 
 import java.util.List;
-import java.util.UUID;
 
+import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
+import edu.cs309.cycloneinsider.api.models.PostCreateRequestModel;
 import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
 import edu.cs309.cycloneinsider.api.models.MembershipModel;
 import edu.cs309.cycloneinsider.api.models.PostModel;
@@ -18,6 +19,9 @@ import retrofit2.http.Path;
 
 
 public interface CycloneInsiderService {
+    @GET("/users/current")
+    Observable<Response<InsiderUserModel>> currentUser();
+
     @POST("login")
     Observable<Response<Void>> login(@Body LoginRequestModel loginRequestModel);
 
@@ -32,4 +36,7 @@ public interface CycloneInsiderService {
 
     @GET("rooms/all")
     Observable<Response<List<RoomModel>>> getAllRooms();
+
+    @POST("posts/front-page")
+    Observable<Response<PostModel>> createFrontPagePost(@Body PostCreateRequestModel body);
 }

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,7 +21,6 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
-import java.util.function.Function;
 
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.models.MembershipModel;
@@ -58,6 +58,17 @@ public class MainActivity extends InsiderActivity {
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             selectDrawerItem(menuItem);
             return true;
+        });
+
+        getInsiderApplication().getApiService().currentUser().subscribe(userResponse -> {
+            ((TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_username)).setText(userResponse.body().username);
+        });
+
+        navigationView.getHeaderView(0).findViewById(R.id.sign_out).setOnClickListener(view -> {
+            getInsiderApplication().getSession().invalidate();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+
         });
 
         this.loadRooms();
@@ -122,7 +133,8 @@ public class MainActivity extends InsiderActivity {
     }
 
     public void loadRooms() {
-        loadRooms(() -> {});
+        loadRooms(() -> {
+        });
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
@@ -153,7 +165,7 @@ public class MainActivity extends InsiderActivity {
     }
 
     public void openDefaultThread(View view) {
-        Intent intent = new Intent(this, DefaultForum.class);
+        Intent intent = new Intent(this, DefaultForumActivity.class);
         startActivity(intent);
         return;
     }

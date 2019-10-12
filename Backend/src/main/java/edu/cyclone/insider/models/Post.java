@@ -8,6 +8,7 @@ package edu.cyclone.insider.models;
 
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,9 @@ public class Post extends BaseModel {
     @ElementCollection
     private List<String> tags;
     private String content;
+    @Basic
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
 
     public Post() {
     }
@@ -63,6 +67,14 @@ public class Post extends BaseModel {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
 
