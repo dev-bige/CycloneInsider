@@ -36,6 +36,12 @@ public class SettingsActivity extends InsiderActivity {
 
     }
 
+    public void openNewPassword(View view){
+
+        startActivity(new Intent(this,NewPasswordActivity.class));
+
+    }
+
 
 
     @Override
