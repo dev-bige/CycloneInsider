@@ -7,6 +7,7 @@ package edu.cyclone.insider.controllers.post;
 
 import edu.cyclone.insider.controllers.BaseController;
 import edu.cyclone.insider.controllers.post.models.PostCreateRequestModel;
+import edu.cyclone.insider.models.FavPost;
 import edu.cyclone.insider.models.Post;
 import edu.cyclone.insider.models.Room;
 import edu.cyclone.insider.repos.PostRepository;
@@ -53,6 +54,25 @@ public class PostController extends BaseController {
     @RequestMapping(value = "{roomUuid}", method = RequestMethod.GET)
     public List<Post> getRoomPosts(@PathVariable("roomUuid") UUID roomUuid) {
         return postRepository.getPostsByRoom(roomUuid);
+    }
+
+    @RequestMapping(value = "{favPost/{postUuid}", method = RequestMethod.POST)
+    public FavPost favorite_Post(@PathVariable("postUuid") UUID postUuid) {
+        Optional<Post> post = postRepository.findById(postUuid);
+        if (!post.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        FavPost favPost = new FavPost();
+        favPost.setUser(getCurrentUser());
+        favPost.setPost(post.get());
+
+
+        return favPost;
+    }
+
+    @RequestMapping(value = "favPost/{postUuid}", method = RequestMethod.GET)
+    public List<Post> getFavPosts(@PathVariable("postUuid") UUID postUuid) {
+        return postRepository.getPostsByRoom(postUuid);
     }
 
     private Post createPost(@RequestBody PostCreateRequestModel request, UUID roomUUid) {
