@@ -13,9 +13,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.NewPasswordActivity"></activity>
-        <activity android:name=".activities.FeedbackActivity" />
-        <activity android:name=".activities.SignUpActivity" />
+        <activity android:name=".activities.StartupActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.SignUpActivity"></activity>
         <activity
             android:name=".activities.MainActivity"
             android:parentActivityName=".activities.LoginActivity">
@@ -24,11 +29,7 @@
                 android:value=".activities.LoginActivity" />
         </activity>
         <activity android:name=".activities.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activities.DefaultForumActivity" />
         <activity android:name=".activities.SettingsActivity" />

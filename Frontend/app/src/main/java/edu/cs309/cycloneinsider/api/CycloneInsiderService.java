@@ -3,6 +3,7 @@ package edu.cs309.cycloneinsider.api;
 
 import java.util.List;
 
+import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
 import edu.cs309.cycloneinsider.api.models.PostCreateRequestModel;
 import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
 import edu.cs309.cycloneinsider.api.models.MembershipModel;
@@ -18,6 +19,9 @@ import retrofit2.http.Path;
 
 
 public interface CycloneInsiderService {
+    @GET("/users/current")
+    Observable<Response<InsiderUserModel>> currentUser();
+
     @POST("login")
     Observable<Response<Void>> login(@Body LoginRequestModel loginRequestModel);
 

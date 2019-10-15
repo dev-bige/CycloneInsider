@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,6 +57,17 @@ public class MainActivity extends InsiderActivity {
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             selectDrawerItem(menuItem);
             return true;
+        });
+
+        getInsiderApplication().getApiService().currentUser().subscribe(userResponse -> {
+            ((TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_username)).setText(userResponse.body().username);
+        });
+
+        navigationView.getHeaderView(0).findViewById(R.id.sign_out).setOnClickListener(view -> {
+            getInsiderApplication().getSession().invalidate();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+
         });
 
         this.loadRooms();

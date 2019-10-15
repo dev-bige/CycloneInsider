@@ -122,7 +122,6 @@ public class DefaultForumActivity extends InsiderActivity {
      * Method is used to bold or un-bold text
      */
     public void Bold(View view) {
-
         Switch mySwitchBold = findViewById(R.id.switchBold);
         Switch mySwitchItalic = findViewById(R.id.switchItalicize);
         Switch mySwitchBAndT = findViewById(R.id.switchItalicizeBold);
