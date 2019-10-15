@@ -21,7 +21,6 @@ public class NewPasswordActivity extends InsiderActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_password);
 
-
     }
 
     public void changePassword(View view){
@@ -53,7 +52,22 @@ public class NewPasswordActivity extends InsiderActivity{
         }
 
         //TODO need to add changing password functionality
-        LoginRequestModel user;
+        
+        subscribe = getInsiderApplication()
+                .getApiService()
+                .currentUser().subscribe(response->{
+                    if(response.isSuccessful()){
+                        hiddenMsg.setText("New password has been set");
+                        hiddenMsg.setTextColor(Color.parseColor("#0000FF"));
+                        hiddenMsg.setVisibility(View.VISIBLE);
+
+                    }
+                    else{
+                        hiddenMsg.setText("Error, password was not reset");
+                        hiddenMsg.setTextColor(Color.parseColor("#FF0000"));
+                        hiddenMsg.setVisibility(View.VISIBLE);
+                    }
+                });
 
     //    System.out.println(user.getPassword());
 
@@ -67,4 +81,15 @@ public class NewPasswordActivity extends InsiderActivity{
 
 
     }
+
+    @Override
+    protected void onDestroy(){
+
+        if (subscribe != null && !subscribe.isDisposed()) {
+            subscribe.dispose();
+        }
+        super.onDestroy();
+
+    }
+
 }
