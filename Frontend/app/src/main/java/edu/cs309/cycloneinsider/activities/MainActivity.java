@@ -47,7 +47,6 @@ public class MainActivity extends InsiderActivity {
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.nvView);
 
-
         setSupportActionBar(toolbar);
 
         drawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
@@ -83,6 +82,7 @@ public class MainActivity extends InsiderActivity {
         }
         selectDrawerItem(classrooms.getItem(i));
     }
+
 
 
     public void unselectAllItems() {
@@ -145,10 +145,16 @@ public class MainActivity extends InsiderActivity {
                 fragment = PostListFragment.newInstance(null);
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                 break;
+            case R.id.settings:
+                startActivity(new Intent(this,SettingsActivity.class));
+                return;
+
+
             case R.id.nav_join_room:
                 fragment = new JoinRoomFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                 break;
+
             default: {
                 MembershipModel selectedMembership = getSelectedMembership(menuItem);
                 if (selectedMembership == null) {
@@ -172,6 +178,7 @@ public class MainActivity extends InsiderActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
