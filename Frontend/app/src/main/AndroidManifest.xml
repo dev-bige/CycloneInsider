@@ -33,6 +33,8 @@
         </activity>
         <activity android:name=".activities.DefaultForumActivity" />
         <activity android:name=".activities.SettingsActivity" />
+        <activity android:name=".activities.FeedbackActivity"/>
+        <activity android:name=".activities.NewPasswordActivity"/>
         <activity android:name=".activities.SignUp" />
     </application>
 
