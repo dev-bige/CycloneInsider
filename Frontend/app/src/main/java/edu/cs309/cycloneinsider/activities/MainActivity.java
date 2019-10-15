@@ -68,7 +68,6 @@ public class MainActivity extends InsiderActivity {
             getInsiderApplication().getSession().invalidate();
             startActivity(new Intent(this, LoginActivity.class));
             finish();
-
         });
 
         this.loadRooms();
