@@ -13,10 +13,12 @@ import java.util.List;
 
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.models.PostModel;
+import edu.cs309.cycloneinsider.api.models.RoomModel;
+import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
 public class PostListRecyclerViewAdapter extends RecyclerView.Adapter<PostListRecyclerViewAdapter.ViewHolder> {
-    private final PublishSubject<PostModel> postModelPublishSubject = PublishSubject.create();
+    private final PublishSubject<PostModel> onClickSubject = PublishSubject.create();
     private List<PostModel> posts = new ArrayList<>();
 
     @NonNull
@@ -33,12 +35,17 @@ public class PostListRecyclerViewAdapter extends RecyclerView.Adapter<PostListRe
         holder.title.setText(post.getTitle());
         holder.username.setText(post.getUser().username);
 
-        holder.itemView.setOnClickListener(view -> postModelPublishSubject.onNext(post));
+        holder.itemView.setOnClickListener(view -> onClickSubject.onNext(post));
     }
 
     @Override
     public int getItemCount() {
         return posts.size();
+    }
+
+
+    public Observable<PostModel> getItemClicks() {
+        return onClickSubject.hide();
     }
 
     public void updateList(List<PostModel> posts) {
