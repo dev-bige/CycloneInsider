@@ -29,13 +29,13 @@ public class CommentsController extends BaseController {
         this.postRepository = postRepository;
     }
 
-    @RequestMapping(value = "all", method = RequestMethod.GET)
-    public List<Comment> getAllComments() {
-        return commentsRepository.findAll();
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public List<Comment> getAllComments(@PathVariable("postUuid") UUID postUuid) {
+        return commentsRepository.getCommentsByPost(postUuid);
     }
 
-    @RequestMapping(value = "{uuid}", method = RequestMethod.POST)
-    public void commentToPost(@PathVariable("uuid") UUID postUuid, @RequestBody CommentCreateRequestModel request) {
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public void commentToPost(@PathVariable("postUuid") UUID postUuid, @RequestBody CommentCreateRequestModel request) {
         Optional<Post> post = postRepository.findById(postUuid);
         if (!post.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
