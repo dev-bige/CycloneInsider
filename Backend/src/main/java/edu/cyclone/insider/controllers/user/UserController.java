@@ -25,7 +25,7 @@ public class UserController extends BaseController {
     private RoomMembershipRepository roomMembershipRepository;
 
     @Autowired
-    public UserController(UsersRepository usersRepository, PasswordEncoder passwordEncoder,  RoomMembershipRepository roomMembershipRepository) {
+    public UserController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, RoomMembershipRepository roomMembershipRepository) {
         super(usersRepository);
         this.passwordEncoder = passwordEncoder;
         this.roomMembershipRepository = roomMembershipRepository;

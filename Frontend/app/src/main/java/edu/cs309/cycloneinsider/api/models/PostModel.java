@@ -4,6 +4,7 @@ package edu.cs309.cycloneinsider.api.models;
 import java.util.List;
 
 public class PostModel {
+    String uuid;
     String content;
     String title;
     InsiderUserModel user;
@@ -48,5 +49,13 @@ public class PostModel {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

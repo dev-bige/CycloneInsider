@@ -18,6 +18,7 @@ import java.util.List;
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.activities.DefaultForumActivity;
 import edu.cs309.cycloneinsider.activities.InsiderActivity;
+import edu.cs309.cycloneinsider.activities.PostDetailActivity;
 import edu.cs309.cycloneinsider.api.models.PostModel;
 import edu.cs309.cycloneinsider.fragments.adapters.PostListRecyclerViewAdapter;
 import io.reactivex.Observable;
@@ -31,6 +32,7 @@ public class PostListFragment extends Fragment {
     private Disposable postSub;
     private LinearLayoutManager layoutManager;
     private PostListRecyclerViewAdapter mAdapter;
+    private Disposable postClicks;
 
     public static PostListFragment newInstance(String roomUuid) {
         PostListFragment postListFragment = new PostListFragment();
@@ -92,12 +94,19 @@ public class PostListFragment extends Fragment {
                 mAdapter.updateList(posts);
             }
         });
-
+        postClicks = mAdapter.getItemClicks().subscribe(item -> {
+            Intent intent = new Intent(getActivity(), PostDetailActivity.class);
+            intent.putExtra("POST_UUID", item.getUuid());
+            startActivity(intent);
+        });
     }
 
     @Override
     public void onDestroy() {
-        if (!postSub.isDisposed()) {
+        if (postSub != null && !postSub.isDisposed()) {
+            postSub.dispose();
+        }
+        if (postClicks != null && !postClicks.isDisposed()) {
             postSub.dispose();
         }
         super.onDestroy();

@@ -59,7 +59,7 @@ public class MainActivity extends InsiderActivity {
             return true;
         });
 
-        getInsiderApplication().getApiService().currentUser().subscribe(userResponse -> {
+        getInsiderApplication().getApiService().currentUser().observeOn(AndroidSchedulers.mainThread()).subscribe(userResponse -> {
             ((TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_username)).setText(userResponse.body().username);
         });
 
