@@ -46,15 +46,17 @@ public class PostController extends BaseController {
         return createPost(request, null);
     }
 
-    @RequestMapping(value = "{roomUuid}", method = RequestMethod.POST)
-    public Post postToRoom(@PathVariable("roomUuid") UUID roomUuid, @RequestBody PostCreateRequestModel request) {
-        return createPost(request, roomUuid);
+
+
+    @RequestMapping(value = "{postUuid}", method = RequestMethod.GET)
+    public Post getPost(@PathVariable("postUuid") UUID postUuid) {
+        Optional<Post> post = postRepository.findById(postUuid);
+        if (!post.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return post.get();
     }
 
-    @RequestMapping(value = "{roomUuid}", method = RequestMethod.GET)
-    public List<Post> getRoomPosts(@PathVariable("roomUuid") UUID roomUuid) {
-        return postRepository.getPostsByRoom(roomUuid);
-    }
 
     @RequestMapping(value = "{favPost/{postUuid}", method = RequestMethod.POST)
     public FavPost favorite_Post(@PathVariable("postUuid") UUID postUuid) {
@@ -75,14 +77,6 @@ public class PostController extends BaseController {
         return postRepository.getPostsByRoom(postUuid);
     }
 
-    @RequestMapping(value = "{postUuid}", method = RequestMethod.GET)
-    public Post getPost(@PathVariable("postUuid") UUID postUuid) {
-        Optional<Post> post = postRepository.findById(postUuid);
-        if (!post.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return post.get();
-    }
 
     private Post createPost(@RequestBody PostCreateRequestModel request, UUID roomUUid) {
         Optional<Room> byId = roomRepository.findById(roomUUid);
