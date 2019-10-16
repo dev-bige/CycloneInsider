@@ -3,6 +3,7 @@ package edu.cs309.cycloneinsider.activities.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +28,9 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull CommentsListAdapter.ViewHolder holder, int position) {
-
+        CommentModel comment = comments.get(position);
+        holder.content.setText(comment.getComment());
+        holder.username.setText(comment.getUser().getUsername());
     }
 
     @Override
@@ -41,8 +44,11 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView username, content;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            username = itemView.findViewById(R.id.list_item_comment_username);
+            content = itemView.findViewById(R.id.list_item_comment_content);
         }
     }
 }
