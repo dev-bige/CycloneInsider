@@ -1,21 +1,19 @@
 package edu.cs309.cycloneinsider.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import edu.cs309.cycloneinsider.R;
+import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 
 /*
 Eventually send info to server
@@ -26,9 +24,10 @@ Things to add
 -if someone enters both a wrong name and an invalid password possibility
  */
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends InsiderActivity {
 
-    private String affChoice;
+    private boolean professorValidate;
+    private Disposable subscribe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,36 +36,23 @@ public class SignUpActivity extends AppCompatActivity {
 
         Button backButton = findViewById(R.id.back_to_login);
 
-        // Make a drop down list
-
-        Spinner spinner = findViewById(R.id.sign_up_drop_down);
-
-        spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
-
-        List<String> aff = new ArrayList<String>();
-        aff.add("Student");
-        aff.add("Faculty");
-        aff.add("Alumni");
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, aff);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
+        CheckBox prof = findViewById(R.id.checkbox_prof);
+        prof.setOnClickListener(this::onCheckboxClicked);
 
         backButton.setOnClickListener(view -> finish());
         findViewById(R.id.sign_in_new_user).setOnClickListener(this::onSignUpClicked);
     }
 
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        String affChoice = parent.getItemAtPosition(position).toString();
+    public void onCheckboxClicked(View view) {
+        boolean checked = ((CheckBox) view).isChecked();
 
-
-        Toast.makeText(parent.getContext(), affChoice, Toast.LENGTH_LONG).show();
-    }
-
-    public void onNothingSelected(AdapterView<?> arg0) {
-        // TODO Auto-generated method stub
+        if (checked) {
+            professorValidate = true;
+        }
+        else {
+            professorValidate = false;
+        }
     }
 
     public void onSignUpClicked(View view) {
@@ -84,15 +70,8 @@ public class SignUpActivity extends AppCompatActivity {
         String password = passwordTextOne.getText().toString();
         String passwordValid = passwordTextTwo.getText().toString();
 
-        // checks if drop down is empty
-        if (affChoice.isEmpty()) {
-            userError.setText("You must pick a choice!");
-            userError.setVisibility(View.VISIBLE);
-            return;
-        }
-
         // Checks to make sure only one name is entered
-        else if (!checkName(firstName)) {
+        if (!checkName(firstName)) {
             userError.setText("You must only enter your first name");
             userError.setVisibility(View.VISIBLE);
             return;
@@ -115,6 +94,48 @@ public class SignUpActivity extends AppCompatActivity {
             userError.setVisibility(View.VISIBLE);
             return;
         }
+
+        // checks if checkbox is checked
+        if (professorValidate) {
+            // send verification email
+            return;
+        }
+
+        InsiderUserModel insiderUserModel = new InsiderUserModel();
+        insiderUserModel.firstName = firstName;
+        insiderUserModel.lastName = lastName;
+        insiderUserModel.username = userNameText;
+//        insiderUserModel.p= password;
+
+        subscribe = getInsiderApplication()
+                .getApiService()
+                .signUp(insiderUserModel)
+                .observeOn(AndroidSchedulers.mainThread())
+                .delay(1, TimeUnit.SECONDS)
+                .subscribe(insiderUserModelResponse -> {
+                    if (insiderUserModelResponse.isSuccessful()) {
+                        startActivity(new Intent(this, MainActivity.class));
+                        finish();
+                        insiderUserModelResponse.body();
+                    }
+                    else {
+                        startActivity(new Intent(this, SignUpActivity.class));
+                        finish();
+                    }
+                }, error -> {
+                    // handle
+                }, () -> {
+                    // cleanup
+                });
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(subscribe != null && !subscribe.isDisposed()) {
+            subscribe.dispose();
+        }
+        super.onDestroy();
     }
 
     /**

@@ -39,4 +39,7 @@ public interface CycloneInsiderService {
 
     @POST("posts/front-page")
     Observable<Response<PostModel>> createFrontPagePost(@Body PostCreateRequestModel body);
+
+    @POST("/users/sign-up")
+    Observable<Response<InsiderUserModel>> signUp(@Body InsiderUserModel insiderUserModel);
 }

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,28 +12,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="16dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/back_to_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Back" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
-            android:textSize="20sp"
-            android:text="Affiliation with Iowa State:"
-            android:layout_marginBottom="5dp"/>
-
-        <Spinner
-            android:id="@+id/sign_up_drop_down"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
-<!--            android:prompt="@string/spinner_title"-->
-
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -101,7 +92,14 @@
         <TextView
             android:id="@+id/user_error"
             android:layout_width="match_parent"
-            android:layout_height="48dp" />
+            android:layout_height="10dp" />
+
+        <CheckBox
+            android:id="@+id/checkbox_prof"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I'm a professor and would like to verify my account"
+            android:onClick="onCheckboxClicked"/>
 
         <Button
             android:id="@+id/sign_in_new_user"
@@ -109,7 +107,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:text="Sign Up!" />
-
 
     </LinearLayout>
 
