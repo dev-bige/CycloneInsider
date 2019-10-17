@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorAccent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".activities.CreatePostActivity">
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:boxBackgroundColor="#FFEB3B"
+        app:hintTextColor="?attr/colorOnSecondary"
+        app:boxStrokeColor="?attr/colorOnSecondary"
+        android:hint="Title">
+
+        <EditText
+            android:id="@+id/post_title"
+            android:layout_width="match_parent"
+            android:textSize="24dp"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/sheet_background"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="Content">
+
+            <EditText
+                android:id="@+id/poster_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:height="200dp"
+                android:autoSizeTextType="uniform" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <TextView
+            android:id="@+id/hidden_thread_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Testing"
+            android:textColor="#ff0000"
+            android:visibility="invisible" />
+
+        <CheckBox
+            android:id="@+id/switch1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Allow Explicit Comments?" />
+
+        <CheckBox
+            android:id="@+id/switchBold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="Bold"
+            android:text="BOLD" />
+
+        <CheckBox
+            android:id="@+id/switchItalicize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="Italicize"
+            android:text="ITALICIZE" />
+
+        <CheckBox
+            android:id="@+id/switchItalicizeBold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="ItalicizeAndBold"
+            android:text="ITALICIZE AND BOLD" />
+
+
+        <Button
+            android:id="@+id/post_button"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end"
+            android:onClick="PostThread"
+            android:text="Post" />
+
+
+        <TextView
+            android:id="@+id/hidden_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="Testing"
+            android:textColor="#ff0000"
+            android:visibility="gone" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import edu.cs309.cycloneinsider.R;
-import edu.cs309.cycloneinsider.activities.DefaultForumActivity;
+import edu.cs309.cycloneinsider.activities.CreatePostActivity;
 import edu.cs309.cycloneinsider.activities.InsiderActivity;
 import edu.cs309.cycloneinsider.activities.PostDetailActivity;
 import edu.cs309.cycloneinsider.api.models.PostModel;
@@ -72,7 +72,7 @@ public class PostListFragment extends Fragment {
 
 
         getView().findViewById(R.id.new_post_button).setOnClickListener(view1 -> {
-            startActivity(new Intent(getActivity(), DefaultForumActivity.class));
+            startActivity(new Intent(getActivity(), CreatePostActivity.class));
         });
         Observable<Response<List<PostModel>>> postListObservable = null;
         //If the room uuid is null then we should get the front page posts.

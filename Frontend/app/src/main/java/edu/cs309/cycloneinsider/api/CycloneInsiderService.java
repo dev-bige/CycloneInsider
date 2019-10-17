@@ -44,6 +44,6 @@ public interface CycloneInsiderService {
     @GET("posts/{uuid}")
     Observable<Response<PostModel>> getPost(@Path("uuid") String post_uuid);
 
-    @GET("posts/{uuid}/comments/all")
+    @GET("posts/{uuid}/comments")
     Observable<Response<List<CommentModel>>> getPostComments(@Path("uuid") String post_uuid);
 }

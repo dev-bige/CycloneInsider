@@ -170,7 +170,7 @@ public class MainActivity extends InsiderActivity {
     }
 
     public void openDefaultThread(View view) {
-        Intent intent = new Intent(this, DefaultForumActivity.class);
+        Intent intent = new Intent(this, CreatePostActivity.class);
         startActivity(intent);
         return;
     }

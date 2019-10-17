@@ -17,4 +17,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppThemeWhite" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="colorPrimary">#BDBDBD</item>
+        <item name="colorPrimaryDark">#616161</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="CollapsedTitleStyle">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
 </resources>
