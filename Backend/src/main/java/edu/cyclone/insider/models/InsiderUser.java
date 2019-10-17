@@ -15,6 +15,7 @@ public class InsiderUser extends BaseModel {
     private String firstName;
     private String lastName;
 
+    private Boolean isAdmin;
     public InsiderUser() {
     }
 
@@ -48,5 +49,9 @@ public class InsiderUser extends BaseModel {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public void setAdmin(Boolean isAdmin) {
+        isAdmin = this.isAdmin;
     }
 }
