@@ -91,13 +91,16 @@ public class RoomController extends BaseController {
     }
 
     private Post createPost(@RequestBody PostCreateRequestModel request, UUID roomUUid) {
-        Optional<Room> byId = roomRepository.findById(roomUUid);
-        if (!byId.isPresent() && roomUUid != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        Optional<Room> byId = null;
+        if (roomUUid != null) {
+            byId = roomRepository.findById(roomUUid);
+            if (!byId.isPresent()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            }
         }
         Post post = new Post();
         post.setContent(request.content);
-        post.setRoom(roomUUid == null ? null : byId.get());
+         post.setRoom(roomUUid == null ? null : byId.get());
         post.setUser(getCurrentUser());
         post.setTags(request.tags);
         post.setTitle(request.title);

@@ -47,7 +47,6 @@ public class PostController extends BaseController {
     }
 
 
-
     @RequestMapping(value = "{postUuid}", method = RequestMethod.GET)
     public Post getPost(@PathVariable("postUuid") UUID postUuid) {
         Optional<Post> post = postRepository.findById(postUuid);
@@ -79,9 +78,12 @@ public class PostController extends BaseController {
 
 
     private Post createPost(@RequestBody PostCreateRequestModel request, UUID roomUUid) {
-        Optional<Room> byId = roomRepository.findById(roomUUid);
-        if (!byId.isPresent() && roomUUid != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        Optional<Room> byId = null;
+        if (roomUUid != null) {
+            byId = roomRepository.findById(roomUUid);
+            if (!byId.isPresent()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            }
         }
         Post post = new Post();
         post.setContent(request.content);
