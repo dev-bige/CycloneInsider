@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="192dp"
-    android:background="?attr/colorPrimaryDark"
+    android:background="?attr/colorAccent"
     android:gravity="bottom"
     android:orientation="vertical"
     android:padding="16dp"
@@ -14,30 +14,43 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/nav_header_username"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Username"
-            android:layout_gravity="start|center_vertical"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@android:color/white" />
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:text="Welcome,"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="?attr/colorOnSecondary" />
+
+            <TextView
+                android:id="@+id/nav_header_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:text="Username"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="?attr/colorOnSecondary" />
+        </LinearLayout>
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/sign_out"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-            android:layout_width="52dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
             android:layout_height="52dp"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
             android:layout_gravity="end"
-            android:text=""
+            android:text="Sign Out"
+            android:textColor="?attr/colorOnSecondary"
             app:icon="@drawable/ic_exit_to_app_black_24dp"
             app:iconGravity="textStart"
-            app:iconTint="@android:color/white"
-            app:iconPadding="0dp" />
+            app:iconPadding="0dp"
+            app:iconTint="?attr/colorOnSecondary" />
     </FrameLayout>
 
 

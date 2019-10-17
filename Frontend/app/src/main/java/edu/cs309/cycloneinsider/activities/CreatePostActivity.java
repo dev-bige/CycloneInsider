@@ -1,13 +1,14 @@
 package edu.cs309.cycloneinsider.activities;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ import edu.cs309.cycloneinsider.api.models.PostCreateRequestModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
-public class DefaultForumActivity extends InsiderActivity {
+public class CreatePostActivity extends InsiderActivity {
     private HashMap<String, Integer> dict = new HashMap<>();
     private Disposable subscribe;
 
@@ -26,105 +27,20 @@ public class DefaultForumActivity extends InsiderActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_default_forum);
+        setContentView(R.layout.activity_create_post);
         ExplicitWordMap(); //initializes the explicit words in the Map
-
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorAccentDark));
     }
 
-    private void ExplicitWordMap() {
-        //String of all the swear words we are using
-        String swearWordList = "anal\n" +
-                "anus\n" +
-                "arse\n" +
-                "ass\n" +
-                "ballsack\n" +
-                "balls\n" +
-                "bastard\n" +
-                "bitch\n" +
-                "biatch\n" +
-                "bloody\n" +
-                "blowjob\n" +
-                "bollock\n" +
-                "bollok\n" +
-                "boner\n" +
-                "boob\n" +
-                "bugger\n" +
-                "bum\n" +
-                "butt\n" +
-                "buttplug\n" +
-                "clitoris\n" +
-                "cock\n" +
-                "coon\n" +
-                "crap\n" +
-                "cunt\n" +
-                "damn\n" +
-                "dick\n" +
-                "dildo\n" +
-                "dyke\n" +
-                "fag\n" +
-                "feck\n" +
-                "fellate\n" +
-                "fellatio\n" +
-                "felching\n" +
-                "fuck\n" +
-                "fudgepacker\n" +
-                "flange\n" +
-                "Goddamn\n" +
-                "God damn\n" +
-                "hell\n" +
-                "homo\n" +
-                "jerk\n" +
-                "jizz\n" +
-                "knobend\n" +
-                "knob end\n" +
-                "labia\n" +
-                "lmao\n" +
-                "lmfao\n" +
-                "muff\n" +
-                "nigger\n" +
-                "nigga\n" +
-                "omg\n" +
-                "penis\n" +
-                "piss\n" +
-                "poop\n" +
-                "prick\n" +
-                "pube\n" +
-                "pussy\n" +
-                "queer\n" +
-                "scrotum\n" +
-                "sex\n" +
-                "shit\n" +
-                "sh1t\n" +
-                "slut\n" +
-                "smegma\n" +
-                "spunk\n" +
-                "tit\n" +
-                "tosser\n" +
-                "turd\n" +
-                "twat\n" +
-                "vagina\n" +
-                "wank\n" +
-                "whore\n" +
-                "wtf";
-
-        //puts all of the swear words into a HashMap
-        Scanner scan = new Scanner(swearWordList);
-        while (scan.hasNextLine()) {
-
-            String word = scan.nextLine();
-            dict.put(word, 1);
-
-        }
-
-    }
 
     /**
      * Method is used to bold or un-bold text
      */
     public void Bold(View view) {
-        Switch mySwitchBold = findViewById(R.id.switchBold);
-        Switch mySwitchItalic = findViewById(R.id.switchItalicize);
-        Switch mySwitchBAndT = findViewById(R.id.switchItalicizeBold);
+        CheckBox mySwitchBold = findViewById(R.id.switchBold);
+        CheckBox mySwitchItalic = findViewById(R.id.switchItalicize);
+        CheckBox mySwitchBAndT = findViewById(R.id.switchItalicizeBold);
         EditText commentBox = findViewById(R.id.poster_comment);
         EditText title = findViewById(R.id.post_title);
         boolean isOn = mySwitchBold.isChecked();
@@ -228,10 +144,9 @@ public class DefaultForumActivity extends InsiderActivity {
      * Method is used to italicize&bold or un-italicize&bold
      */
     public void ItalicizeAndBold(View view) {
-
-        Switch mySwitch = findViewById(R.id.switchItalicizeBold);
-        Switch mySwitchBold = findViewById(R.id.switchBold);
-        Switch mySwitchItalic = findViewById(R.id.switchItalicize);
+        CheckBox mySwitch = findViewById(R.id.switchItalicizeBold);
+        CheckBox mySwitchBold = findViewById(R.id.switchBold);
+        CheckBox mySwitchItalic = findViewById(R.id.switchItalicize);
         EditText commentBox = findViewById(R.id.poster_comment);
         EditText title = findViewById(R.id.post_title);
         boolean isOn = mySwitch.isChecked();
@@ -348,7 +263,7 @@ public class DefaultForumActivity extends InsiderActivity {
             return;
         }
 
-        Switch s = findViewById(R.id.switch1); //finds the explicit switch by id
+        CheckBox s = findViewById(R.id.switch1); //finds the explicit switch by id
         Boolean switchState = s.isChecked(); //checks if switch is on or off
 
         if (!switchState) { //explicit filter is on if false, scans title and initial comments for explicit words
@@ -377,20 +292,21 @@ public class DefaultForumActivity extends InsiderActivity {
             }
         }
         PostCreateRequestModel postCreateRequestModel = new PostCreateRequestModel();
-        postCreateRequestModel.content = "blah";
-        postCreateRequestModel.title = "blah title";
-        postCreateRequestModel.tags = null;
+        postCreateRequestModel.content = initialComments;
+        postCreateRequestModel.title = title;
+        postCreateRequestModel.tags = new ArrayList<>();
 
         subscribe = getInsiderApplication()
                 .getApiService()
                 .createFrontPagePost(postCreateRequestModel)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(postModelResponse -> {
-
-                    System.out.println(postCreateRequestModel);
                     if (postModelResponse.isSuccessful()) {
                         //Handle 200 response
-                        postModelResponse.body();
+                        Intent intent = new Intent(this, PostDetailActivity.class);
+                        intent.putExtra("POST_UUID", postModelResponse.body().getUuid());
+                        startActivity(intent);
+                        finish();
                     }
                 }, error -> {
                     //Handle error
@@ -407,4 +323,92 @@ public class DefaultForumActivity extends InsiderActivity {
         }
         super.onDestroy();
     }
+
+    private void ExplicitWordMap() {
+        //String of all the swear words we are using
+        String swearWordList = "anal\n" +
+                "anus\n" +
+                "arse\n" +
+                "ass\n" +
+                "ballsack\n" +
+                "balls\n" +
+                "bastard\n" +
+                "bitch\n" +
+                "biatch\n" +
+                "bloody\n" +
+                "blowjob\n" +
+                "bollock\n" +
+                "bollok\n" +
+                "boner\n" +
+                "boob\n" +
+                "bugger\n" +
+                "bum\n" +
+                "butt\n" +
+                "buttplug\n" +
+                "clitoris\n" +
+                "cock\n" +
+                "coon\n" +
+                "crap\n" +
+                "cunt\n" +
+                "damn\n" +
+                "dick\n" +
+                "dildo\n" +
+                "dyke\n" +
+                "fag\n" +
+                "feck\n" +
+                "fellate\n" +
+                "fellatio\n" +
+                "felching\n" +
+                "fuck\n" +
+                "fudgepacker\n" +
+                "flange\n" +
+                "Goddamn\n" +
+                "God damn\n" +
+                "hell\n" +
+                "homo\n" +
+                "jerk\n" +
+                "jizz\n" +
+                "knobend\n" +
+                "knob end\n" +
+                "labia\n" +
+                "lmao\n" +
+                "lmfao\n" +
+                "muff\n" +
+                "nigger\n" +
+                "nigga\n" +
+                "omg\n" +
+                "penis\n" +
+                "piss\n" +
+                "poop\n" +
+                "prick\n" +
+                "pube\n" +
+                "pussy\n" +
+                "queer\n" +
+                "scrotum\n" +
+                "sex\n" +
+                "shit\n" +
+                "sh1t\n" +
+                "slut\n" +
+                "smegma\n" +
+                "spunk\n" +
+                "tit\n" +
+                "tosser\n" +
+                "turd\n" +
+                "twat\n" +
+                "vagina\n" +
+                "wank\n" +
+                "whore\n" +
+                "wtf";
+
+        //puts all of the swear words into a HashMap
+        Scanner scan = new Scanner(swearWordList);
+        while (scan.hasNextLine()) {
+
+            String word = scan.nextLine();
+            dict.put(word, 1);
+
+        }
+
+    }
+
 }
