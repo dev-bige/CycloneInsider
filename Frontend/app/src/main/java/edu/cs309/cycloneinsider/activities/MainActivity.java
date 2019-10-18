@@ -72,6 +72,21 @@ public class MainActivity extends InsiderActivity {
         this.loadRooms();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (navigationView.getCheckedItem() == null) {
+            navigationView.setCheckedItem(R.id.nav_front_page);
+            selectDrawerItem(navigationView.getCheckedItem());
+        } else if (navigationView.getCheckedItem().getItemId() == R.id.nav_create_room) {
+            navigationView.setCheckedItem(R.id.nav_front_page);
+            selectDrawerItem(navigationView.getCheckedItem());
+        } else if (navigationView.getCheckedItem().getItemId() == R.id.settings) {
+            navigationView.setCheckedItem(R.id.nav_front_page);
+            selectDrawerItem(navigationView.getCheckedItem());
+        }
+    }
+
     public void selectRoom(String uuid) {
         int i;
         for (i = 0; i < memberships.size(); i++) {
