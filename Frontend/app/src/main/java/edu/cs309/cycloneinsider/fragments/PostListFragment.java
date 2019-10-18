@@ -94,6 +94,7 @@ public class PostListFragment extends Fragment {
                 mAdapter.updateList(posts);
             }
         });
+
         postClicks = mAdapter.getItemClicks().subscribe(item -> {
             Intent intent = new Intent(getActivity(), PostDetailActivity.class);
             intent.putExtra("POST_UUID", item.getUuid());

@@ -5,24 +5,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.cs309.cycloneinsider.R;
-import edu.cs309.cycloneinsider.activities.adapters.FavoritePostAdapter;
 import edu.cs309.cycloneinsider.api.models.FavPostModel;
+import edu.cs309.cycloneinsider.fragments.adapters.PostListRecyclerViewAdapter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
-public class FavoritePostActivity extends InsiderActivity implements FavoritePostAdapter.OnPostListener {
+public class FavoritePostActivity extends InsiderActivity  {
     LinearLayoutManager layoutManager;
-    FavoritePostAdapter mAdapter;
+    PostListRecyclerViewAdapter mAdapter;
     TextView post, room;
     private List<FavPostModel> listFavPostModel = new ArrayList<>();
     private CompositeDisposable disposables = new CompositeDisposable();
+    private Disposable clicks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,10 @@ public class FavoritePostActivity extends InsiderActivity implements FavoritePos
         post = findViewById(R.id.list_item_post_title);
         room = findViewById(R.id.list_item_room_title);
 
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(mAdapter);
+
         disposables.add(getInsiderApplication()
                 .getApiService()
                 .getFavoritePost()
@@ -46,10 +51,11 @@ public class FavoritePostActivity extends InsiderActivity implements FavoritePos
                 }
         ));
 
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new FavoritePostAdapter(listFavPostModel, this);
-        recyclerView.setAdapter(mAdapter);
+        clicks = mAdapter.getItemClicks().subscribe(item -> {
+            Intent intent = new Intent(this, PostDetailActivity.class);
+            intent.putExtra("POST_UUID", item.getUuid());
+            startActivity(intent);
+        });
     }
 
     @Override
@@ -57,14 +63,9 @@ public class FavoritePostActivity extends InsiderActivity implements FavoritePos
         if (!disposables.isDisposed()) {
             disposables.dispose();
         }
+        if (clicks != null && !clicks.isDisposed()) {
+            clicks.dispose();
+        }
         super.onDestroy();
-    }
-
-    @Override
-    public void OnPostListener(int position) {
-        FavPostModel favPost = listFavPostModel.get(position);
-        Intent intent = new Intent(this, PostDetailActivity.class);
-        intent.putExtra("Favorite Post", (Parcelable) favPost);
-        startActivity(intent);
     }
 }

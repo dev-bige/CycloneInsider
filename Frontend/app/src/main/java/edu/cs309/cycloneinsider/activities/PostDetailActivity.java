@@ -46,8 +46,6 @@ public class PostDetailActivity extends InsiderActivity {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
-        FavPostModel favPostModel = (FavPostModel) getIntent().getSerializableExtra("Favorite Post");
-
         content = findViewById(R.id.post_detail_content);
         username = findViewById(R.id.post_detail_username);
 
