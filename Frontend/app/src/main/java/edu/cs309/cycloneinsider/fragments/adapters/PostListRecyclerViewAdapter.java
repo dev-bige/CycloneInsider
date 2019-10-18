@@ -13,7 +13,6 @@ import java.util.List;
 
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.models.PostModel;
-import edu.cs309.cycloneinsider.api.models.RoomModel;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
@@ -21,12 +20,13 @@ public class PostListRecyclerViewAdapter extends RecyclerView.Adapter<PostListRe
     private final PublishSubject<PostModel> onClickSubject = PublishSubject.create();
     private List<PostModel> posts = new ArrayList<>();
 
-    @NonNull
+    public Observable<PostModel> getItemClicks() {
+        return onClickSubject.hide();
+    }
+
     @Override
-    public PostListRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_post, parent, false);
-        return new ViewHolder(view);
+    public int getItemCount() {
+        return posts.size();
     }
 
     @Override
@@ -38,14 +38,12 @@ public class PostListRecyclerViewAdapter extends RecyclerView.Adapter<PostListRe
         holder.itemView.setOnClickListener(view -> onClickSubject.onNext(post));
     }
 
+    @NonNull
     @Override
-    public int getItemCount() {
-        return posts.size();
-    }
-
-
-    public Observable<PostModel> getItemClicks() {
-        return onClickSubject.hide();
+    public PostListRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item_post, parent, false);
+        return new ViewHolder(view);
     }
 
     public void updateList(List<PostModel> posts) {

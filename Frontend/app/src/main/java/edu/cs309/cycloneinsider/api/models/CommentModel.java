@@ -9,14 +9,6 @@ public class CommentModel {
     PostModel post;
     InsiderUserModel user;
 
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
     public String getComment() {
         return comment;
     }
@@ -47,5 +39,13 @@ public class CommentModel {
 
     public void setUser(InsiderUserModel user) {
         this.user = user;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

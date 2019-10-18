@@ -39,6 +39,18 @@ public class JoinRoomFragment extends Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        if (!roomsListSubscription.isDisposed()) {
+            roomsListSubscription.dispose();
+        }
+
+        if (!onClickSubscription.isDisposed()) {
+            onClickSubscription.dispose();
+        }
+        super.onDestroy();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -90,17 +102,5 @@ public class JoinRoomFragment extends Fragment {
                     .create()
                     .show();
         });
-    }
-
-    @Override
-    public void onDestroy() {
-        if (!roomsListSubscription.isDisposed()) {
-            roomsListSubscription.dispose();
-        }
-
-        if (!onClickSubscription.isDisposed()) {
-            onClickSubscription.dispose();
-        }
-        super.onDestroy();
     }
 }

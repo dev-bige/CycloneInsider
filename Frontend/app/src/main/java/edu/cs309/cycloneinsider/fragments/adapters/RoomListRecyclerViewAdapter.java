@@ -20,12 +20,13 @@ public class RoomListRecyclerViewAdapter extends RecyclerView.Adapter<RoomListRe
     private final PublishSubject<RoomModel> onClickSubject = PublishSubject.create();
     private List<RoomModel> rooms = new ArrayList();
 
-    @NonNull
+    public Observable<RoomModel> getItemClicks() {
+        return onClickSubject.hide();
+    }
+
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_room, parent, false);
-        return new ViewHolder(view);
+    public int getItemCount() {
+        return rooms.size();
     }
 
     @Override
@@ -36,18 +37,17 @@ public class RoomListRecyclerViewAdapter extends RecyclerView.Adapter<RoomListRe
         holder.itemView.setOnClickListener(view -> onClickSubject.onNext(room));
     }
 
+    @NonNull
     @Override
-    public int getItemCount() {
-        return rooms.size();
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item_room, parent, false);
+        return new ViewHolder(view);
     }
 
     public void updateList(List<RoomModel> rooms) {
         this.rooms = rooms;
         this.notifyDataSetChanged();
-    }
-
-    public Observable<RoomModel> getItemClicks() {
-        return onClickSubject.hide();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
