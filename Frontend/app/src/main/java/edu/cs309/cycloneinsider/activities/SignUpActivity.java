@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
+import edu.cs309.cycloneinsider.api.models.SignUpRequestModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
@@ -34,11 +35,10 @@ public class SignUpActivity extends InsiderActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        Button backButton = findViewById(R.id.back_to_login);
-
         CheckBox prof = findViewById(R.id.checkbox_prof);
         prof.setOnClickListener(this::onCheckboxClicked);
 
+        Button backButton = findViewById(R.id.back_to_login);
         backButton.setOnClickListener(view -> finish());
         findViewById(R.id.sign_in_new_user).setOnClickListener(this::onSignUpClicked);
     }
@@ -96,36 +96,27 @@ public class SignUpActivity extends InsiderActivity {
         }
 
         // checks if checkbox is checked
-        if (professorValidate) {
-            // send verification email
-            return;
-        }
+//        if (professorValidate) {
+//            // send verification email
+//            return;
+//        }
 
-        InsiderUserModel insiderUserModel = new InsiderUserModel();
-        insiderUserModel.firstName = firstName;
-        insiderUserModel.lastName = lastName;
-        insiderUserModel.username = userNameText;
-//        insiderUserModel.p= password;
+        SignUpRequestModel signUpRequestModel = new SignUpRequestModel();
+        signUpRequestModel.firstName = firstName;
+        signUpRequestModel.lastName = lastName;
+        signUpRequestModel.username = userNameText;
+        signUpRequestModel.password = password;
 
         subscribe = getInsiderApplication()
                 .getApiService()
-                .signUp(insiderUserModel)
+                .signUp(signUpRequestModel)
                 .observeOn(AndroidSchedulers.mainThread())
-                .delay(1, TimeUnit.SECONDS)
-                .subscribe(insiderUserModelResponse -> {
-                    if (insiderUserModelResponse.isSuccessful()) {
+                .subscribe(signUpRequestModelResponse -> {
+                    if (signUpRequestModelResponse.isSuccessful()) {
                         startActivity(new Intent(this, MainActivity.class));
                         finish();
-                        insiderUserModelResponse.body();
+                        signUpRequestModelResponse.body();
                     }
-                    else {
-                        startActivity(new Intent(this, SignUpActivity.class));
-                        finish();
-                    }
-                }, error -> {
-                    // handle
-                }, () -> {
-                    // cleanup
                 });
 
     }
