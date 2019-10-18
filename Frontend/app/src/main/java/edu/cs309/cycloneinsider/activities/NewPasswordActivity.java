@@ -1,7 +1,6 @@
 package edu.cs309.cycloneinsider.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -52,7 +51,7 @@ public class NewPasswordActivity extends InsiderActivity{
         }
 
         //TODO need to add changing password functionality
-        
+
         subscribe = getInsiderApplication()
                 .getApiService()
                 .currentUser().subscribe(response->{
