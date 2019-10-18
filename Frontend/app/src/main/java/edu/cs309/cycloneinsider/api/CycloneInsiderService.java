@@ -4,6 +4,7 @@ package edu.cs309.cycloneinsider.api;
 import java.util.List;
 
 import edu.cs309.cycloneinsider.api.models.CommentModel;
+import edu.cs309.cycloneinsider.api.models.CreateCommentRequestModel;
 import edu.cs309.cycloneinsider.api.models.CreateRoomRequestModel;
 import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
 import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
@@ -43,7 +44,10 @@ public interface CycloneInsiderService {
     Observable<Response<PostModel>> createFrontPagePost(@Body PostCreateRequestModel body);
 
     @POST("rooms")
-    Observable<Response<RoomModel>> creeateRoom(@Body CreateRoomRequestModel body);
+    Observable<Response<RoomModel>> createRoom(@Body CreateRoomRequestModel body);
+
+    @POST("posts/{uuid}/comments")
+    Observable<Response<Void>> createComment(@Path("uuid") String post_uuid, @Body CreateCommentRequestModel body);
 
     @GET("posts/{uuid}")
     Observable<Response<PostModel>> getPost(@Path("uuid") String post_uuid);

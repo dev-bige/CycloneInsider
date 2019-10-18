@@ -31,7 +31,7 @@ public class CreateRoomActivity extends InsiderActivity implements View.OnClickL
             CreateRoomRequestModel createRoomRequestModel = new CreateRoomRequestModel();
             createRoomRequestModel.setName(title.getText().toString());
             createRoomRequestModel.setDescription(description.getText().toString());
-            Disposable subscribe = getInsiderApplication().getApiService().creeateRoom(createRoomRequestModel).subscribe(createRoomResponseModel -> {
+            Disposable subscribe = getInsiderApplication().getApiService().createRoom(createRoomRequestModel).subscribe(createRoomResponseModel -> {
                 if (createRoomResponseModel.isSuccessful()) {
                     finish();
                 }
