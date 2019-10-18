@@ -44,10 +44,10 @@ public class RoomController extends BaseController {
         }
 
         //Check if membership already exists
-        RoomMembership membership = roomMembershipRepository.findMembership(getCurrentUser().getUuid(), room_uuid);
-        if (membership != null) {
+        Optional<RoomMembership> membership = roomMembershipRepository.findMembership(getCurrentUser().getUuid(), room_uuid);
+        if (membership.isPresent()) {
             //Return current membership if already exists...
-            return membership;
+            return membership.get();
         }
 
         RoomMembership roomMembership = new RoomMembership();
@@ -62,9 +62,10 @@ public class RoomController extends BaseController {
         return roomRepository.findAll();
     }
 
-    @RequestMapping(value = "{uuid}", method = RequestMethod.GET)
-    public Room getRoom(@PathVariable("uuid") UUID uuid) {
-        Optional<Room> byId = roomRepository.findById(uuid);
+    @RequestMapping(value = "{roomUuid}", method = RequestMethod.GET)
+    public Room getRoom(@PathVariable("roomUuid") UUID roomUuid) {
+        membershipCheck(roomUuid);
+        Optional<Room> byId = roomRepository.findById(roomUuid);
         if (byId.isPresent()) {
             return byId.get();
         }
@@ -73,6 +74,7 @@ public class RoomController extends BaseController {
 
     @RequestMapping(value = "{roomUuid}/posts", method = RequestMethod.POST)
     public Post postToRoom(@PathVariable("roomUuid") UUID roomUuid, @RequestBody PostCreateRequestModel request) {
+        membershipCheck(roomUuid);
         return createPost(request, roomUuid);
     }
 
@@ -85,8 +87,11 @@ public class RoomController extends BaseController {
     public Room createRoom(@RequestBody CreateRoomRequestModel model) {
         Room room = new Room();
         room.setName(model.name);
+        room.setCreator(getCurrentUser());
+        room.setPrivateRoom(model.privateRoom);
         room.setDescription(model.description);
         room = roomRepository.save(room);
+        joinRoom(room.getUuid());
         return room;
     }
 
@@ -95,6 +100,10 @@ public class RoomController extends BaseController {
         Optional<Room> room = roomRepository.findById(roomUuid);
         if (!room.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        UUID creatorUUID = room.get().getCreator().getUuid();
+        if (!creatorUUID.equals(getCurrentUser().getUuid())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Only the creator can delete the room");
         }
         roomRepository.deleteById(roomUuid);
     }
@@ -110,12 +119,23 @@ public class RoomController extends BaseController {
         }
         Post post = new Post();
         post.setContent(request.content);
-         post.setRoom(roomUUid == null ? null : byId.get());
+        post.setRoom(roomUUid == null ? null : byId.get());
         post.setUser(getCurrentUser());
         post.setTags(request.tags);
         post.setTitle(request.title);
         post.setDate(new Date());
         post = postRepository.save(post);
         return post;
+    }
+
+    /**
+     * Checks if user is part of the room, if not, we throw an exception
+     * @param roomUuid
+     */
+    public void membershipCheck(UUID roomUuid) {
+        Optional<RoomMembership> membership = roomMembershipRepository.findMembership(getCurrentUser().getUuid(), roomUuid);
+        if (!membership.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "This user is not part of this room");
+        }
     }
 }

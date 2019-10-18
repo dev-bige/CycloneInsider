@@ -16,6 +16,7 @@ public class InsiderUser extends BaseModel {
     private String lastName;
 
     private Boolean isAdmin;
+
     public InsiderUser() {
     }
 

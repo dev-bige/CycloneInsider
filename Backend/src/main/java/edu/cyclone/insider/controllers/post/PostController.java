@@ -70,6 +70,7 @@ public class PostController extends BaseController {
 
         return favPost;
     }
+
     private Post createPost(@RequestBody PostCreateRequestModel request, UUID roomUUid) {
         Optional<Room> byId = null;
         if (roomUUid != null) {
@@ -102,10 +103,6 @@ public class PostController extends BaseController {
         }
         postRepository.deleteById(postUuid);
     }
-
-
-
-
 
 
 }

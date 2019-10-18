@@ -2,12 +2,9 @@ package edu.cs309.cycloneinsider.activities;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +17,6 @@ import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.activities.adapters.CommentsListAdapter;
 import edu.cs309.cycloneinsider.api.models.CommentModel;
 import edu.cs309.cycloneinsider.api.models.PostModel;
-import edu.cs309.cycloneinsider.fragments.adapters.PostListRecyclerViewAdapter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 
