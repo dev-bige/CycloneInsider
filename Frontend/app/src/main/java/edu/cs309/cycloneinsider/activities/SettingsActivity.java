@@ -1,22 +1,10 @@
 package edu.cs309.cycloneinsider.activities;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Switch;
-import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
 
 import edu.cs309.cycloneinsider.R;
-import edu.cs309.cycloneinsider.api.models.PostCreateRequestModel;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
 public class SettingsActivity extends InsiderActivity {

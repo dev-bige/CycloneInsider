@@ -7,4 +7,5 @@
     <string name="login_no_id">You must enter your Net ID</string>
     <string name="login_no_password">You must enter your Password</string>
     <string name="login_invalid_login">Invalid Net ID or Password</string>
+    <string name="title_activity_create_room">CreateRoomActivity</string>
 </resources>

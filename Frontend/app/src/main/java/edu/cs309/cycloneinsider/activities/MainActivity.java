@@ -83,7 +83,6 @@ public class MainActivity extends InsiderActivity {
     }
 
 
-
     public void unselectAllItems() {
         int size = navigationView.getMenu().size();
         for (int i = 0; i < size; i++) {
@@ -145,15 +144,15 @@ public class MainActivity extends InsiderActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                 break;
             case R.id.settings:
-                startActivity(new Intent(this,SettingsActivity.class));
+                startActivity(new Intent(this, SettingsActivity.class));
                 return;
-
-
+            case R.id.nav_create_room:
+                startActivity(new Intent(this, CreateRoomActivity.class));
+                return;
             case R.id.nav_join_room:
                 fragment = new JoinRoomFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                 break;
-
             default: {
                 MembershipModel selectedMembership = getSelectedMembership(menuItem);
                 if (selectedMembership == null) {

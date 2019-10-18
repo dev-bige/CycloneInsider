@@ -1,7 +1,5 @@
 package edu.cs309.cycloneinsider.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +8,6 @@ import android.widget.TextView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import edu.cs309.cycloneinsider.R;
-import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
 import io.reactivex.disposables.Disposable;
 
 public class NewPasswordActivity extends InsiderActivity{
