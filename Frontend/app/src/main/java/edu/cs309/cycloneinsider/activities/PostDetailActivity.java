@@ -19,6 +19,7 @@ import java.util.List;
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.activities.adapters.CommentsListAdapter;
 import edu.cs309.cycloneinsider.api.models.CommentModel;
+import edu.cs309.cycloneinsider.api.models.FavPostModel;
 import edu.cs309.cycloneinsider.api.models.PostModel;
 import edu.cs309.cycloneinsider.fragments.adapters.PostListRecyclerViewAdapter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -44,6 +45,8 @@ public class PostDetailActivity extends InsiderActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
+
+        FavPostModel favPostModel = (FavPostModel) getIntent().getSerializableExtra("Favorite Post");
 
         content = findViewById(R.id.post_detail_content);
         username = findViewById(R.id.post_detail_username);

@@ -13,9 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.FavoritePostActivity"></activity>
         <activity
             android:name=".activities.PostDetailActivity"
-            android:theme="@style/AppThemeWhite"></activity>
+            android:theme="@style/AppThemeWhite" />
         <activity android:name=".activities.StartupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +32,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.LoginActivity" />
         </activity>
-        <activity android:name=".activities.LoginActivity"></activity>
+        <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.CreatePostActivity" />
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.FeedbackActivity" />
