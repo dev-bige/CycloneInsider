@@ -55,6 +55,17 @@ public class PostListFragment extends Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        if (postSub != null && !postSub.isDisposed()) {
+            postSub.dispose();
+        }
+        if (postClicks != null && !postClicks.isDisposed()) {
+            postSub.dispose();
+        }
+        super.onDestroy();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -99,16 +110,5 @@ public class PostListFragment extends Fragment {
             intent.putExtra("POST_UUID", item.getUuid());
             startActivity(intent);
         });
-    }
-
-    @Override
-    public void onDestroy() {
-        if (postSub != null && !postSub.isDisposed()) {
-            postSub.dispose();
-        }
-        if (postClicks != null && !postClicks.isDisposed()) {
-            postSub.dispose();
-        }
-        super.onDestroy();
     }
 }

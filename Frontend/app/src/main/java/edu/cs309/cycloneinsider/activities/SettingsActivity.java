@@ -18,25 +18,23 @@ public class SettingsActivity extends InsiderActivity {
 
     }
 
-    public void openFeedBack(View view){
-
-        startActivity(new Intent(this,FeedbackActivity.class));
-
-    }
-
-    public void openNewPassword(View view){
-
-        startActivity(new Intent(this,NewPasswordActivity.class));
-
-    }
-
-
-
     @Override
     protected void onDestroy() {
-        if(subscribe != null && !subscribe.isDisposed()) {
+        if (subscribe != null && !subscribe.isDisposed()) {
             subscribe.dispose();
         }
         super.onDestroy();
+    }
+
+    public void openFeedBack(View view) {
+
+        startActivity(new Intent(this, FeedbackActivity.class));
+
+    }
+
+    public void openNewPassword(View view) {
+
+        startActivity(new Intent(this, NewPasswordActivity.class));
+
     }
 }

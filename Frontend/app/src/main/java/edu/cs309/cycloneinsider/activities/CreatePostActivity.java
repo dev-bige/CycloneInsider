@@ -23,17 +23,6 @@ public class CreatePostActivity extends InsiderActivity {
     private HashMap<String, Integer> dict = new HashMap<>();
     private Disposable subscribe;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_post);
-        ExplicitWordMap(); //initializes the explicit words in the Map
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        getWindow().setStatusBarColor(getResources().getColor(R.color.colorAccentDark));
-    }
-
-
     /**
      * Method is used to bold or un-bold text
      */
@@ -82,6 +71,93 @@ public class CreatePostActivity extends InsiderActivity {
                 return;
 
             }
+        }
+
+    }
+
+    private void ExplicitWordMap() {
+        //String of all the swear words we are using
+        String swearWordList = "anal\n" +
+                "anus\n" +
+                "arse\n" +
+                "ass\n" +
+                "ballsack\n" +
+                "balls\n" +
+                "bastard\n" +
+                "bitch\n" +
+                "biatch\n" +
+                "bloody\n" +
+                "blowjob\n" +
+                "bollock\n" +
+                "bollok\n" +
+                "boner\n" +
+                "boob\n" +
+                "bugger\n" +
+                "bum\n" +
+                "butt\n" +
+                "buttplug\n" +
+                "clitoris\n" +
+                "cock\n" +
+                "coon\n" +
+                "crap\n" +
+                "cunt\n" +
+                "damn\n" +
+                "dick\n" +
+                "dildo\n" +
+                "dyke\n" +
+                "fag\n" +
+                "feck\n" +
+                "fellate\n" +
+                "fellatio\n" +
+                "felching\n" +
+                "fuck\n" +
+                "fudgepacker\n" +
+                "flange\n" +
+                "Goddamn\n" +
+                "God damn\n" +
+                "hell\n" +
+                "homo\n" +
+                "jerk\n" +
+                "jizz\n" +
+                "knobend\n" +
+                "knob end\n" +
+                "labia\n" +
+                "lmao\n" +
+                "lmfao\n" +
+                "muff\n" +
+                "nigger\n" +
+                "nigga\n" +
+                "omg\n" +
+                "penis\n" +
+                "piss\n" +
+                "poop\n" +
+                "prick\n" +
+                "pube\n" +
+                "pussy\n" +
+                "queer\n" +
+                "scrotum\n" +
+                "sex\n" +
+                "shit\n" +
+                "sh1t\n" +
+                "slut\n" +
+                "smegma\n" +
+                "spunk\n" +
+                "tit\n" +
+                "tosser\n" +
+                "turd\n" +
+                "twat\n" +
+                "vagina\n" +
+                "wank\n" +
+                "whore\n" +
+                "wtf";
+
+        //puts all of the swear words into a HashMap
+        Scanner scan = new Scanner(swearWordList);
+        while (scan.hasNextLine()) {
+
+            String word = scan.nextLine();
+            dict.put(word, 1);
+
         }
 
     }
@@ -317,98 +393,21 @@ public class CreatePostActivity extends InsiderActivity {
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_create_post);
+        ExplicitWordMap(); //initializes the explicit words in the Map
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorAccentDark));
+    }
+
+    @Override
     protected void onDestroy() {
-        if(subscribe != null && !subscribe.isDisposed()) {
+        if (subscribe != null && !subscribe.isDisposed()) {
             subscribe.dispose();
         }
         super.onDestroy();
-    }
-
-    private void ExplicitWordMap() {
-        //String of all the swear words we are using
-        String swearWordList = "anal\n" +
-                "anus\n" +
-                "arse\n" +
-                "ass\n" +
-                "ballsack\n" +
-                "balls\n" +
-                "bastard\n" +
-                "bitch\n" +
-                "biatch\n" +
-                "bloody\n" +
-                "blowjob\n" +
-                "bollock\n" +
-                "bollok\n" +
-                "boner\n" +
-                "boob\n" +
-                "bugger\n" +
-                "bum\n" +
-                "butt\n" +
-                "buttplug\n" +
-                "clitoris\n" +
-                "cock\n" +
-                "coon\n" +
-                "crap\n" +
-                "cunt\n" +
-                "damn\n" +
-                "dick\n" +
-                "dildo\n" +
-                "dyke\n" +
-                "fag\n" +
-                "feck\n" +
-                "fellate\n" +
-                "fellatio\n" +
-                "felching\n" +
-                "fuck\n" +
-                "fudgepacker\n" +
-                "flange\n" +
-                "Goddamn\n" +
-                "God damn\n" +
-                "hell\n" +
-                "homo\n" +
-                "jerk\n" +
-                "jizz\n" +
-                "knobend\n" +
-                "knob end\n" +
-                "labia\n" +
-                "lmao\n" +
-                "lmfao\n" +
-                "muff\n" +
-                "nigger\n" +
-                "nigga\n" +
-                "omg\n" +
-                "penis\n" +
-                "piss\n" +
-                "poop\n" +
-                "prick\n" +
-                "pube\n" +
-                "pussy\n" +
-                "queer\n" +
-                "scrotum\n" +
-                "sex\n" +
-                "shit\n" +
-                "sh1t\n" +
-                "slut\n" +
-                "smegma\n" +
-                "spunk\n" +
-                "tit\n" +
-                "tosser\n" +
-                "turd\n" +
-                "twat\n" +
-                "vagina\n" +
-                "wank\n" +
-                "whore\n" +
-                "wtf";
-
-        //puts all of the swear words into a HashMap
-        Scanner scan = new Scanner(swearWordList);
-        while (scan.hasNextLine()) {
-
-            String word = scan.nextLine();
-            dict.put(word, 1);
-
-        }
-
     }
 
 }

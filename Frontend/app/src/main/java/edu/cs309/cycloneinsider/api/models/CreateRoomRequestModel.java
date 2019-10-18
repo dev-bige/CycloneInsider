@@ -4,8 +4,8 @@ public class CreateRoomRequestModel {
     String name;
     String description;
 
-    public void setName(String name) {
-        this.name = name;
+    public String getDescription() {
+        return description;
     }
 
     public void setDescription(String description) {
@@ -16,7 +16,7 @@ public class CreateRoomRequestModel {
         return name;
     }
 
-    public String getDescription() {
-        return description;
+    public void setName(String name) {
+        this.name = name;
     }
 }

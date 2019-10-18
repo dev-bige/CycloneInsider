@@ -22,23 +22,8 @@ import retrofit2.http.Path;
 
 
 public interface CycloneInsiderService {
-    @GET("users/current")
-    Observable<Response<InsiderUserModel>> currentUser();
-
-    @POST("login")
-    Observable<Response<Void>> login(@Body LoginRequestModel loginRequestModel);
-
-    @GET("users/memberships")
-    Observable<Response<List<MembershipModel>>> getMemberships();
-
-    @GET("posts/front-page")
-    Observable<Response<List<PostModel>>> getFrontPagePosts();
-
-    @POST("rooms/{uuid}/join")
-    Observable<Response<RoomMembershipModel>> joinRoom(@Path("uuid") String room_uuid);
-
-    @GET("rooms/all")
-    Observable<Response<List<RoomModel>>> getAllRooms();
+    @POST("posts/{uuid}/comments")
+    Observable<Response<Void>> createComment(@Path("uuid") String post_uuid, @Body CreateCommentRequestModel body);
 
     @POST("posts/front-page")
     Observable<Response<PostModel>> createFrontPagePost(@Body PostCreateRequestModel body);
@@ -46,12 +31,27 @@ public interface CycloneInsiderService {
     @POST("rooms")
     Observable<Response<RoomModel>> createRoom(@Body CreateRoomRequestModel body);
 
-    @POST("posts/{uuid}/comments")
-    Observable<Response<Void>> createComment(@Path("uuid") String post_uuid, @Body CreateCommentRequestModel body);
+    @GET("users/current")
+    Observable<Response<InsiderUserModel>> currentUser();
+
+    @GET("rooms/all")
+    Observable<Response<List<RoomModel>>> getAllRooms();
+
+    @GET("posts/front-page")
+    Observable<Response<List<PostModel>>> getFrontPagePosts();
+
+    @GET("users/memberships")
+    Observable<Response<List<MembershipModel>>> getMemberships();
 
     @GET("posts/{uuid}")
     Observable<Response<PostModel>> getPost(@Path("uuid") String post_uuid);
 
     @GET("posts/{uuid}/comments")
     Observable<Response<List<CommentModel>>> getPostComments(@Path("uuid") String post_uuid);
+
+    @POST("rooms/{uuid}/join")
+    Observable<Response<RoomMembershipModel>> joinRoom(@Path("uuid") String room_uuid);
+
+    @POST("login")
+    Observable<Response<Void>> login(@Body LoginRequestModel loginRequestModel);
 }

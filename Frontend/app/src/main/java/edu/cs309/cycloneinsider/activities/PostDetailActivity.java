@@ -37,6 +37,33 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private Disposable updateListDisposable;
 
+    @SuppressLint("CheckResult")
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.new_comment_button) {
+            AlertDialog alertDialog = null;
+
+            alertDialog = new MaterialAlertDialogBuilder(this)
+                    .setTitle("Comment")
+                    .setView(R.layout.dialog_comment_post)
+                    .setPositiveButton("Comment", (dialogInterface, i) -> {
+                        String comment = ((EditText) ((AlertDialog) dialogInterface).findViewById(R.id.comment_edit_text)).getText().toString();
+                        getInsiderApplication().getApiService().createComment(getIntent().getStringExtra("POST_UUID"), new CreateCommentRequestModel(comment))
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(commentModelResponse -> {
+                                    if (commentModelResponse.isSuccessful()) {
+                                        updateList();
+                                    }
+                                }, error -> Log.e(TAG, "onClick: ", error));
+                    })
+                    .setNegativeButton("Cancel", (dialogInterface, i) -> {
+                    })
+                    .create();
+
+            alertDialog.show();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +107,22 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
         updateList();
     }
 
+    @Override
+    protected void onDestroy() {
+        if (!disposables.isDisposed()) {
+            disposables.dispose();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void updateList() {
         if (this.updateListDisposable != null && !this.updateListDisposable.isDisposed()) {
             this.updateListDisposable.dispose();
@@ -96,48 +139,5 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
                         mAdapter.updateList(comments);
                     }
                 });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (!disposables.isDisposed()) {
-            disposables.dispose();
-        }
-        super.onDestroy();
-    }
-
-    @SuppressLint("CheckResult")
-    @Override
-    public void onClick(View view) {
-        if (view.getId() == R.id.new_comment_button) {
-            AlertDialog alertDialog = null;
-
-            alertDialog = new MaterialAlertDialogBuilder(this)
-                    .setTitle("Comment")
-                    .setView(R.layout.dialog_comment_post)
-                    .setPositiveButton("Comment", (dialogInterface, i) -> {
-                        String comment = ((EditText) ((AlertDialog) dialogInterface).findViewById(R.id.comment_edit_text)).getText().toString();
-                        getInsiderApplication().getApiService().createComment(getIntent().getStringExtra("POST_UUID"), new CreateCommentRequestModel(comment))
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(commentModelResponse -> {
-                                    if (commentModelResponse.isSuccessful()) {
-                                        updateList();
-                                    }
-                                }, error-> Log.e(TAG, "onClick: ", error));
-                    })
-                    .setNegativeButton("Cancel", (dialogInterface, i) -> {
-                    })
-                    .create();
-
-            alertDialog.show();
-        }
     }
 }

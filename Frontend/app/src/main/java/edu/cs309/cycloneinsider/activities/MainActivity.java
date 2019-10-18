@@ -38,68 +38,6 @@ public class MainActivity extends InsiderActivity {
     private SubMenu classrooms;
     private List<MembershipModel> memberships;
 
-    @SuppressLint("CheckResult")
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.open_main_page);
-        mDrawer = findViewById(R.id.drawer_layout);
-        toolbar = findViewById(R.id.toolbar);
-        navigationView = findViewById(R.id.nvView);
-
-        setSupportActionBar(toolbar);
-
-        drawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
-        drawerToggle.setDrawerIndicatorEnabled(true);
-        drawerToggle.syncState();
-
-
-        navigationView.setNavigationItemSelectedListener(menuItem -> {
-            selectDrawerItem(menuItem);
-            return true;
-        });
-
-        getInsiderApplication().getApiService().currentUser().observeOn(AndroidSchedulers.mainThread()).subscribe(userResponse -> {
-            ((TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_username)).setText(userResponse.body().username);
-        });
-
-        navigationView.getHeaderView(0).findViewById(R.id.sign_out).setOnClickListener(view -> {
-            getInsiderApplication().getSession().invalidate();
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-        });
-
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        this.loadRooms();
-    }
-
-    public void selectRoom(String uuid) {
-        int i;
-        for (i = 0; i < memberships.size(); i++) {
-            if (memberships.get(i).room.uuid.equals(uuid)) {
-                break;
-            }
-        }
-        selectDrawerItem(classrooms.getItem(i));
-    }
-
-
-    public void unselectAllItems() {
-        int size = navigationView.getMenu().size();
-        for (int i = 0; i < size; i++) {
-            navigationView.getMenu().getItem(i).setChecked(false);
-        }
-        size = classrooms.size();
-        for (int i = 0; i < size; i++) {
-            classrooms.getItem(i).setChecked(false);
-        }
-    }
-
     public MembershipModel getSelectedMembership(MenuItem menuItem) {
         int size = classrooms.size();
         for (int i = 0; i < size; i++) {
@@ -142,6 +80,73 @@ public class MainActivity extends InsiderActivity {
         });
     }
 
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        drawerToggle.syncState();
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.open_main_page);
+        mDrawer = findViewById(R.id.drawer_layout);
+        toolbar = findViewById(R.id.toolbar);
+        navigationView = findViewById(R.id.nvView);
+
+        setSupportActionBar(toolbar);
+
+        drawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
+        drawerToggle.setDrawerIndicatorEnabled(true);
+        drawerToggle.syncState();
+
+
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            selectDrawerItem(menuItem);
+            return true;
+        });
+
+        getInsiderApplication().getApiService().currentUser().observeOn(AndroidSchedulers.mainThread()).subscribe(userResponse -> {
+            ((TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_username)).setText(userResponse.body().username);
+        });
+
+        navigationView.getHeaderView(0).findViewById(R.id.sign_out).setOnClickListener(view -> {
+            getInsiderApplication().getSession().invalidate();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        });
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onPostCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        drawerToggle.syncState();
+        super.onPostCreate(savedInstanceState, persistentState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.loadRooms();
+    }
+
+    public void openDefaultThread(View view) {
+        Intent intent = new Intent(this, CreatePostActivity.class);
+        startActivity(intent);
+        return;
+    }
+
     public void selectDrawerItem(MenuItem menuItem) {
         unselectAllItems();
         Fragment fragment;
@@ -177,31 +182,25 @@ public class MainActivity extends InsiderActivity {
         mDrawer.closeDrawers();
     }
 
-    public void openDefaultThread(View view) {
-        Intent intent = new Intent(this, CreatePostActivity.class);
-        startActivity(intent);
-        return;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
+    public void selectRoom(String uuid) {
+        int i;
+        for (i = 0; i < memberships.size(); i++) {
+            if (memberships.get(i).room.uuid.equals(uuid)) {
+                break;
+            }
         }
-        return super.onOptionsItemSelected(item);
+        selectDrawerItem(classrooms.getItem(i));
     }
 
-    @Override
-    public void onPostCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        drawerToggle.syncState();
-        super.onPostCreate(savedInstanceState, persistentState);
-    }
-
-    @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        drawerToggle.syncState();
-        super.onConfigurationChanged(newConfig);
+    public void unselectAllItems() {
+        int size = navigationView.getMenu().size();
+        for (int i = 0; i < size; i++) {
+            navigationView.getMenu().getItem(i).setChecked(false);
+        }
+        size = classrooms.size();
+        for (int i = 0; i < size; i++) {
+            classrooms.getItem(i).setChecked(false);
+        }
     }
 
 }

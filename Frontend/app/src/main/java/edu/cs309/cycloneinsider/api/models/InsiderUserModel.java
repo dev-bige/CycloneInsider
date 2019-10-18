@@ -6,14 +6,6 @@ public class InsiderUserModel {
     public String lastName;
     public String username;
 
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
     public String getFirstName() {
         return firstName;
     }
@@ -36,5 +28,13 @@ public class InsiderUserModel {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

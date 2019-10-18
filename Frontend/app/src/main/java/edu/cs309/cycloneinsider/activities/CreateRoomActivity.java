@@ -14,16 +14,6 @@ public class CreateRoomActivity extends InsiderActivity implements View.OnClickL
     EditText description, title;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_room);
-        group = findViewById(R.id.private_room_selection);
-        description = findViewById(R.id.room_description);
-        title = findViewById(R.id.room_name);
-        findViewById(R.id.create_room_button).setOnClickListener(this);
-    }
-
-    @Override
     public void onClick(View view) {
         if (view.getId() == R.id.create_room_button) {
             //TODO add when private rooms are merged
@@ -37,5 +27,15 @@ public class CreateRoomActivity extends InsiderActivity implements View.OnClickL
                 }
             });
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_create_room);
+        group = findViewById(R.id.private_room_selection);
+        description = findViewById(R.id.room_description);
+        title = findViewById(R.id.room_name);
+        findViewById(R.id.create_room_button).setOnClickListener(this);
     }
 }
