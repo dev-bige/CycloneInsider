@@ -18,11 +18,11 @@
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:contentScrim="@color/colorPrimary"
-            app:collapsedTitleTextAppearance="@style/CollapsedTitleStyle"
+            app:contentScrim="@color/colorAccent"
             app:expandedTitleGravity="top"
             app:expandedTitleMarginStart="15dp"
             app:expandedTitleMarginTop="?attr/actionBarSize"
+            android:background="@drawable/collapsing_bar_divider"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <include

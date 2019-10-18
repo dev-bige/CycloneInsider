@@ -20,7 +20,7 @@
     <style name="AppThemeWhite" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="colorPrimary">#BDBDBD</item>
+        <item name="colorPrimary">#FFFFFF</item>
         <item name="colorPrimaryDark">#616161</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>

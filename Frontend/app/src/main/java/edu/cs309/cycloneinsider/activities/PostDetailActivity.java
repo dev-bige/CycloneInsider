@@ -52,9 +52,9 @@ public class PostDetailActivity extends InsiderActivity {
                 .subscribe(postModelResponse -> {
                     if (postModelResponse.isSuccessful()) {
                         PostModel post = postModelResponse.body();
-                        synchronized (PostDetailActivity.this) {
-                            updatePost(post);
-                        }
+                        collapsingToolbarLayout.setTitle(post.getTitle());
+                        content.setText(post.getContent());
+                        username.setText(post.getUser().username);
                     }
                 }));
 
@@ -70,17 +70,11 @@ public class PostDetailActivity extends InsiderActivity {
                 .getPostComments(getIntent().getStringExtra("POST_UUID"))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(commentsResponse -> {
-                    if(commentsResponse.isSuccessful()) {
+                    if (commentsResponse.isSuccessful()) {
                         List<CommentModel> comments = commentsResponse.body();
                         mAdapter.updateList(comments);
                     }
                 }));
-    }
-
-    public void updatePost(PostModel post) {
-        collapsingToolbarLayout.setTitle(post.getTitle());
-        content.setText(post.getContent());
-        username.setText(post.getUser().username);
     }
 
     @Override

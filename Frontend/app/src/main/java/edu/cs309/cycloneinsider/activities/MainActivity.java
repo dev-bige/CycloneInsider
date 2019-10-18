@@ -69,22 +69,13 @@ public class MainActivity extends InsiderActivity {
             finish();
         });
 
-        this.loadRooms();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (navigationView.getCheckedItem() == null) {
-            navigationView.setCheckedItem(R.id.nav_front_page);
-            selectDrawerItem(navigationView.getCheckedItem());
-        } else if (navigationView.getCheckedItem().getItemId() == R.id.nav_create_room) {
-            navigationView.setCheckedItem(R.id.nav_front_page);
-            selectDrawerItem(navigationView.getCheckedItem());
-        } else if (navigationView.getCheckedItem().getItemId() == R.id.settings) {
-            navigationView.setCheckedItem(R.id.nav_front_page);
-            selectDrawerItem(navigationView.getCheckedItem());
-        }
+        this.loadRooms();
     }
 
     public void selectRoom(String uuid) {
@@ -120,15 +111,16 @@ public class MainActivity extends InsiderActivity {
     }
 
     public void loadRooms(Action complete) {
-        if (classrooms == null) {
-            classrooms = navigationView.getMenu().addSubMenu("Classrooms");
-        } else {
-            classrooms.clear();
-        }
+
         getInsiderApplication().getApiService()
                 .getMemberships()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
+                    if (classrooms == null) {
+                        classrooms = navigationView.getMenu().addSubMenu("Classrooms");
+                    } else {
+                        classrooms.clear();
+                    }
                     if (response.code() == 200) {
                         Log.d(TAG, "onCreate: " + response);
 
@@ -160,9 +152,11 @@ public class MainActivity extends InsiderActivity {
                 break;
             case R.id.settings:
                 startActivity(new Intent(this, SettingsActivity.class));
+                mDrawer.closeDrawers();
                 return;
             case R.id.nav_create_room:
                 startActivity(new Intent(this, CreateRoomActivity.class));
+                mDrawer.closeDrawers();
                 return;
             case R.id.nav_join_room:
                 fragment = new JoinRoomFragment();
