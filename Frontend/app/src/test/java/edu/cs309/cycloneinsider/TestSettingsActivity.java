@@ -18,7 +18,7 @@ import edu.cs309.cycloneinsider.activities.SettingsActivity;
 import static org.junit.Assert.*;
 
 
-public class TestSettingsActivity extends InsiderActivity {
+public class TestSettingsActivity extends {
     private NewPasswordActivity test;
 
   //  @Mock
