@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,20 +12,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="16dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/back_to_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back" />
-
+            android:text="@string/back_button" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter your first name">
+            android:hint="@string/first_name_hint">
 
             <EditText
                 android:id="@+id/first_name"
@@ -36,7 +41,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter your last name">
+            android:hint="@string/last_name_hint">
 
             <EditText
                 android:id="@+id/last_name"
@@ -49,7 +54,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter your username">
+            android:hint="@string/username_hint">
 
             <EditText
                 android:id="@+id/username"
@@ -62,40 +67,46 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter your password">
+            android:hint="@string/password_hint">
 
             <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName" />
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Re-enter your password">
+            android:hint="@string/re_enter_password_hint">
 
             <EditText
                 android:id="@+id/password_valid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName" />
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/user_error"
             android:layout_width="match_parent"
-            android:layout_height="48dp" />
+            android:layout_height="10dp" />
+
+        <CheckBox
+            android:id="@+id/checkbox_prof"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/professor_valid_check"
+            android:onClick="onCheckboxClicked"/>
 
         <Button
             android:id="@+id/sign_in_new_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="Sign Up!" />
-
+            android:layout_gravity="end"
+            android:text="@string/sign_up" />
 
     </LinearLayout>
 

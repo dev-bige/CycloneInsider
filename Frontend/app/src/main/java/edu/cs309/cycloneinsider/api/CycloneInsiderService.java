@@ -13,6 +13,7 @@ import edu.cs309.cycloneinsider.api.models.PostCreateRequestModel;
 import edu.cs309.cycloneinsider.api.models.PostModel;
 import edu.cs309.cycloneinsider.api.models.RoomMembershipModel;
 import edu.cs309.cycloneinsider.api.models.RoomModel;
+import edu.cs309.cycloneinsider.api.models.SignUpRequestModel;
 import io.reactivex.Observable;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -52,6 +53,12 @@ public interface CycloneInsiderService {
     @POST("rooms/{uuid}/join")
     Observable<Response<RoomMembershipModel>> joinRoom(@Path("uuid") String room_uuid);
 
-    @POST("login")
-    Observable<Response<Void>> login(@Body LoginRequestModel loginRequestModel);
+    @GET("rooms/all")
+    Observable<Response<List<RoomModel>>> getAllRooms();
+
+    @POST("posts/front-page")
+    Observable<Response<PostModel>> createFrontPagePost(@Body PostCreateRequestModel body);
+
+    @POST("/users/sign-up")
+    Observable<Response<SignUpRequestModel>> signUp(@Body SignUpRequestModel signUpRequestModel);
 }
