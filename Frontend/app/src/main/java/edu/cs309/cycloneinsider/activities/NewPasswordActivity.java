@@ -1,9 +1,5 @@
 package edu.cs309.cycloneinsider.activities;
 
-<<<<<<< HEAD
-import androidx.appcompat.app.AppCompatActivity;
-=======
->>>>>>> 28ee2ee46693262c6c1eb7b925c2251d2199072f
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
