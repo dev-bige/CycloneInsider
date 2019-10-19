@@ -57,14 +57,13 @@ public class PostController extends BaseController {
     }
 
 
-    @RequestMapping(value = "{favPost/{postUuid}", method = RequestMethod.POST)
+    @RequestMapping(value = "favPost/{postUuid}", method = RequestMethod.POST)
     public FavPost favorite_Post(@PathVariable("postUuid") UUID postUuid) {
         Optional<Post> post = postRepository.findById(postUuid);
         if (!post.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         FavPost favPost = new FavPost();
-        favPost.setUser(getCurrentUser());
         favPost.setPost(post.get());
 
 
@@ -89,10 +88,7 @@ public class PostController extends BaseController {
         return post;
     }
 
-    @RequestMapping(value = "favPost/{postUuid}", method = RequestMethod.GET)
-    public List<Post> getFavPosts(@PathVariable("postUuid") UUID postUuid) {
-        return postRepository.getPostsByRoom(postUuid);
-    }
+
 
     @RequestMapping(value = "{postUuid}", method = RequestMethod.DELETE)
     public void deletePost(@PathVariable("postUuid") UUID postUuid) {
