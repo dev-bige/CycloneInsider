@@ -41,7 +41,6 @@ public class NewPasswordActivity extends InsiderActivity {
 
         }
 
-        //TODO need to add changing password functionality
 
         subscribe = getInsiderApplication()
                 .getApiService()
