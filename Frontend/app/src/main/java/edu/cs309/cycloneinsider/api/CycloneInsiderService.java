@@ -53,6 +53,9 @@ public interface CycloneInsiderService {
     @GET("posts/{uuid}/comments")
     Observable<Response<List<CommentModel>>> getPostComments(@Path("uuid") String post_uuid);
 
+    @GET("posts/favPost/{postUuid}")
+    Observable<Response<List<PostModel>>> getFavoritePost();
+    
     @POST("rooms/{uuid}/join")
     Observable<Response<RoomMembershipModel>> joinRoom(@Path("uuid") String room_uuid);
 
