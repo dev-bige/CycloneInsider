@@ -61,4 +61,10 @@ public interface CycloneInsiderService {
 
     @POST("/users/sign-up")
     Observable<Response<SignUpRequestModel>> signUp(@Body SignUpRequestModel signUpRequestModel);
+
+    @GET("/rooms/{uuid}/posts")
+    Observable<Response<List<PostModel>>> getRoomPosts(@Path("uuid") String room_uuid);
+
+    @POST("/rooms/{uuid}/posts")
+    Observable<Response<PostModel>> createRoomPost(@Path("uuid") String room_uuid, @Body PostCreateRequestModel body);
 }
