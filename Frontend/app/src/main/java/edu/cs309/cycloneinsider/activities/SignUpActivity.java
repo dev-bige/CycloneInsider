@@ -115,7 +115,10 @@ public class SignUpActivity extends InsiderActivity {
                     if (signUpRequestModelResponse.isSuccessful()) {
                         startActivity(new Intent(this, MainActivity.class));
                         finish();
-                        signUpRequestModelResponse.body();
+                    }
+                    else {
+                        userError.setText("You are already a user!");
+                        userError.setVisibility(View.VISIBLE);
                     }
                 });
 
