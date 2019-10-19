@@ -2,6 +2,17 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
 
+    <string name="back_button">Back</string>
+    <string name="first_name_hint">Enter your first name</string>
+    <string name="last_name_hint">Enter your last name</string>
+    <string name="username_hint">Enter your username</string>
+    <string name="password_hint">Enter your password</string>
+    <string name="re_enter_password_hint">Re-enter your password</string>
+    <string name="professor_valid_check">I\'m a professor and would like to verify my account!</string>
+    <string name="sign_up">Sign Up!</string>
+
+
+
     <string name="app_name">Cyclone Insider</string>
     <string name="login_no_id_password">You must enter your Net ID and Password</string>
     <string name="login_no_id">You must enter your Net ID</string>
