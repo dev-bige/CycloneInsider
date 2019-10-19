@@ -3,6 +3,8 @@ package edu.cyclone.insider.controllers.user;
 import edu.cyclone.insider.controllers.BaseController;
 import edu.cyclone.insider.controllers.user.models.SignUpRequestModel;
 import edu.cyclone.insider.models.InsiderUser;
+import edu.cyclone.insider.models.RoomMembership;
+import edu.cyclone.insider.repos.RoomMembershipRepository;
 import edu.cyclone.insider.repos.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,16 +15,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @RestController()
 @RequestMapping("users")
 public class UserController extends BaseController {
 
     private PasswordEncoder passwordEncoder;
+    private RoomMembershipRepository roomMembershipRepository;
 
     @Autowired
-    public UserController(UsersRepository usersRepository, PasswordEncoder passwordEncoder) {
+    public UserController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, RoomMembershipRepository roomMembershipRepository) {
         super(usersRepository);
         this.passwordEncoder = passwordEncoder;
+        this.roomMembershipRepository = roomMembershipRepository;
+    }
+
+    @RequestMapping(value = "memberships", method = RequestMethod.GET)
+    public List<RoomMembership> getUserMemberships() {
+        return roomMembershipRepository.findUserMemberships(getCurrentUser().getUuid());
     }
 
     @RequestMapping(value = "current", method = RequestMethod.GET)

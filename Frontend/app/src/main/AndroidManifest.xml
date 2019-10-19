@@ -13,6 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".activities.CreateRoomActivity"
+            android:label="@string/title_activity_create_room"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".activities.PostDetailActivity" />
         <activity android:name=".activities.StartupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.SignUpActivity"></activity>
+        <activity android:name=".activities.SignUpActivity" />
         <activity
             android:name=".activities.MainActivity"
             android:parentActivityName=".activities.LoginActivity">
@@ -28,10 +34,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.LoginActivity" />
         </activity>
-        <activity android:name=".activities.LoginActivity">
-
-        </activity>
-        <activity android:name=".activities.DefaultForumActivity" />
+        <activity android:name=".activities.LoginActivity" />
+        <activity android:name=".activities.CreatePostActivity" />
+        <activity android:name=".activities.SettingsActivity" />
+        <activity android:name=".activities.FeedbackActivity" />
+        <activity android:name=".activities.NewPasswordActivity" />
         <activity android:name=".activities.SignUp" />
     </application>
 

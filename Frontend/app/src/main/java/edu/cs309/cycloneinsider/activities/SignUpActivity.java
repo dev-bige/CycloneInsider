@@ -30,6 +30,21 @@ public class SignUpActivity extends InsiderActivity {
     private boolean professorValidate;
     private Disposable subscribe;
 
+    /**
+     * checks to make sure only one word is entered but checking for a space
+     *
+     * @param userEntry
+     * @return true if name is valid
+     */
+    public boolean checkName(String userEntry) {
+        for (int i = 0; i < userEntry.length(); i++) {
+            if (userEntry.charAt(i) == ' ') {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,21 +145,6 @@ public class SignUpActivity extends InsiderActivity {
             subscribe.dispose();
         }
         super.onDestroy();
-    }
-
-    /**
-     * checks to make sure only one word is entered but checking for a space
-     *
-     * @param userEntry
-     * @return true if name is valid
-     */
-    public boolean checkName(String userEntry) {
-        for (int i = 0; i < userEntry.length(); i++) {
-            if (userEntry.charAt(i) == ' ') {
-                return false;
-            }
-        }
-        return true;
     }
 
     // username

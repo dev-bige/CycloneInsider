@@ -1,9 +1,12 @@
 package edu.cyclone.insider.controllers.room;
 
 import edu.cyclone.insider.controllers.BaseController;
+import edu.cyclone.insider.controllers.post.models.PostCreateRequestModel;
 import edu.cyclone.insider.controllers.room.models.CreateRoomRequestModel;
+import edu.cyclone.insider.models.Post;
 import edu.cyclone.insider.models.Room;
 import edu.cyclone.insider.models.RoomMembership;
+import edu.cyclone.insider.repos.PostRepository;
 import edu.cyclone.insider.repos.RoomMembershipRepository;
 import edu.cyclone.insider.repos.RoomRepository;
 import edu.cyclone.insider.repos.UsersRepository;
@@ -12,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,18 +25,16 @@ import java.util.UUID;
 public class RoomController extends BaseController {
     private final RoomRepository roomRepository;
     private final RoomMembershipRepository roomMembershipRepository;
+    private final PostRepository postRepository;
 
     @Autowired
-    public RoomController(UsersRepository usersRepository, RoomRepository roomRepository, RoomMembershipRepository roomMembershipRepository) {
+    public RoomController(UsersRepository usersRepository, RoomRepository roomRepository, RoomMembershipRepository roomMembershipRepository, PostRepository postRepository) {
         super(usersRepository);
         this.roomRepository = roomRepository;
         this.roomMembershipRepository = roomMembershipRepository;
+        this.postRepository = postRepository;
     }
 
-    @RequestMapping(value = "memberships", method = RequestMethod.GET)
-    public List<RoomMembership> getUserMemberships() {
-        return roomMembershipRepository.findUserMemberships(getCurrentUser().getUuid());
-    }
 
     @RequestMapping(value = "{uuid}/join", method = RequestMethod.POST)
     public RoomMembership joinRoom(@PathVariable("uuid") UUID room_uuid) {
@@ -69,6 +71,16 @@ public class RoomController extends BaseController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
+    @RequestMapping(value = "{roomUuid}/posts", method = RequestMethod.POST)
+    public Post postToRoom(@PathVariable("roomUuid") UUID roomUuid, @RequestBody PostCreateRequestModel request) {
+        return createPost(request, roomUuid);
+    }
+
+    @RequestMapping(value = "{roomUuid}/posts", method = RequestMethod.GET)
+    public List<Post> getRoomPosts(@PathVariable("roomUuid") UUID roomUuid) {
+        return postRepository.getPostsByRoom(roomUuid);
+    }
+
     @RequestMapping(value = "", method = RequestMethod.POST)
     public Room createRoom(@RequestBody CreateRoomRequestModel model) {
         Room room = new Room();
@@ -76,5 +88,34 @@ public class RoomController extends BaseController {
         room.setDescription(model.description);
         room = roomRepository.save(room);
         return room;
+    }
+
+    @RequestMapping(value = "{roomUuid}", method = RequestMethod.DELETE)
+    public void deleteRoom(@PathVariable("roomUuid") UUID roomUuid) {
+        Optional<Room> room = roomRepository.findById(roomUuid);
+        if (!room.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        roomRepository.deleteById(roomUuid);
+    }
+
+
+    private Post createPost(@RequestBody PostCreateRequestModel request, UUID roomUUid) {
+        Optional<Room> byId = null;
+        if (roomUUid != null) {
+            byId = roomRepository.findById(roomUUid);
+            if (!byId.isPresent()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            }
+        }
+        Post post = new Post();
+        post.setContent(request.content);
+         post.setRoom(roomUUid == null ? null : byId.get());
+        post.setUser(getCurrentUser());
+        post.setTags(request.tags);
+        post.setTitle(request.title);
+        post.setDate(new Date());
+        post = postRepository.save(post);
+        return post;
     }
 }

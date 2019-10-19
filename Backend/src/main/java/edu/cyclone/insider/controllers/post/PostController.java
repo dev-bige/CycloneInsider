@@ -7,6 +7,7 @@ package edu.cyclone.insider.controllers.post;
 
 import edu.cyclone.insider.controllers.BaseController;
 import edu.cyclone.insider.controllers.post.models.PostCreateRequestModel;
+import edu.cyclone.insider.models.FavPost;
 import edu.cyclone.insider.models.Post;
 import edu.cyclone.insider.models.Room;
 import edu.cyclone.insider.repos.PostRepository;
@@ -45,20 +46,37 @@ public class PostController extends BaseController {
         return createPost(request, null);
     }
 
-    @RequestMapping(value = "{roomUuid}", method = RequestMethod.POST)
-    public Post postToRoom(@PathVariable("roomUuid") UUID roomUuid, @RequestBody PostCreateRequestModel request) {
-        return createPost(request, roomUuid);
+
+    @RequestMapping(value = "{postUuid}", method = RequestMethod.GET)
+    public Post getPost(@PathVariable("postUuid") UUID postUuid) {
+        Optional<Post> post = postRepository.findById(postUuid);
+        if (!post.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return post.get();
     }
 
-    @RequestMapping(value = "{roomUuid}", method = RequestMethod.GET)
-    public List<Post> getRoomPosts(@PathVariable("roomUuid") UUID roomUuid) {
-        return postRepository.getPostsByRoom(roomUuid);
-    }
 
-    private Post createPost(@RequestBody PostCreateRequestModel request, UUID roomUUid) {
-        Optional<Room> byId = roomRepository.findById(roomUUid);
-            if (!byId.isPresent() && roomUUid != null) {
+    @RequestMapping(value = "{favPost/{postUuid}", method = RequestMethod.POST)
+    public FavPost favorite_Post(@PathVariable("postUuid") UUID postUuid) {
+        Optional<Post> post = postRepository.findById(postUuid);
+        if (!post.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        FavPost favPost = new FavPost();
+        favPost.setUser(getCurrentUser());
+        favPost.setPost(post.get());
+
+
+        return favPost;
+    }
+    private Post createPost(@RequestBody PostCreateRequestModel request, UUID roomUUid) {
+        Optional<Room> byId = null;
+        if (roomUUid != null) {
+            byId = roomRepository.findById(roomUUid);
+            if (!byId.isPresent()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            }
         }
         Post post = new Post();
         post.setContent(request.content);
@@ -70,7 +88,28 @@ public class PostController extends BaseController {
         post = postRepository.save(post);
         return post;
     }
+
+    @RequestMapping(value = "favPost/{postUuid}", method = RequestMethod.GET)
+    public List<Post> getFavPosts(@PathVariable("postUuid") UUID postUuid) {
+        return postRepository.getPostsByRoom(postUuid);
+    }
+
+    @RequestMapping(value = "{postUuid}", method = RequestMethod.DELETE)
+    public void deletePost(@PathVariable("postUuid") UUID postUuid) {
+        Optional<Post> post = postRepository.findById(postUuid);
+        if (!post.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        postRepository.deleteById(postUuid);
+    }
+
+
+
+
+
+
 }
+
 
 
 
