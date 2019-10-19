@@ -19,7 +19,6 @@ import java.util.List;
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.activities.adapters.CommentsListAdapter;
 import edu.cs309.cycloneinsider.api.models.CommentModel;
-import edu.cs309.cycloneinsider.api.models.FavPostModel;
 import edu.cs309.cycloneinsider.api.models.PostModel;
 import edu.cs309.cycloneinsider.fragments.adapters.PostListRecyclerViewAdapter;
 import io.reactivex.android.schedulers.AndroidSchedulers;

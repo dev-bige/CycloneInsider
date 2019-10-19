@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.cs309.cycloneinsider.R;
-import edu.cs309.cycloneinsider.api.models.FavPostModel;
+import edu.cs309.cycloneinsider.api.models.PostModel;
 import edu.cs309.cycloneinsider.fragments.adapters.PostListRecyclerViewAdapter;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -21,7 +21,7 @@ public class FavoritePostActivity extends InsiderActivity  {
     LinearLayoutManager layoutManager;
     PostListRecyclerViewAdapter mAdapter;
     TextView post, room;
-    private List<FavPostModel> listFavPostModel = new ArrayList<>();
+    private List<PostModel> listFavPostModel = new ArrayList<>();
     private CompositeDisposable disposables = new CompositeDisposable();
     private Disposable clicks;
 
@@ -47,6 +47,7 @@ public class FavoritePostActivity extends InsiderActivity  {
                 .subscribe(favPostModelResponse -> {
                     if (favPostModelResponse.isSuccessful()) {
                         listFavPostModel = favPostModelResponse.body();
+                        mAdapter.updateList(listFavPostModel);
                     }
                 }
         ));

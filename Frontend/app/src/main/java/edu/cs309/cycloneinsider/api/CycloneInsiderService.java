@@ -4,7 +4,6 @@ package edu.cs309.cycloneinsider.api;
 import java.util.List;
 
 import edu.cs309.cycloneinsider.api.models.CommentModel;
-import edu.cs309.cycloneinsider.api.models.FavPostModel;
 import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
 import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
 import edu.cs309.cycloneinsider.api.models.MembershipModel;
@@ -49,5 +48,5 @@ public interface CycloneInsiderService {
     Observable<Response<List<CommentModel>>> getPostComments(@Path("uuid") String post_uuid);
 
     @GET("posts/favPost/{postUuid}")
-    Observable<Response<List<FavPostModel>>> getFavoritePost();
+    Observable<Response<List<PostModel>>> getFavoritePost();
 }

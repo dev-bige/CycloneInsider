@@ -147,13 +147,13 @@ public class MainActivity extends InsiderActivity {
             case R.id.settings:
                 startActivity(new Intent(this,SettingsActivity.class));
                 return;
-
-
+            case R.id.nav_fav_post:
+                startActivity(new Intent(this, FavoritePostActivity.class));
+                return;
             case R.id.nav_join_room:
                 fragment = new JoinRoomFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                 break;
-
             default: {
                 MembershipModel selectedMembership = getSelectedMembership(menuItem);
                 if (selectedMembership == null) {
