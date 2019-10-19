@@ -29,6 +29,9 @@ public interface CycloneInsiderService {
     @POST("posts/front-page")
     Observable<Response<PostModel>> createFrontPagePost(@Body PostCreateRequestModel body);
 
+    @POST("login")
+    Observable<Response<Void>> login(@Body LoginRequestModel loginRequestModel);
+
     @POST("rooms")
     Observable<Response<RoomModel>> createRoom(@Body CreateRoomRequestModel body);
 
@@ -52,12 +55,6 @@ public interface CycloneInsiderService {
 
     @POST("rooms/{uuid}/join")
     Observable<Response<RoomMembershipModel>> joinRoom(@Path("uuid") String room_uuid);
-
-    @GET("rooms/all")
-    Observable<Response<List<RoomModel>>> getAllRooms();
-
-    @POST("posts/front-page")
-    Observable<Response<PostModel>> createFrontPagePost(@Body PostCreateRequestModel body);
 
     @POST("/users/sign-up")
     Observable<Response<SignUpRequestModel>> signUp(@Body SignUpRequestModel signUpRequestModel);
