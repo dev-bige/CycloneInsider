@@ -54,4 +54,7 @@ public interface CycloneInsiderService {
 
     @POST("login")
     Observable<Response<Void>> login(@Body LoginRequestModel loginRequestModel);
+
+//    @GET(users/myPost)
+    Observable<Response<List<PostModel>>> getMyPost(@Path(("uuid")) String user_uuid);
 }
