@@ -1,11 +1,11 @@
 package edu.cs309.cycloneinsider.activities;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-public class FavoritePostActivity extends InsiderActivity  {
+public class FavoritePostActivity extends InsiderActivity {
     LinearLayoutManager layoutManager;
     PostListRecyclerViewAdapter mAdapter;
     TextView post, room;
@@ -45,12 +45,12 @@ public class FavoritePostActivity extends InsiderActivity  {
                 .getFavoritePost()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(favPostModelResponse -> {
-                    if (favPostModelResponse.isSuccessful()) {
-                        listFavPostModel = favPostModelResponse.body();
-                        mAdapter.updateList(listFavPostModel);
-                    }
-                }
-        ));
+                            if (favPostModelResponse.isSuccessful()) {
+                                listFavPostModel = favPostModelResponse.body();
+                                mAdapter.updateList(listFavPostModel);
+                            }
+                        }
+                ));
 
         clicks = mAdapter.getItemClicks().subscribe(item -> {
             Intent intent = new Intent(this, PostDetailActivity.class);

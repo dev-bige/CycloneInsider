@@ -8,10 +8,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.concurrent.TimeUnit;
-
 import edu.cs309.cycloneinsider.R;
-import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
 import edu.cs309.cycloneinsider.api.models.SignUpRequestModel;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -62,12 +59,7 @@ public class SignUpActivity extends InsiderActivity {
     public void onCheckboxClicked(View view) {
         boolean checked = ((CheckBox) view).isChecked();
 
-        if (checked) {
-            professorValidate = true;
-        }
-        else {
-            professorValidate = false;
-        }
+        professorValidate = checked;
     }
 
     public void onSignUpClicked(View view) {
@@ -130,8 +122,7 @@ public class SignUpActivity extends InsiderActivity {
                     if (signUpRequestModelResponse.isSuccessful()) {
                         startActivity(new Intent(this, MainActivity.class));
                         finish();
-                    }
-                    else {
+                    } else {
                         userError.setText("You are already a user!");
                         userError.setVisibility(View.VISIBLE);
                     }
@@ -141,7 +132,7 @@ public class SignUpActivity extends InsiderActivity {
 
     @Override
     protected void onDestroy() {
-        if(subscribe != null && !subscribe.isDisposed()) {
+        if (subscribe != null && !subscribe.isDisposed()) {
             subscribe.dispose();
         }
         super.onDestroy();
