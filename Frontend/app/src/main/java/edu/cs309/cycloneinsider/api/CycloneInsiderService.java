@@ -4,6 +4,8 @@ package edu.cs309.cycloneinsider.api;
 import java.util.List;
 
 import edu.cs309.cycloneinsider.api.models.CommentModel;
+import edu.cs309.cycloneinsider.api.models.CreateCommentRequestModel;
+import edu.cs309.cycloneinsider.api.models.CreateRoomRequestModel;
 import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
 import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
 import edu.cs309.cycloneinsider.api.models.MembershipModel;
@@ -11,6 +13,7 @@ import edu.cs309.cycloneinsider.api.models.PostCreateRequestModel;
 import edu.cs309.cycloneinsider.api.models.PostModel;
 import edu.cs309.cycloneinsider.api.models.RoomMembershipModel;
 import edu.cs309.cycloneinsider.api.models.RoomModel;
+import edu.cs309.cycloneinsider.api.models.SignUpRequestModel;
 import io.reactivex.Observable;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -20,26 +23,29 @@ import retrofit2.http.Path;
 
 
 public interface CycloneInsiderService {
-    @GET("/users/current")
-    Observable<Response<InsiderUserModel>> currentUser();
+    @POST("posts/{uuid}/comments")
+    Observable<Response<Void>> createComment(@Path("uuid") String post_uuid, @Body CreateCommentRequestModel body);
+
+    @POST("posts/front-page")
+    Observable<Response<PostModel>> createFrontPagePost(@Body PostCreateRequestModel body);
 
     @POST("login")
     Observable<Response<Void>> login(@Body LoginRequestModel loginRequestModel);
 
-    @GET("/users/memberships")
-    Observable<Response<List<MembershipModel>>> getMemberships();
+    @POST("rooms")
+    Observable<Response<RoomModel>> createRoom(@Body CreateRoomRequestModel body);
 
-    @GET("posts/front-page")
-    Observable<Response<List<PostModel>>> getFrontPagePosts();
-
-    @POST("rooms/{uuid}/join")
-    Observable<Response<RoomMembershipModel>> joinRoom(@Path("uuid") String room_uuid);
+    @GET("users/current")
+    Observable<Response<InsiderUserModel>> currentUser();
 
     @GET("rooms/all")
     Observable<Response<List<RoomModel>>> getAllRooms();
 
-    @POST("posts/front-page")
-    Observable<Response<PostModel>> createFrontPagePost(@Body PostCreateRequestModel body);
+    @GET("posts/front-page")
+    Observable<Response<List<PostModel>>> getFrontPagePosts();
+
+    @GET("users/memberships")
+    Observable<Response<List<MembershipModel>>> getMemberships();
 
     @GET("posts/{uuid}")
     Observable<Response<PostModel>> getPost(@Path("uuid") String post_uuid);
@@ -49,4 +55,10 @@ public interface CycloneInsiderService {
 
     @GET("posts/favPost/{postUuid}")
     Observable<Response<List<PostModel>>> getFavoritePost();
+    
+    @POST("rooms/{uuid}/join")
+    Observable<Response<RoomMembershipModel>> joinRoom(@Path("uuid") String room_uuid);
+
+    @POST("/users/sign-up")
+    Observable<Response<SignUpRequestModel>> signUp(@Body SignUpRequestModel signUpRequestModel);
 }

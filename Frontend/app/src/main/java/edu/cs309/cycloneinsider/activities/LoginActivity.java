@@ -28,6 +28,13 @@ public class LoginActivity extends InsiderActivity {
         signUpButton.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, SignUpActivity.class)));
     }
 
+    @Override
+    protected void onDestroy() {
+        if (loginSub != null && !loginSub.isDisposed()) {
+            loginSub.dispose();
+        }
+        super.onDestroy();
+    }
 
     public void openMainPage(View view) {
         EditText netID = findViewById(R.id.net_id); //finds the user name in netID box by ID
@@ -76,13 +83,5 @@ public class LoginActivity extends InsiderActivity {
 
                     findViewById(R.id.progress_bar).setVisibility(View.GONE);
                 });
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (loginSub != null && !loginSub.isDisposed()) {
-            loginSub.dispose();
-        }
-        super.onDestroy();
     }
 }

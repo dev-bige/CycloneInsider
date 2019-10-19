@@ -5,14 +5,6 @@ public class RoomMembershipModel {
     RoomModel room;
     InsiderUserModel user;
 
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
     public RoomModel getRoom() {
         return room;
     }
@@ -27,5 +19,13 @@ public class RoomMembershipModel {
 
     public void setUser(InsiderUserModel user) {
         this.user = user;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

@@ -90,6 +90,16 @@ public class RoomController extends BaseController {
         return room;
     }
 
+    @RequestMapping(value = "{roomUuid}", method = RequestMethod.DELETE)
+    public void deleteRoom(@PathVariable("roomUuid") UUID roomUuid) {
+        Optional<Room> room = roomRepository.findById(roomUuid);
+        if (!room.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        roomRepository.deleteById(roomUuid);
+    }
+
+
     private Post createPost(@RequestBody PostCreateRequestModel request, UUID roomUUid) {
         Optional<Room> byId = null;
         if (roomUUid != null) {

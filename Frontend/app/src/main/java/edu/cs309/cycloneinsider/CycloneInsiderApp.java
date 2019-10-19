@@ -18,10 +18,27 @@ public class CycloneInsiderApp extends Application {
     private Session session;
     private CycloneInsiderService apiService;
 
+    public CycloneInsiderService getApiService() {
+        if (apiService == null) {
+            apiService = provideRetrofit(baseUrl).create(CycloneInsiderService.class);
+        }
+        return apiService;
+    }
+
     public Session getSession() {
         if (session == null) {
             session = new Session() {
                 SharedPreferences preferences = getSharedPreferences("CycloneInsiderPrefs", 0);
+
+                @Override
+                public String getToken() {
+                    return preferences.getString("token", null);
+                }
+
+                @Override
+                public void invalidate() {
+                    preferences.edit().putString("token", null).apply();
+                }
 
                 @Override
                 public boolean isLoggedIn() {
@@ -32,36 +49,9 @@ public class CycloneInsiderApp extends Application {
                 public void saveToken(String token) {
                     preferences.edit().putString("token", token).apply();
                 }
-
-                @Override
-                public String getToken() {
-                    return preferences.getString("token", null);
-                }
-
-
-                @Override
-                public void invalidate() {
-                    preferences.edit().putString("token", null).apply();
-                }
             };
         }
         return session;
-    }
-
-    public CycloneInsiderService getApiService() {
-        if (apiService == null) {
-            apiService = provideRetrofit(baseUrl).create(CycloneInsiderService.class);
-        }
-        return apiService;
-    }
-
-    private Retrofit provideRetrofit(String url) {
-        return new Retrofit.Builder()
-                .baseUrl(url)
-                .client(provideOkHttpClient())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
     }
 
     private OkHttpClient provideOkHttpClient() {
@@ -76,5 +66,14 @@ public class CycloneInsiderApp extends Application {
         okhttpClientBuilder.addInterceptor(new TokenRenewInterceptor(getSession()));
         okhttpClientBuilder.addInterceptor(new AuthorizationInterceptor(getSession()));
         return okhttpClientBuilder.build();
+    }
+
+    private Retrofit provideRetrofit(String url) {
+        return new Retrofit.Builder()
+                .baseUrl(url)
+                .client(provideOkHttpClient())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
     }
 }

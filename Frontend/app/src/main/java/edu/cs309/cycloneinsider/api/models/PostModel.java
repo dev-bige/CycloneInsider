@@ -19,22 +19,6 @@ public class PostModel {
         this.content = content;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public InsiderUserModel getUser() {
-        return user;
-    }
-
-    public void setUser(InsiderUserModel user) {
-        this.user = user;
-    }
-
     public RoomModel getRoom() {
         return room;
     }
@@ -49,6 +33,22 @@ public class PostModel {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public InsiderUserModel getUser() {
+        return user;
+    }
+
+    public void setUser(InsiderUserModel user) {
+        this.user = user;
     }
 
     public String getUuid() {
