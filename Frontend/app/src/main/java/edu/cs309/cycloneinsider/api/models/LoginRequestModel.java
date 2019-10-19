@@ -4,6 +4,14 @@ public class LoginRequestModel {
     public String username;
     public String password;
 
+    public LoginRequestModel(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public LoginRequestModel() {
+    }
+
     public String getPassword() {
         return password;
     }
