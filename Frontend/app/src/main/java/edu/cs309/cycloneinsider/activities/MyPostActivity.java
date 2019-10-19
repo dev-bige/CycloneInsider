@@ -11,40 +11,41 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.cs309.cycloneinsider.CycloneInsiderApp;
 import edu.cs309.cycloneinsider.R;
+import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
 import edu.cs309.cycloneinsider.api.models.PostModel;
 import edu.cs309.cycloneinsider.fragments.MyPostListFragment;
 import edu.cs309.cycloneinsider.fragments.adapters.PostListRecyclerViewAdapter;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import retrofit2.Response;
 
 public class MyPostActivity extends InsiderActivity {
-    private Disposable disposable;
+    private Disposable subscribe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_post);
 
-        String[] UUID = new String[1];
+        final String[] userUUID = new String[1];
 
-        disposable =
-                (getInsiderApplication()
+        subscribe = getInsiderApplication()
                 .getApiService()
                 .currentUser()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(insiderUserModelResponse -> {
-                    if (insiderUserModelResponse.isSuccessful()) {
-                        UUID[0] = insiderUserModelResponse.body().getUuid();
+                .subscribe(response -> {
+                    if (response.isSuccessful()) {
+                        userUUID[0] = response.body().getUuid();
                     }
-                }));
+                });
 
-        Fragment fragment = MyPostListFragment.newInstance(UUID[0]);
+
+        Fragment fragment = MyPostListFragment.newInstance(userUUID[0]);
         fragment.setArguments(getIntent().getExtras());
         getSupportFragmentManager().beginTransaction().add(R.id.container, fragment).commit();
-
-
     }
 }
