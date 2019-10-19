@@ -44,7 +44,10 @@
                 android:layout_height="55dp"
                 android:layout_gravity="right"
                 android:onClick="sendEmail"
-                android:text="Send Email" />
+                android:text="Send Email"
+                android:backgroundTint="#FFD600"
+                />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>
