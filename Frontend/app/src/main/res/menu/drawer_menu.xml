@@ -10,6 +10,10 @@
             android:icon="@drawable/ic_add_circle_outline_black_24dp"
             android:title="Join Room" />
         <item
+            android:id="@+id/nav_fav_post"
+            android:icon="@drawable/ic_add_circle_outline_black_24dp"
+            android:title="Favorite Post" />
+        <item
             android:id="@+id/nav_create_room"
             android:icon="@drawable/ic_edit_black_24dp"
             android:title="Create Room" />
