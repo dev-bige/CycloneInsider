@@ -65,6 +65,7 @@ public class PostController extends BaseController {
         }
         FavPost favPost = new FavPost();
         favPost.setPost(post.get());
+        favPost.setUser(getCurrentUser());
 
 
         return favPost;
