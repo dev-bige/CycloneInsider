@@ -1,24 +1,31 @@
 package edu.cs309.cycloneinsider.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import edu.cs309.cycloneinsider.R;
+import edu.cs309.cycloneinsider.api.models.SignUpRequestModel;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 
 /*
 Eventually send info to server
 Things to add
+-add
 -check for possible explicit username
 -assign uuid to user randomly
 -if someone enters both a wrong name and an invalid password possibility
  */
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends InsiderActivity {
+
+    private boolean professorValidate;
+    private Disposable subscribe;
 
     /**
      * checks to make sure only one word is entered but checking for a space
@@ -40,10 +47,19 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        Button backButton = findViewById(R.id.back_to_login);
+        CheckBox prof = findViewById(R.id.checkbox_prof);
+        prof.setOnClickListener(this::onCheckboxClicked);
 
+        Button backButton = findViewById(R.id.back_to_login);
         backButton.setOnClickListener(view -> finish());
         findViewById(R.id.sign_in_new_user).setOnClickListener(this::onSignUpClicked);
+    }
+
+
+    public void onCheckboxClicked(View view) {
+        boolean checked = ((CheckBox) view).isChecked();
+
+        professorValidate = checked;
     }
 
     public void onSignUpClicked(View view) {
@@ -85,6 +101,41 @@ public class SignUpActivity extends AppCompatActivity {
             userError.setVisibility(View.VISIBLE);
             return;
         }
+
+        // checks if checkbox is checked
+//        if (professorValidate) {
+//            // send verification email
+//            return;
+//        }
+
+        SignUpRequestModel signUpRequestModel = new SignUpRequestModel();
+        signUpRequestModel.firstName = firstName;
+        signUpRequestModel.lastName = lastName;
+        signUpRequestModel.username = userNameText;
+        signUpRequestModel.password = password;
+
+        subscribe = getInsiderApplication()
+                .getApiService()
+                .signUp(signUpRequestModel)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(signUpRequestModelResponse -> {
+                    if (signUpRequestModelResponse.isSuccessful()) {
+                        startActivity(new Intent(this, MainActivity.class));
+                        finish();
+                    } else {
+                        userError.setText("You are already a user!");
+                        userError.setVisibility(View.VISIBLE);
+                    }
+                });
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (subscribe != null && !subscribe.isDisposed()) {
+            subscribe.dispose();
+        }
+        super.onDestroy();
     }
 
     // username

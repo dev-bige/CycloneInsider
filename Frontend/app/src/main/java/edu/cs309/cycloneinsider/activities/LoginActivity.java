@@ -9,8 +9,10 @@ import android.widget.TextView;
 
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import retrofit2.Response;
 
 public class LoginActivity extends InsiderActivity {
     private static final String TAG = "LoginActivity";
@@ -63,25 +65,45 @@ public class LoginActivity extends InsiderActivity {
         LoginRequestModel loginRequestModel = new LoginRequestModel();
         loginRequestModel.setPassword(passwordString);
         loginRequestModel.setUsername(netIDString);
-        loginSub = getInsiderApplication()
+        login(loginRequestModel, new Observer<Response<Void>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                loginSub = d;
+            }
+
+            @Override
+            public void onNext(Response<Void> voidResponse) {
+                //Successful login!
+                if (getInsiderApplication().getSession().isLoggedIn()) {
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+                findViewById(R.id.progress_bar).setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                //Login error!
+                hiddenText.setText(R.string.login_invalid_login);
+                hiddenText.setVisibility(View.VISIBLE);
+
+                findViewById(R.id.progress_bar).setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
+
+    public void login(LoginRequestModel loginRequestModel, Observer<Response<Void>> handler) {
+        getInsiderApplication()
                 .getApiService()
                 .login(loginRequestModel)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    //Successful login!
-                    if (getInsiderApplication().getSession().isLoggedIn()) {
-                        Intent intent = new Intent(this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-
-                    findViewById(R.id.progress_bar).setVisibility(View.GONE);
-                }, error -> {
-                    //Login error!
-                    hiddenText.setText(R.string.login_invalid_login);
-                    hiddenText.setVisibility(View.VISIBLE);
-
-                    findViewById(R.id.progress_bar).setVisibility(View.GONE);
-                });
+                .subscribe(handler);
     }
 }

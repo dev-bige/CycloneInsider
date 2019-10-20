@@ -16,7 +16,7 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
     List<Post> getFrontPagePosts();
 
 
-    @Query(value = "SELECT * from post p where p.room_uuid is :room_uuid", nativeQuery = true)
+    @Query(value = "SELECT * from post p where p.room_uuid = :room_uuid", nativeQuery = true)
     List<Post> getPostsByRoom(@Param("room_uuid") UUID room_uuid);
 
     @Query(value = "SELECT * from post p where p.post_uuid is !NULL", nativeQuery = true)
