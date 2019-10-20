@@ -24,6 +24,7 @@ import java.util.List;
 
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.models.MembershipModel;
+import edu.cs309.cycloneinsider.fragments.FavoritePostFragment;
 import edu.cs309.cycloneinsider.fragments.JoinRoomFragment;
 import edu.cs309.cycloneinsider.fragments.PostListFragment;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -164,9 +165,9 @@ public class MainActivity extends InsiderActivity {
                 mDrawer.closeDrawers();
                 return;
             case R.id.nav_fav_post:
-                startActivity(new Intent(this, FavoritePostActivity.class));
-                mDrawer.closeDrawers();
-                return;
+                fragment = new FavoritePostFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+                break;
             case R.id.nav_join_room:
                 fragment = new JoinRoomFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();

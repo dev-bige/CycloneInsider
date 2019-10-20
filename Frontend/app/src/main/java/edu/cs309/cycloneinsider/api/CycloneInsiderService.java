@@ -6,6 +6,7 @@ import java.util.List;
 import edu.cs309.cycloneinsider.api.models.CommentModel;
 import edu.cs309.cycloneinsider.api.models.CreateCommentRequestModel;
 import edu.cs309.cycloneinsider.api.models.CreateRoomRequestModel;
+import edu.cs309.cycloneinsider.api.models.FavoritePostModel;
 import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
 import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
 import edu.cs309.cycloneinsider.api.models.MembershipModel;
@@ -53,8 +54,8 @@ public interface CycloneInsiderService {
     @GET("posts/{uuid}/comments")
     Observable<Response<List<CommentModel>>> getPostComments(@Path("uuid") String post_uuid);
 
-    @GET("posts/favPost/{postUuid}")
-    Observable<Response<List<PostModel>>> getFavoritePost();
+    @GET("users/current/favorite-posts")
+    Observable<Response<List<FavoritePostModel>>> getFavoritePost();
 
     @POST("rooms/{uuid}/join")
     Observable<Response<RoomMembershipModel>> joinRoom(@Path("uuid") String room_uuid);

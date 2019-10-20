@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +19,7 @@ import java.util.List;
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.activities.InsiderActivity;
 import edu.cs309.cycloneinsider.activities.PostDetailActivity;
-import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
+import edu.cs309.cycloneinsider.api.models.FavoritePostModel;
 import edu.cs309.cycloneinsider.api.models.PostModel;
 import edu.cs309.cycloneinsider.fragments.adapters.PostListRecyclerViewAdapter;
 import io.reactivex.Observable;
@@ -32,21 +33,7 @@ public class FavoritePostFragment extends Fragment {
     private Disposable favPostSub, favPostClicks;
     private LinearLayoutManager layoutManager;
     private PostListRecyclerViewAdapter postListRecyclerViewAdapter;
-    private TextView room,post;
-
-    public static FavoritePostFragment newInstance(String user) {
-        FavoritePostFragment favoritePostFragment = new FavoritePostFragment();
-        Bundle args = new Bundle();
-        args.putString(USER_UUID, user);
-        favoritePostFragment.setArguments(args);
-        return favoritePostFragment;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        userUUID = getArguments().getString(USER_UUID);
-    }
+    private TextView room, post;
 
     @Nullable
     @Override
@@ -67,6 +54,7 @@ public class FavoritePostFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
@@ -78,19 +66,31 @@ public class FavoritePostFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(postListRecyclerViewAdapter);
 
-        Observable<Response<List<PostModel>>> favPostObservable = null;
+        Observable<Response<List<FavoritePostModel>>> favPostObservable = null;
 
         favPostObservable = ((InsiderActivity) getActivity())
                 .getInsiderApplication()
                 .getApiService()
                 .getFavoritePost();
 
-        favPostSub = favPostObservable.observeOn(AndroidSchedulers.mainThread()).subscribe(favPostResponse -> {
-            if (favPostResponse.isSuccessful()) {
-                List<PostModel> favPostModelList = favPostResponse.body();
-                postListRecyclerViewAdapter.updateList(favPostModelList);
-            }
-        });
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+        favPostSub = favPostObservable
+                .filter(Response::isSuccessful)
+                .map(Response::body)
+                .concatMap(Observable::fromIterable)
+                .map(FavoritePostModel::getPost)
+                .toList()
+                .map(Response::success)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(favPostResponse -> {
+                    if (favPostResponse.isSuccessful()) {
+                        List<PostModel> favPostModelList = favPostResponse.body();
+                        postListRecyclerViewAdapter.updateList(favPostModelList);
+                    }
+                });
 
 
         favPostClicks = postListRecyclerViewAdapter.getItemClicks().subscribe(item -> {
