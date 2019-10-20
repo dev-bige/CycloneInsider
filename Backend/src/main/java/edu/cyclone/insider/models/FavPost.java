@@ -31,4 +31,11 @@ import java.util.List;
             this.post = post;
 
         }
+        public Date getDate() {
+            return date;
+        }
+
+        public void setDate(Date date) {
+            this.date = date;
+        }
     }

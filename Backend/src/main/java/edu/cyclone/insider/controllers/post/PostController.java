@@ -10,6 +10,7 @@ import edu.cyclone.insider.controllers.post.models.PostCreateRequestModel;
 import edu.cyclone.insider.models.FavPost;
 import edu.cyclone.insider.models.Post;
 import edu.cyclone.insider.models.Room;
+import edu.cyclone.insider.repos.FavPostRepository;
 import edu.cyclone.insider.repos.PostRepository;
 import edu.cyclone.insider.repos.RoomRepository;
 import edu.cyclone.insider.repos.UsersRepository;
@@ -28,6 +29,7 @@ import java.util.UUID;
 public class PostController extends BaseController {
     private PostRepository postRepository;
     private RoomRepository roomRepository;
+    private FavPostRepository favPostRepository;
 
     @Autowired
     public PostController(PostRepository postRepository, UsersRepository usersRepository, RoomRepository roomRepository) {
@@ -66,9 +68,11 @@ public class PostController extends BaseController {
         FavPost favPost = new FavPost();
         favPost.setPost(post.get());
         favPost.setUser(getCurrentUser());
-
-
+        favPost.setDate(new Date());
+        favPost= favPostRepository.save(favPost);
         return favPost;
+
+
     }
         private Post createPost(@RequestBody PostCreateRequestModel request, UUID roomUUid) {
         Optional<Room> byId = null;
