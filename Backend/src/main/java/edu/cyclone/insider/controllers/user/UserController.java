@@ -2,10 +2,8 @@ package edu.cyclone.insider.controllers.user;
 
 import edu.cyclone.insider.controllers.BaseController;
 import edu.cyclone.insider.controllers.user.models.SignUpRequestModel;
-import edu.cyclone.insider.models.InsiderUser;
-import edu.cyclone.insider.models.RoomMembership;
-import edu.cyclone.insider.repos.RoomMembershipRepository;
-import edu.cyclone.insider.repos.UsersRepository;
+import edu.cyclone.insider.models.*;
+import edu.cyclone.insider.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,17 +21,43 @@ public class UserController extends BaseController {
 
     private PasswordEncoder passwordEncoder;
     private RoomMembershipRepository roomMembershipRepository;
+    private FavPostRepository favPostRepository;
+    private CommentsRepository commentsRepository;
+    private PostRepository postRepository;
 
     @Autowired
-    public UserController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, RoomMembershipRepository roomMembershipRepository) {
+    public UserController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, RoomMembershipRepository roomMembershipRepository, FavPostRepository favPostRepository, CommentsRepository commentsRepository, PostRepository postRepository) {
         super(usersRepository);
         this.passwordEncoder = passwordEncoder;
         this.roomMembershipRepository = roomMembershipRepository;
+        this.favPostRepository = favPostRepository;
+        this.commentsRepository = commentsRepository;
+        this.postRepository = postRepository;
     }
 
     @RequestMapping(value = "memberships", method = RequestMethod.GET)
     public List<RoomMembership> getUserMemberships() {
         return roomMembershipRepository.findUserMemberships(getCurrentUser().getUuid());
+    }
+
+
+    @RequestMapping(value = "current/favorite-posts", method = RequestMethod.GET)
+    public List<FavPost> getFavPosts() {
+        return favPostRepository.findFavByUser(getCurrentUser().getUuid());
+    }
+
+
+    @RequestMapping(value = "current/users-comments", method = RequestMethod.GET)
+    public List<Comment> getMyComments() {
+        return commentsRepository.findCommentsByUser(getCurrentUser().getUuid());
+
+    }
+
+
+    @RequestMapping(value = "current/users-posts", method = RequestMethod.GET)
+    public List<Post> getMyPosts() {
+        return postRepository.findPostsByUser(getCurrentUser().getUuid());
+
     }
 
     @RequestMapping(value = "current", method = RequestMethod.GET)

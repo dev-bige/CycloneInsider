@@ -10,14 +10,19 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.common.base.Strings;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.models.PostCreateRequestModel;
+import edu.cs309.cycloneinsider.api.models.PostModel;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import retrofit2.Response;
 
 public class CreatePostActivity extends InsiderActivity {
     private HashMap<String, Integer> dict = new HashMap<>();
@@ -166,10 +171,9 @@ public class CreatePostActivity extends InsiderActivity {
      * Method is used to italicize or un-italicize
      */
     public void Italicize(View view) {
-
-        Switch mySwitch = findViewById(R.id.switchItalicize);
-        Switch mySwitchBold = findViewById(R.id.switchBold);
-        Switch mySwitchBAndI = findViewById(R.id.switchItalicizeBold);
+        CheckBox mySwitch = findViewById(R.id.switchItalicize);
+        CheckBox mySwitchBold = findViewById(R.id.switchBold);
+        CheckBox mySwitchBAndI = findViewById(R.id.switchItalicizeBold);
         EditText commentBox = findViewById(R.id.poster_comment);
         EditText title = findViewById(R.id.post_title);
         boolean isOn = mySwitch.isChecked();
@@ -372,9 +376,18 @@ public class CreatePostActivity extends InsiderActivity {
         postCreateRequestModel.title = title;
         postCreateRequestModel.tags = new ArrayList<>();
 
-        subscribe = getInsiderApplication()
-                .getApiService()
-                .createFrontPagePost(postCreateRequestModel)
+        Observable<Response<PostModel>> createPostObservable = Observable.empty();
+        if (Strings.isNullOrEmpty(getIntent().getStringExtra("ROOM_UUID"))) {
+            createPostObservable = getInsiderApplication()
+                    .getApiService()
+                    .createFrontPagePost(postCreateRequestModel);
+        } else {
+            createPostObservable = getInsiderApplication()
+                    .getApiService()
+                    .createRoomPost(getIntent().getStringExtra("ROOM_UUID"), postCreateRequestModel);
+        }
+
+        subscribe = createPostObservable
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(postModelResponse -> {
                     if (postModelResponse.isSuccessful()) {

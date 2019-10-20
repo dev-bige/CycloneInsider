@@ -6,6 +6,7 @@ import java.util.List;
 import edu.cs309.cycloneinsider.api.models.CommentModel;
 import edu.cs309.cycloneinsider.api.models.CreateCommentRequestModel;
 import edu.cs309.cycloneinsider.api.models.CreateRoomRequestModel;
+import edu.cs309.cycloneinsider.api.models.FavoritePostModel;
 import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
 import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
 import edu.cs309.cycloneinsider.api.models.MembershipModel;
@@ -50,6 +51,9 @@ public interface CycloneInsiderService {
     @GET("posts/{uuid}/comments")
     Observable<Response<List<CommentModel>>> getPostComments(@Path("uuid") String post_uuid);
 
+    @GET("users/current/favorite-posts")
+    Observable<Response<List<FavoritePostModel>>> getFavoritePost();
+
     @POST("rooms/{uuid}/join")
     Observable<Response<RoomMembershipModel>> joinRoom(@Path("uuid") String room_uuid);
 
@@ -59,7 +63,11 @@ public interface CycloneInsiderService {
     @POST("/users/sign-up")
     Observable<Response<SignUpRequestModel>> signUp(@Body SignUpRequestModel signUpRequestModel);
 
-
     @GET("users/current/user-posts")
     Observable<Response<List<PostModel>>> getMyPosts();
+    @GET("/rooms/{uuid}/posts")
+    Observable<Response<List<PostModel>>> getRoomPosts(@Path("uuid") String room_uuid);
+
+    @POST("/rooms/{uuid}/posts")
+    Observable<Response<PostModel>> createRoomPost(@Path("uuid") String room_uuid, @Body PostCreateRequestModel body);
 }

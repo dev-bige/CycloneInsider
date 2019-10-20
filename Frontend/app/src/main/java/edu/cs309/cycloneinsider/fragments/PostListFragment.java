@@ -83,7 +83,9 @@ public class PostListFragment extends Fragment {
 
 
         getView().findViewById(R.id.new_post_button).setOnClickListener(view1 -> {
-            startActivity(new Intent(getActivity(), CreatePostActivity.class));
+            Intent intent = new Intent(getActivity(), CreatePostActivity.class);
+            intent.putExtra("ROOM_UUID", roomUUID);
+            startActivity(intent);
         });
         Observable<Response<List<PostModel>>> postListObservable = null;
         //If the room uuid is null then we should get the front page posts.
@@ -91,20 +93,22 @@ public class PostListFragment extends Fragment {
             postListObservable = ((InsiderActivity) getActivity())
                     .getInsiderApplication()
                     .getApiService()
-                    .getFrontPagePosts()
-                    .observeOn(AndroidSchedulers.mainThread());
+                    .getFrontPagePosts();
         } else {
-            //TODO GET POSTS FOR ROOM UUID... for now, just have an empty steam so we don't crash.
-            postListObservable = Observable.empty();
+            postListObservable = ((InsiderActivity) getActivity())
+                    .getInsiderApplication()
+                    .getApiService()
+                    .getRoomPosts(roomUUID);
         }
 
-        postSub = postListObservable.subscribe(postsResponse -> {
+        postSub = postListObservable.observeOn(AndroidSchedulers.mainThread()).subscribe(postsResponse -> {
             if (postsResponse.isSuccessful()) {
                 List<PostModel> posts = postsResponse.body();
 
                 mAdapter.updateList(posts);
             }
         });
+
         postClicks = mAdapter.getItemClicks().subscribe(item -> {
             Intent intent = new Intent(getActivity(), PostDetailActivity.class);
             intent.putExtra("POST_UUID", item.getUuid());
