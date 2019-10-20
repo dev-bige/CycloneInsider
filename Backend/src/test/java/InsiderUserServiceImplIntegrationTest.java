@@ -36,17 +36,29 @@ public class InsiderUserServiceImplIntegrationTest {
         InsiderUser timmy = new InsiderUser();
         timmy.setUsername("LilTimTim");
 
+
         Mockito.when(usersRepository.findUserByUsername(timmy.getUsername()))
                 .thenReturn(timmy);
     }
 
     @Test
     public void whenValidName_thenUserShouldBeFound() {
-        InsiderUser timmy = new InsiderUser();
+        InsiderUser timmy= new InsiderUser() ;
         timmy.setUsername("LilTimTim");
         String username = "LilTimTim";
-        assertEquals(usersRepository.findUserByUsername(timmy.getUsername()).getUsername(), timmy.getUsername());
+        timmy.setFirstName("Lil");
+        timmy.setLastName("Tim");
+        String firstname="Lil";
+        String lastname="Tim";
+
         assertThat(timmy.getUsername())
                 .isEqualTo(username);
+
+        assertThat(timmy.getLastName())
+                .isEqualTo(lastname);
+
+
+        assertThat(timmy.getFirstName())
+                .isEqualTo(firstname);
     }
 }
