@@ -41,11 +41,11 @@ public class ExampleTest {
         }
         @Test
         public void whenValidName_thenUserShouldBeFound() {
-            InsiderUser alex = new InsiderUser() ;
-            alex.setUsername("LilTimTim");
+            InsiderUser timmy= new InsiderUser() ;
+            timmy.setUsername("LilTimTim");
             String username = "LilTimTim";
 
-            assertThat(alex.getUsername())
+            assertThat(timmy.getUsername())
                     .isEqualTo(username);
         }
     }
