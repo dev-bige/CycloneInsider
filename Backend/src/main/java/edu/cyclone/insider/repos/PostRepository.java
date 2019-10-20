@@ -1,5 +1,6 @@
 package edu.cyclone.insider.repos;
 
+import edu.cyclone.insider.models.Comment;
 import edu.cyclone.insider.models.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -22,7 +23,8 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
     @Query(value = "SELECT * from post p where p.post_uuid is !NULL", nativeQuery = true)
     List<Post> getPost();
 
-
+    @Query(value = "SELECT * from post p where p.user_uuid = :user_uuid", nativeQuery = true)
+    List<Post> findPostsByUser(@Param("user_uuid") UUID user_uuid);
 
 
 }
