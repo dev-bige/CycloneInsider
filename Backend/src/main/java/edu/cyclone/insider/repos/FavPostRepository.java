@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface FavPostRepository extends JpaRepository<FavPost, UUID> {
-    @Query(value = "SELECT * FROM fav_post f where f.user_uuid = :user_uuid", nativeQuery = true)
+    @Query(value = "SELECT * FROM fav_post f where f.user_uuid = :user_uuid order by f.date DESC", nativeQuery = true)
     List<FavPost> findFavByUser(@Param("user_uuid") UUID user_uuid);
 }
 
