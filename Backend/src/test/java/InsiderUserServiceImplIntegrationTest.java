@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 public class InsiderUserServiceImplIntegrationTest {
@@ -44,7 +45,7 @@ public class InsiderUserServiceImplIntegrationTest {
         InsiderUser timmy = new InsiderUser();
         timmy.setUsername("LilTimTim");
         String username = "LilTimTim";
-
+        assertEquals(usersRepository.findUserByUsername(timmy.getUsername()).getUsername(), timmy.getUsername());
         assertThat(timmy.getUsername())
                 .isEqualTo(username);
     }
