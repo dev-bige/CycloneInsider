@@ -10,4 +10,6 @@ import java.util.UUID;
 public interface UsersRepository extends JpaRepository<InsiderUser, UUID> {
     @Query(value = "SELECT * from users u where u.username = :username", nativeQuery = true)
     InsiderUser findUserByUsername(@Param("username") String username);
+
+
 }
