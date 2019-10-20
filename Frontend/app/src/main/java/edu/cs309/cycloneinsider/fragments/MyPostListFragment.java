@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,25 +30,10 @@ import retrofit2.Response;
 public class MyPostListFragment extends Fragment {
     public static final String USER_UUID = "USER_UUID";
     private String userUUID;
-    private Disposable disposables;
+    private Disposable myPostSub, myPostClicks;
     private LinearLayoutManager layoutManager;
     private PostListRecyclerViewAdapter mAdapter;
-    private Disposable myPostClicks;
     private TextView noPost;
-
-    public static MyPostListFragment newInstance(String roomUUID) {
-        MyPostListFragment myPostListFragment = new MyPostListFragment();
-        Bundle args = new Bundle();
-        args.putString(USER_UUID, roomUUID);
-        myPostListFragment.setArguments(args);
-        return myPostListFragment;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        userUUID = getArguments().getString(USER_UUID);
-    }
 
     @Nullable
     @Override
@@ -57,8 +43,8 @@ public class MyPostListFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        if (disposables != null && !disposables.isDisposed()) {
-            disposables.dispose();
+        if (myPostSub != null && !myPostSub.isDisposed()) {
+            myPostSub.dispose();
         }
         if (myPostClicks != null && !myPostClicks.isDisposed()) {
             myPostClicks.dispose();
@@ -66,7 +52,6 @@ public class MyPostListFragment extends Fragment {
         super.onDestroy();
     }
 
-    @SuppressLint("CheckResult")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -75,28 +60,38 @@ public class MyPostListFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-
         mAdapter = new PostListRecyclerViewAdapter();
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mAdapter);
 
-        Observable<Response<List<PostModel>>> myPostList = null;
+        Observable<Response<List<PostModel>>> myPostListObservable = null;
 
-        myPostList = ((InsiderActivity) getActivity())
+        myPostListObservable = ((InsiderActivity) getActivity())
                 .getInsiderApplication()
                 .getApiService()
-                .getMyPosts(getActivity().getIntent().getStringExtra("USER_UUID"))
-                .observeOn(AndroidSchedulers.mainThread());
+                .getMyPosts();
 
-        disposables = myPostList.subscribe(myPostModelResponse -> {
-            if (myPostModelResponse.isSuccessful()) {
-                List<PostModel> myPostModel = myPostModelResponse.body();
-                mAdapter.updateList(myPostModel);
-            }
-            else {
-                noPost.setText("No posts to show!");
-            }
-        });
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+
+        myPostSub = myPostListObservable
+                .filter(Response::isSuccessful)
+                .map(Response::body)
+                .concatMap(Observable::fromIterable)
+                .toList()
+                .map(Response::success)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(myPostModelResponse -> {
+                    if (myPostModelResponse.isSuccessful()) {
+                        List<PostModel> myPostModelList = myPostModelResponse.body();
+                        mAdapter.updateList(myPostModelList);
+                    }
+                    else {
+                        noPost.setText("No Posts to show!");
+                    }
+                });
 
         myPostClicks = mAdapter.getItemClicks().subscribe(item -> {
             Intent intent = new Intent(getActivity(), PostDetailActivity.class);

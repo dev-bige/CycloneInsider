@@ -61,5 +61,5 @@ public interface CycloneInsiderService {
 
 
     @GET("users/current/user-posts")
-    Observable<Response<List<PostModel>>> getMyPosts(@Path("uuid") String post_uuid);
+    Observable<Response<List<PostModel>>> getMyPosts();
 }
