@@ -1,5 +1,5 @@
 package edu.cyclone.insider.models;
-
+import static org.assertj.core.api.Assertions.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Entity;
