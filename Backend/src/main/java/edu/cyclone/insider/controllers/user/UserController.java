@@ -2,9 +2,11 @@ package edu.cyclone.insider.controllers.user;
 
 import edu.cyclone.insider.controllers.BaseController;
 import edu.cyclone.insider.controllers.user.models.SignUpRequestModel;
+import edu.cyclone.insider.models.Comment;
 import edu.cyclone.insider.models.FavPost;
 import edu.cyclone.insider.models.InsiderUser;
 import edu.cyclone.insider.models.RoomMembership;
+import edu.cyclone.insider.repos.CommentsRepository;
 import edu.cyclone.insider.repos.FavPostRepository;
 import edu.cyclone.insider.repos.RoomMembershipRepository;
 import edu.cyclone.insider.repos.UsersRepository;
@@ -24,13 +26,15 @@ public class UserController extends BaseController {
     private PasswordEncoder passwordEncoder;
     private RoomMembershipRepository roomMembershipRepository;
     private FavPostRepository favPostRepository;
+    private CommentsRepository commentsRepository;
 
     @Autowired
-    public UserController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, RoomMembershipRepository roomMembershipRepository, FavPostRepository favPostRepository) {
+    public UserController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, RoomMembershipRepository roomMembershipRepository, FavPostRepository favPostRepository, CommentsRepository commentsRepository) {
         super(usersRepository);
         this.passwordEncoder = passwordEncoder;
         this.roomMembershipRepository = roomMembershipRepository;
         this.favPostRepository = favPostRepository;
+       this.commentsRepository=commentsRepository;
     }
 
     @RequestMapping(value = "memberships", method = RequestMethod.GET)
@@ -42,6 +46,14 @@ public class UserController extends BaseController {
     @RequestMapping(value = "current/favorite-posts", method = RequestMethod.GET)
     public Optional<FavPost> getFavPosts() {
         return favPostRepository.findFavByUser(getCurrentUser().getUuid());
+
+    }
+
+
+
+    @RequestMapping(value = "current/users-comments", method = RequestMethod.GET)
+    public List<Comment> getMyComments() {
+        return commentsRepository.findCommentsByUser(getCurrentUser().getUuid());
 
     }
 
