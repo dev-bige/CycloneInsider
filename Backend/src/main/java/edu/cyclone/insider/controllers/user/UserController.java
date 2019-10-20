@@ -4,7 +4,6 @@ import edu.cyclone.insider.controllers.BaseController;
 import edu.cyclone.insider.controllers.user.models.SignUpRequestModel;
 import edu.cyclone.insider.models.FavPost;
 import edu.cyclone.insider.models.InsiderUser;
-import edu.cyclone.insider.models.Post;
 import edu.cyclone.insider.models.RoomMembership;
 import edu.cyclone.insider.repos.FavPostRepository;
 import edu.cyclone.insider.repos.RoomMembershipRepository;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 @RestController()
 @RequestMapping("users")
@@ -27,10 +26,11 @@ public class UserController extends BaseController {
     private FavPostRepository favPostRepository;
 
     @Autowired
-    public UserController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, RoomMembershipRepository roomMembershipRepository) {
+    public UserController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, RoomMembershipRepository roomMembershipRepository, FavPostRepository favPostRepository) {
         super(usersRepository);
         this.passwordEncoder = passwordEncoder;
         this.roomMembershipRepository = roomMembershipRepository;
+        this.favPostRepository = favPostRepository;
     }
 
     @RequestMapping(value = "memberships", method = RequestMethod.GET)
@@ -40,7 +40,7 @@ public class UserController extends BaseController {
 
 
     @RequestMapping(value = "current/favorite-posts", method = RequestMethod.GET)
-    public List<FavPost> getFavPosts() {
+    public Optional<FavPost> getFavPosts() {
         return favPostRepository.findFavByUser(getCurrentUser().getUuid());
 
     }
