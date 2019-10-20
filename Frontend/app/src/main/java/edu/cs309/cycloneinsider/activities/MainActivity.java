@@ -165,6 +165,7 @@ public class MainActivity extends InsiderActivity {
                 return;
             case R.id.nav_fav_post:
                 startActivity(new Intent(this, FavoritePostActivity.class));
+                mDrawer.closeDrawers();
                 return;
             case R.id.nav_join_room:
                 fragment = new JoinRoomFragment();

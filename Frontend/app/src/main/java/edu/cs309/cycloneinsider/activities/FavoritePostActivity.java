@@ -42,7 +42,7 @@ public class FavoritePostActivity extends InsiderActivity {
         // Make the fragment and pass the current user to the fragment to display the users favorite posts
         Fragment fragment = FavoritePostFragment.newInstance(user[0]);
         fragment.setArguments(getIntent().getExtras());
-        getSupportFragmentManager().beginTransaction().add(R.id.container, fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 }
 
