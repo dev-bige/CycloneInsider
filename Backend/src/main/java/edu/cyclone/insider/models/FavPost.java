@@ -4,23 +4,31 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
     @Entity
-    @Table(name = "FavPost")
     public class FavPost extends BaseModel {
-
-        @ManyToOne private Post post;
+        @ManyToOne
+        private InsiderUser user;
+        @ManyToOne
+        private Post post;
         @Basic
         @Temporal(TemporalType.TIMESTAMP)
         private Date date;
 
-        public FavPost() {
+
+        public InsiderUser getUser() {
+            return user;
         }
+
+        public void setUser(InsiderUser user) {
+            this.user = user;
+        }
+
+
         public Post getPost() {
             return post;
         }
+
         public void setPost(Post post) {
             this.post = post;
+
         }
-
-
-
-}
+    }

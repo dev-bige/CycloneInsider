@@ -39,17 +39,18 @@ public class UserController extends BaseController {
     }
 
 
-    @RequestMapping(value = "{userUuid}/favPost", method = RequestMethod.GET)
-    public List<FavPost> getFavPosts(@PathVariable("userUuid") UUID userUuid) {
-        return favPostRepository.findFavByUserUuid(userUuid);
+    @RequestMapping(value = "current/favorite-posts", method = RequestMethod.GET)
+    public List<FavPost> getFavPosts() {
+        return favPostRepository.findFavByUser(getCurrentUser().getUuid());
+
     }
 
-    @RequestMapping(value = "current", method = RequestMethod.GET)
+        @RequestMapping(value = "current", method = RequestMethod.GET)
     public InsiderUser current() {
         return getCurrentUser();
     }
 
-    @RequestMapping(value = "sign-up", method = RequestMethod.POST)
+        @RequestMapping(value = "sign-up", method = RequestMethod.POST)
     public void signUp(@RequestBody SignUpRequestModel request) {
         InsiderUser userByUsername = usersRepository.findUserByUsername(request.username);
 

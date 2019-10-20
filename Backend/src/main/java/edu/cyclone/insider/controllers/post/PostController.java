@@ -57,7 +57,7 @@ public class PostController extends BaseController {
     }
 
 
-    @RequestMapping(value = "favPost/{postUuid}", method = RequestMethod.POST)
+    @RequestMapping(value = "{postUuid}/favorite", method = RequestMethod.POST)
     public FavPost favorite_Post(@PathVariable("postUuid") UUID postUuid) {
         Optional<Post> post = postRepository.findById(postUuid);
         if (!post.isPresent()) {
@@ -69,7 +69,7 @@ public class PostController extends BaseController {
 
         return favPost;
     }
-    private Post createPost(@RequestBody PostCreateRequestModel request, UUID roomUUid) {
+        private Post createPost(@RequestBody PostCreateRequestModel request, UUID roomUUid) {
         Optional<Room> byId = null;
         if (roomUUid != null) {
             byId = roomRepository.findById(roomUUid);
