@@ -85,7 +85,7 @@ public class MyPostListFragment extends Fragment {
         myPostList = ((InsiderActivity) getActivity())
                 .getInsiderApplication()
                 .getApiService()
-                .getMyPost(getActivity().getIntent().getStringExtra("USER_UUID"))
+                .getMyPosts(getActivity().getIntent().getStringExtra("USER_UUID"))
                 .observeOn(AndroidSchedulers.mainThread());
 
         disposables = myPostList.subscribe(myPostModelResponse -> {

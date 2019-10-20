@@ -60,6 +60,6 @@ public interface CycloneInsiderService {
     Observable<Response<SignUpRequestModel>> signUp(@Body SignUpRequestModel signUpRequestModel);
 
 
-    //    @GET(users/myPost)
-    Observable<Response<List<PostModel>>> getMyPost(@Path(("uuid")) String user_uuid);
+    @GET("users/current/user-posts")
+    Observable<Response<List<PostModel>>> getMyPosts(@Path("uuid") String post_uuid);
 }
