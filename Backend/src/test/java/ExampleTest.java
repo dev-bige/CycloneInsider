@@ -35,18 +35,35 @@ public class ExampleTest {
         public void setUp() {
             InsiderUser timmy = new InsiderUser();
            timmy.setUsername("LilTimTim");
+           timmy.setFirstName("Lil");
+           timmy.setLastName("Tim");
 
             Mockito.when(usersRepository.findUserByUsername(timmy.getUsername()))
                     .thenReturn(timmy);
+
+
+
         }
         @Test
         public void whenValidName_thenUserShouldBeFound() {
             InsiderUser timmy= new InsiderUser() ;
             timmy.setUsername("LilTimTim");
             String username = "LilTimTim";
+            timmy.setFirstName("Lil");
+            timmy.setLastName("Tim");
+            String firstname="Lil";
+            String lastname="Tim";
 
             assertThat(timmy.getUsername())
                     .isEqualTo(username);
+
+            assertThat(timmy.getLastName())
+                    .isEqualTo(lastname);
+
+
+            assertThat(timmy.getFirstName())
+                    .isEqualTo(firstname);
+            }
         }
+
     }
-}
