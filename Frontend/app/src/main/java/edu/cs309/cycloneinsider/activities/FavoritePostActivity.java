@@ -36,6 +36,7 @@ public class FavoritePostActivity extends InsiderActivity {
         post = findViewById(R.id.list_item_post_title);
         room = findViewById(R.id.list_item_room_title);
 
+        mAdapter = new PostListRecyclerViewAdapter();
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mAdapter);
