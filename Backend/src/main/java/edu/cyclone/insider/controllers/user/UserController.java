@@ -7,11 +7,13 @@ import edu.cyclone.insider.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController()
 @RequestMapping("users")
@@ -29,8 +31,8 @@ public class UserController extends BaseController {
         this.passwordEncoder = passwordEncoder;
         this.roomMembershipRepository = roomMembershipRepository;
         this.favPostRepository = favPostRepository;
-       this.commentsRepository=commentsRepository;
-       this.postRepository = postRepository;
+        this.commentsRepository = commentsRepository;
+        this.postRepository = postRepository;
     }
 
     @RequestMapping(value = "memberships", method = RequestMethod.GET)
@@ -40,11 +42,9 @@ public class UserController extends BaseController {
 
 
     @RequestMapping(value = "current/favorite-posts", method = RequestMethod.GET)
-    public Optional<FavPost> getFavPosts() {
+    public List<FavPost> getFavPosts() {
         return favPostRepository.findFavByUser(getCurrentUser().getUuid());
-
     }
-
 
 
     @RequestMapping(value = "current/users-comments", method = RequestMethod.GET)
@@ -60,12 +60,12 @@ public class UserController extends BaseController {
 
     }
 
-        @RequestMapping(value = "current", method = RequestMethod.GET)
+    @RequestMapping(value = "current", method = RequestMethod.GET)
     public InsiderUser current() {
         return getCurrentUser();
     }
 
-        @RequestMapping(value = "sign-up", method = RequestMethod.POST)
+    @RequestMapping(value = "sign-up", method = RequestMethod.POST)
     public void signUp(@RequestBody SignUpRequestModel request) {
         InsiderUser userByUsername = usersRepository.findUserByUsername(request.username);
 
