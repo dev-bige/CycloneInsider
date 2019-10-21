@@ -38,6 +38,7 @@ public class MainActivity extends InsiderActivity {
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
     private SubMenu classrooms;
+    private boolean first = true;
     private List<MembershipModel> memberships;
 
     public MembershipModel getSelectedMembership(MenuItem menuItem) {
@@ -72,6 +73,11 @@ public class MainActivity extends InsiderActivity {
                             classrooms.add(membership.room.name);
                         }
                         navigationView.invalidate();
+                    }
+                    if(first) {
+                        navigationView.setCheckedItem(R.id.nav_front_page);
+                        selectDrawerItem(navigationView.getCheckedItem());
+                        first = false;
                     }
                 }, error -> {
                     Log.d(TAG, error.toString());
