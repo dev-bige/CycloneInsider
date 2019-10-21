@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -36,6 +37,7 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
     private TextView content, username;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private Disposable updateListDisposable;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @SuppressLint("CheckResult")
     @Override
@@ -52,7 +54,7 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(commentModelResponse -> {
                                     if (commentModelResponse.isSuccessful()) {
-                                        updateList();
+                                        refresh();
                                     }
                                 }, error -> Log.e(TAG, "onClick: ", error));
                     })
@@ -68,6 +70,9 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this::refresh);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -104,7 +109,7 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
-        updateList();
+        refresh();
     }
 
     @Override
@@ -123,10 +128,9 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
         return super.onOptionsItemSelected(item);
     }
 
-    public void updateList() {
+    public void refresh() {
         if (this.updateListDisposable != null && !this.updateListDisposable.isDisposed()) {
             this.updateListDisposable.dispose();
-            this.updateListDisposable = null;
         }
 
         this.updateListDisposable = getInsiderApplication()
@@ -138,6 +142,7 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
                         List<CommentModel> comments = commentsResponse.body();
                         mAdapter.updateList(comments);
                     }
+                    swipeRefreshLayout.setRefreshing(false);
                 });
     }
 }

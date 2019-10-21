@@ -4,6 +4,7 @@ import android.app.Instrumentation;
 import android.view.KeyEvent;
 
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.action.KeyEventAction;
 import androidx.test.espresso.action.ViewActions;
@@ -46,6 +47,7 @@ public class SettingsTest {
         ActivityScenario<FeedbackActivity> launch = ActivityScenario.launch(FeedbackActivity.class);
 
         onView(withId(R.id.feedback_message)).perform(typeText("       "));
+        Espresso.closeSoftKeyboard();
         onView(withId(R.id.email_button)).perform(click());
         onView(withId(R.id.hidden_feedback_text)).check(ViewAssertions.matches(withText("Cannot just have spaces in Feedback box")));
 

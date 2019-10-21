@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class MyPostListFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private PostListRecyclerViewAdapter mAdapter;
     private TextView noPost;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Nullable
     @Override
@@ -55,6 +57,8 @@ public class MyPostListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this::refresh);
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -64,17 +68,27 @@ public class MyPostListFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mAdapter);
 
-        Observable<Response<List<PostModel>>> myPostListObservable = null;
-
-        myPostListObservable = ((InsiderActivity) getActivity())
-                .getInsiderApplication()
-                .getApiService()
-                .getMyPosts();
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 layoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
+
+        myPostClicks = mAdapter.getItemClicks().subscribe(item -> {
+            Intent intent = new Intent(getActivity(), PostDetailActivity.class);
+            intent.putExtra("POST_UUID", item.getUuid());
+            startActivity(intent);
+        });
+    }
+
+    public void refresh() {
+        if (myPostSub != null && !myPostSub.isDisposed()) {
+            myPostSub.dispose();
+        }
+        Observable<Response<List<PostModel>>> myPostListObservable = ((InsiderActivity) getActivity())
+                .getInsiderApplication()
+                .getApiService()
+                .getMyPosts();
 
         myPostSub = myPostListObservable
                 .filter(Response::isSuccessful)
@@ -87,16 +101,10 @@ public class MyPostListFragment extends Fragment {
                     if (myPostModelResponse.isSuccessful()) {
                         List<PostModel> myPostModelList = myPostModelResponse.body();
                         mAdapter.updateList(myPostModelList);
-                    }
-                    else {
+                    } else {
                         noPost.setText("No Posts to show!");
                     }
+                    swipeRefreshLayout.setRefreshing(false);
                 });
-
-        myPostClicks = mAdapter.getItemClicks().subscribe(item -> {
-            Intent intent = new Intent(getActivity(), PostDetailActivity.class);
-            intent.putExtra("POST_UUID", item.getUuid());
-            startActivity(intent);
-        });
     }
 }

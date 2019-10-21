@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class FavoritePostFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private PostListRecyclerViewAdapter postListRecyclerViewAdapter;
     private TextView room, post;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Nullable
     @Override
@@ -56,6 +58,9 @@ public class FavoritePostFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         view.findViewById(R.id.new_post_button).setVisibility(View.GONE);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this::refresh);
+
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
@@ -67,17 +72,31 @@ public class FavoritePostFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(postListRecyclerViewAdapter);
 
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                layoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+
+        favPostClicks = postListRecyclerViewAdapter.getItemClicks().subscribe(item -> {
+            Intent intent = new Intent(getActivity(), PostDetailActivity.class);
+            intent.putExtra("POST_UUID", item.getUuid());
+            startActivity(intent);
+        });
+        this.refresh();
+    }
+
+    private void refresh() {
+        if (favPostSub != null && !favPostSub.isDisposed()) {
+            favPostSub.dispose();
+        }
+
         Observable<Response<List<FavoritePostModel>>> favPostObservable = null;
 
         favPostObservable = ((InsiderActivity) getActivity())
                 .getInsiderApplication()
                 .getApiService()
                 .getFavoritePost();
-
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-                layoutManager.getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
-
         favPostSub = favPostObservable
                 .filter(Response::isSuccessful)
                 .map(Response::body)
@@ -91,13 +110,7 @@ public class FavoritePostFragment extends Fragment {
                         List<PostModel> favPostModelList = favPostResponse.body();
                         postListRecyclerViewAdapter.updateList(favPostModelList);
                     }
+                    swipeRefreshLayout.setRefreshing(false);
                 });
-
-
-        favPostClicks = postListRecyclerViewAdapter.getItemClicks().subscribe(item -> {
-            Intent intent = new Intent(getActivity(), PostDetailActivity.class);
-            intent.putExtra("POST_UUID", item.getUuid());
-            startActivity(intent);
-        });
     }
 }

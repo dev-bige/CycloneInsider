@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class PostListFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private PostListRecyclerViewAdapter mAdapter;
     private Disposable postClicks;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public static PostListFragment newInstance(String roomUuid) {
         PostListFragment postListFragment = new PostListFragment();
@@ -68,6 +70,8 @@ public class PostListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this::refresh);
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -87,6 +91,20 @@ public class PostListFragment extends Fragment {
             intent.putExtra("ROOM_UUID", roomUUID);
             startActivity(intent);
         });
+
+
+        postClicks = mAdapter.getItemClicks().subscribe(item -> {
+            Intent intent = new Intent(getActivity(), PostDetailActivity.class);
+            intent.putExtra("POST_UUID", item.getUuid());
+            startActivity(intent);
+        });
+        refresh();
+    }
+
+    public void refresh() {
+        if (postSub != null && !postSub.isDisposed()) {
+            postSub.dispose();
+        }
         Observable<Response<List<PostModel>>> postListObservable = null;
         //If the room uuid is null then we should get the front page posts.
         if (roomUUID == null) {
@@ -107,12 +125,7 @@ public class PostListFragment extends Fragment {
 
                 mAdapter.updateList(posts);
             }
-        });
-
-        postClicks = mAdapter.getItemClicks().subscribe(item -> {
-            Intent intent = new Intent(getActivity(), PostDetailActivity.class);
-            intent.putExtra("POST_UUID", item.getUuid());
-            startActivity(intent);
+            swipeRefreshLayout.setRefreshing(false);
         });
     }
 }
