@@ -8,8 +8,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import edu.cs309.cycloneinsider.R;
+import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
-import io.reactivex.Observer;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import retrofit2.Response;
@@ -65,45 +66,28 @@ public class LoginActivity extends InsiderActivity {
         LoginRequestModel loginRequestModel = new LoginRequestModel();
         loginRequestModel.setPassword(passwordString);
         loginRequestModel.setUsername(netIDString);
-        login(loginRequestModel, new Observer<Response<Void>>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                loginSub = d;
-            }
+        loginSub = login(getInsiderApplication().getApiService(), loginRequestModel)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(voidResponse -> {
+                    //Successful login!
+                    if (getInsiderApplication().getSession().isLoggedIn()) {
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
 
-            @Override
-            public void onNext(Response<Void> voidResponse) {
-                //Successful login!
-                if (getInsiderApplication().getSession().isLoggedIn()) {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+                    findViewById(R.id.progress_bar).setVisibility(View.GONE);
+                }, error -> {
+                    //Login error!
+                    hiddenText.setText(R.string.login_invalid_login);
+                    hiddenText.setVisibility(View.VISIBLE);
 
-                findViewById(R.id.progress_bar).setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                //Login error!
-                hiddenText.setText(R.string.login_invalid_login);
-                hiddenText.setVisibility(View.VISIBLE);
-
-                findViewById(R.id.progress_bar).setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
+                    findViewById(R.id.progress_bar).setVisibility(View.GONE);
+                });
     }
 
-    public void login(LoginRequestModel loginRequestModel, Observer<Response<Void>> handler) {
-        getInsiderApplication()
-                .getApiService()
-                .login(loginRequestModel)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(handler);
+    public Observable<Response<Void>> login(CycloneInsiderService service, LoginRequestModel loginRequestModel) {
+        return service
+                .login(loginRequestModel);
     }
 }
