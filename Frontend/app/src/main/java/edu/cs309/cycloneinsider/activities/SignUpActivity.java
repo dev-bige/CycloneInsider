@@ -10,9 +10,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import edu.cs309.cycloneinsider.R;
+import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.models.SignUpRequestModel;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import retrofit2.Response;
 
 /*
 Eventually send info to server
@@ -115,9 +118,7 @@ public class SignUpActivity extends InsiderActivity {
         signUpRequestModel.username = userNameText;
         signUpRequestModel.password = password;
 
-        subscribe = getInsiderApplication()
-                .getApiService()
-                .signUp(signUpRequestModel)
+        subscribe = signUp(getInsiderApplication().getApiService(), signUpRequestModel)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(signUpRequestModelResponse -> {
                     if (signUpRequestModelResponse.isSuccessful()) {
@@ -129,6 +130,11 @@ public class SignUpActivity extends InsiderActivity {
                 });
 
     }
+
+    public Observable<Response<Void>> signUp(CycloneInsiderService service, SignUpRequestModel model) {
+        return service.signUp(model);
+    }
+
 
     @Override
     protected void onDestroy() {
