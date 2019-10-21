@@ -79,6 +79,7 @@ public class MyPostListFragment extends Fragment {
             intent.putExtra("POST_UUID", item.getUuid());
             startActivity(intent);
         });
+        this.refresh();
     }
 
     public void refresh() {
