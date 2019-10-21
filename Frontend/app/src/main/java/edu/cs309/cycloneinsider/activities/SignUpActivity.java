@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import edu.cs309.cycloneinsider.R;
@@ -50,7 +51,7 @@ public class SignUpActivity extends InsiderActivity {
         CheckBox prof = findViewById(R.id.checkbox_prof);
         prof.setOnClickListener(this::onCheckboxClicked);
 
-        Button backButton = findViewById(R.id.back_to_login);
+        ImageButton backButton = findViewById(R.id.back_to_login);
         backButton.setOnClickListener(view -> finish());
         findViewById(R.id.sign_in_new_user).setOnClickListener(this::onSignUpClicked);
     }
