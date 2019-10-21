@@ -70,6 +70,25 @@ public class NewPasswordActivity extends InsiderActivity {
 
     }
 
+    public boolean checkPassword(String old, String newPass, String newPass2){
+
+
+        if (old.length() == 0 || newPass.length() == 0 || newPass2.length() == 0) {
+
+            return false;
+
+        }
+
+        if (!newPass.equals(newPass2)) {
+
+            return false;
+
+        }
+
+        return true;
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
