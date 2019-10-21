@@ -121,7 +121,6 @@ public class SignUpActivity extends InsiderActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(signUpRequestModelResponse -> {
                     if (signUpRequestModelResponse.isSuccessful()) {
-                        startActivity(new Intent(this, MainActivity.class));
                         finish();
                     } else {
                         userError.setText("You are already a user!");
