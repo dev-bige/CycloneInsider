@@ -77,11 +77,6 @@ public class MyPostListFragment extends Fragment {
 
 
         myPostSub = myPostListObservable
-                .filter(Response::isSuccessful)
-                .map(Response::body)
-                .concatMap(Observable::fromIterable)
-                .toList()
-                .map(Response::success)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(myPostModelResponse -> {
                     if (myPostModelResponse.isSuccessful()) {
