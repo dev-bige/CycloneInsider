@@ -20,5 +20,5 @@
         android:layout_margin="16dp"
         app:backgroundTint="@color/colorAccent"
         app:srcCompat="@drawable/ic_edit_black_24dp"
-        app:tint="@android:color/white" />
+        app:tint="?attr/colorOnSecondary" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
