@@ -8,14 +8,17 @@
 
         <item android:title="My Insider">
             <menu>
-                <item
-                    android:id="@+id/nav_fav_post"
-                    android:icon="@drawable/ic_star_black_24dp"
-                    android:title="Favorite Posts" />
-                <item
-                    android:id="@+id/nav_my_post"
-                    android:icon="@drawable/ic_content_paste_black_24dp"
-                    android:title="My Posts" />
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_fav_post"
+                        android:icon="@drawable/ic_star_black_24dp"
+                        android:title="Favorite Posts" />
+                    <item
+                        android:id="@+id/nav_my_post"
+                        android:icon="@drawable/ic_content_paste_black_24dp"
+                        android:title="My Posts" />
+                </group>
+
             </menu>
         </item>
         <item
@@ -27,7 +30,9 @@
         </item>
     </group>
 
-    <group   android:id="@+id/group_item_3">
+    <group
+        android:id="@+id/group_item_3"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_join_room"
             android:icon="@drawable/ic_add_circle_outline_black_24dp"
