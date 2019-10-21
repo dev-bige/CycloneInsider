@@ -3,16 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/sheet_background"
-    android:padding="16dp"
-    android:orientation="vertical">
-
-
+    android:orientation="vertical"
+    android:padding="16dp">
 
 
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:hint="@string/first_name_hint">
 
         <EditText
@@ -26,6 +25,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:hint="@string/last_name_hint">
 
         <EditText
@@ -39,6 +39,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:hint="@string/username_hint">
 
         <EditText
@@ -52,6 +53,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:hint="@string/password_hint">
 
         <EditText
@@ -65,6 +67,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:hint="@string/re_enter_password_hint">
 
         <EditText
@@ -88,6 +91,7 @@
 
     <Button
         android:id="@+id/sign_in_new_user"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"

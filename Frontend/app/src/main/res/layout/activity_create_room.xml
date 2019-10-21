@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:textColorHint="?attr/colorOnSecondary"
         android:hint="Name"
         app:boxBackgroundColor="#FFEB3B"
         app:boxStrokeColor="?attr/colorOnSecondary"
@@ -22,6 +23,7 @@
         <EditText
             android:id="@+id/room_name"
             android:layout_width="match_parent"
+            android:textColor="?attr/colorOnSecondary"
             android:layout_height="wrap_content"
             android:textSize="24sp" />
     </com.google.android.material.textfield.TextInputLayout>

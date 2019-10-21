@@ -16,12 +16,14 @@
         android:layout_margin="16dp"
         app:boxBackgroundColor="#FFEB3B"
         app:hintTextColor="?attr/colorOnSecondary"
+        android:textColorHint="?attr/colorOnSecondary"
         app:boxStrokeColor="?attr/colorOnSecondary"
         android:hint="Title">
 
         <EditText
             android:id="@+id/post_title"
             android:layout_width="match_parent"
+            android:textColor="?attr/colorOnSecondary"
             android:textSize="24dp"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
