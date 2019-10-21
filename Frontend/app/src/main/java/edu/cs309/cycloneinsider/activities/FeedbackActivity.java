@@ -29,6 +29,39 @@ public class FeedbackActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    public boolean check(String text){
+
+        String[] texts = text.split(" ",0);
+
+        if (texts.length == 0) {
+
+            return false;
+
+        }
+
+        int spacesFlag = 0;
+
+        for (int i = 0; i < texts.length; i++) {
+
+            if (texts[i] == " ") {
+
+                spacesFlag++;
+
+            }
+
+        }
+
+        if (spacesFlag == texts.length) {
+
+            return false;
+
+        }
+
+
+        return true;
+
+    }
+
     public void sendEmail(View view) {
 
         EditText email = findViewById(R.id.feedback_message);
