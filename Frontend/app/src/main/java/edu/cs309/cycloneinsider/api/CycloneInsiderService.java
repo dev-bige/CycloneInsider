@@ -61,7 +61,7 @@ public interface CycloneInsiderService {
     Observable<Response<Void>> login(@Body LoginRequestModel loginRequestModel);
 
     @POST("/users/sign-up")
-    Observable<Response<SignUpRequestModel>> signUp(@Body SignUpRequestModel signUpRequestModel);
+    Observable<Response<Void>> signUp(@Body SignUpRequestModel signUpRequestModel);
 
     @GET("users/current/users-posts")
     Observable<Response<List<PostModel>>> getMyPosts();
