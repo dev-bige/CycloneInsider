@@ -50,6 +50,7 @@ public class MainActivity extends InsiderActivity {
         return null;
     }
 
+    @SuppressLint("CheckResult")
     public void loadRooms(Action complete) {
 
         getInsiderApplication().getApiService()
@@ -57,7 +58,9 @@ public class MainActivity extends InsiderActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     if (classrooms == null) {
-                        classrooms = navigationView.getMenu().addSubMenu("Classrooms");
+                        MenuItem item = navigationView.getMenu().findItem(R.id.classrooms);
+                        classrooms = item.getSubMenu();
+                        classrooms.clear();
                     } else {
                         classrooms.clear();
                     }

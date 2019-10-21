@@ -63,7 +63,7 @@ public interface CycloneInsiderService {
     @POST("/users/sign-up")
     Observable<Response<SignUpRequestModel>> signUp(@Body SignUpRequestModel signUpRequestModel);
 
-    @GET("users/current/user-posts")
+    @GET("users/current/users-posts")
     Observable<Response<List<PostModel>>> getMyPosts();
 
     @GET("/rooms/{uuid}/posts")

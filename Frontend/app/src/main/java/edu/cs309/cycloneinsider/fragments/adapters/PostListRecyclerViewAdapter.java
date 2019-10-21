@@ -8,8 +8,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.apache.commons.lang3.time.DateUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -22,7 +25,6 @@ import io.reactivex.subjects.PublishSubject;
 
 public class PostListRecyclerViewAdapter extends RecyclerView.Adapter<PostListRecyclerViewAdapter.ViewHolder> {
     private final PublishSubject<PostModel> onClickSubject = PublishSubject.create();
-    Date now = new Date();
     SimpleDateFormat dayMonthFormat = new SimpleDateFormat("MMM d", Locale.US);
     SimpleDateFormat timeDateFormat = new SimpleDateFormat("h:mm a", Locale.US);
     private List<PostModel> posts = new ArrayList<>();
@@ -40,8 +42,9 @@ public class PostListRecyclerViewAdapter extends RecyclerView.Adapter<PostListRe
     public void onBindViewHolder(@NonNull PostListRecyclerViewAdapter.ViewHolder holder, int position) {
         final PostModel post = posts.get(position);
         holder.title.setText(post.getTitle());
+        Date rounded = DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH);
         String date = "";
-        if (now.getTime() - post.getDate().getTime() > TimeUnit.DAYS.toMillis(1)) {
+        if (post.getDate().getTime() < rounded.getTime()) {
             date = dayMonthFormat.format(post.getDate());
         } else {
             date = timeDateFormat.format(post.getDate());
