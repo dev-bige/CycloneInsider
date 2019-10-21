@@ -72,8 +72,6 @@ public class MainActivity extends InsiderActivity {
                             classrooms.add(membership.room.name);
                         }
                         navigationView.invalidate();
-                        navigationView.setCheckedItem(R.id.nav_front_page);
-                        selectDrawerItem(navigationView.getCheckedItem());
                     }
                 }, error -> {
                     Log.d(TAG, error.toString());
@@ -122,7 +120,7 @@ public class MainActivity extends InsiderActivity {
             finish();
         });
 
-
+        this.loadRooms();
     }
 
     @Override
@@ -138,12 +136,6 @@ public class MainActivity extends InsiderActivity {
     public void onPostCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         drawerToggle.syncState();
         super.onPostCreate(savedInstanceState, persistentState);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        this.loadRooms();
     }
 
     public void openDefaultThread(View view) {
