@@ -27,6 +27,7 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
+import edu.cs309.cycloneinsider.api.Session;
 import edu.cs309.cycloneinsider.api.models.MembershipModel;
 import edu.cs309.cycloneinsider.fragments.FavoritePostFragment;
 import edu.cs309.cycloneinsider.fragments.JoinRoomFragment;
@@ -47,6 +48,9 @@ public class MainActivity extends InsiderActivity {
 
     @Inject
     CycloneInsiderService cycloneInsiderService;
+
+    @Inject
+    Session session;
 
     public MembershipModel getSelectedMembership(MenuItem menuItem) {
         int size = classrooms.size();
@@ -129,7 +133,7 @@ public class MainActivity extends InsiderActivity {
         });
 
         navigationView.getHeaderView(0).findViewById(R.id.sign_out).setOnClickListener(view -> {
-            getInsiderApplication().getSession().invalidate();
+            session.invalidate();
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         });

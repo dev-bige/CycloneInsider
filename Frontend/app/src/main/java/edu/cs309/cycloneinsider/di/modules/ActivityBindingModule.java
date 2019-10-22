@@ -2,6 +2,7 @@ package edu.cs309.cycloneinsider.di.modules;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
+import edu.cs309.cycloneinsider.activities.LoginActivity;
 import edu.cs309.cycloneinsider.activities.MainActivity;
 import edu.cs309.cycloneinsider.activities.StartupActivity;
 
@@ -12,4 +13,7 @@ public abstract class ActivityBindingModule {
 
     @ContributesAndroidInjector
     abstract StartupActivity bindStartupActivity();
+
+    @ContributesAndroidInjector
+    abstract LoginActivity bindLoginActivity();
 }
