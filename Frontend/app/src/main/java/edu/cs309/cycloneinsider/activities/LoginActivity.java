@@ -73,7 +73,7 @@ public class LoginActivity extends InsiderActivity {
         String passwordString = password.getText().toString();
         findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
         hiddenText.setVisibility(View.GONE);
-        viewModel.login(netIDString, passwordString);
+        viewModel.login(new LoginRequestModel(netIDString, passwordString));
     }
 
     public Observable<Response<Void>> login(CycloneInsiderService service, LoginRequestModel loginRequestModel) {

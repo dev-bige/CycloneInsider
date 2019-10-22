@@ -13,9 +13,10 @@ import edu.cs309.cycloneinsider.di.ApplicationComponent;
 import edu.cs309.cycloneinsider.di.DaggerApplicationComponent;
 import retrofit2.Retrofit;
 
-public class CycloneInsiderApp extends DaggerApplication  {
+public class CycloneInsiderApp extends DaggerApplication {
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -28,7 +29,6 @@ public class CycloneInsiderApp extends DaggerApplication  {
     public Session getSession() {
         return null;
     }
-
 
     private Retrofit provideRetrofit(String url) {
         return null;

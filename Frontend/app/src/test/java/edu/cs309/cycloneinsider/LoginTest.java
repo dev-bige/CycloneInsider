@@ -1,7 +1,10 @@
 package edu.cs309.cycloneinsider;
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -10,6 +13,8 @@ import org.mockito.junit.MockitoRule;
 import edu.cs309.cycloneinsider.activities.LoginActivity;
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
+import edu.cs309.cycloneinsider.viewmodels.LoginViewModel;
+import edu.cs309.cycloneinsider.viewmodels.responsemodels.LoginResponseModel;
 import io.reactivex.Observable;
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
@@ -27,31 +32,46 @@ public class LoginTest {
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
+    //Bypass main thread check for Live Data
+    @Rule
+    public TestRule rule = new InstantTaskExecutorRule();
+
     @Test
-    public void successLogin() {
-        LoginActivity loginActivity = new LoginActivity();
+    public void noPassword() {
         CycloneInsiderService service = mock(CycloneInsiderService.class);
-
-        Response<Void> response = Response.success(null);
-        LoginRequestModel loginRequestModel = new LoginRequestModel("admin001", "admin001");
-        when(service.login(loginRequestModel)).thenReturn(Observable.just(response));
-
-        Response<Void> activityResponse = loginActivity.login(service, loginRequestModel).blockingSingle();
-
-        assertEquals(response, activityResponse);
+        LoginViewModel loginViewModel = new LoginViewModel(service);
+        loginViewModel.login(new LoginRequestModel("admin001", ""));
+        assertTrue(loginViewModel.getLoginResponse().getValue().isError());
+        assertEquals(loginViewModel.getLoginResponse().getValue().getStringError(), R.string.login_no_password);
     }
 
     @Test
-    public void failed() {
+    public void noNetId() {
         CycloneInsiderService service = mock(CycloneInsiderService.class);
-        LoginActivity loginActivity = new LoginActivity();
+        LoginViewModel loginViewModel = new LoginViewModel(service);
+        loginViewModel.login(new LoginRequestModel("", "x"));
+        assertTrue(loginViewModel.getLoginResponse().getValue().isError());
+        assertEquals(loginViewModel.getLoginResponse().getValue().getStringError(), R.string.login_no_id);
+    }
 
-        Response<Void> response = Response.error(403, ResponseBody.create(MediaType.get("application/json"), ByteString.EMPTY));
+    @Test
+    public void noBoth() {
+        CycloneInsiderService service = mock(CycloneInsiderService.class);
+        LoginViewModel loginViewModel = new LoginViewModel(service);
+        loginViewModel.login(new LoginRequestModel("", ""));
+        assertTrue(loginViewModel.getLoginResponse().getValue().isError());
+        assertEquals(loginViewModel.getLoginResponse().getValue().getStringError(), R.string.login_no_id_password);
+    }
+
+    @Test
+    public void successLogin() {
+        CycloneInsiderService service = mock(CycloneInsiderService.class);
+        Response<Void> success = Response.success(null);
         LoginRequestModel loginRequestModel = new LoginRequestModel("admin001", "admin001");
-        when(service.login(loginRequestModel)).thenReturn(Observable.just(response));
-
-        Response<Void> activityResponse = loginActivity.login(service, loginRequestModel).blockingSingle();
-
-        assertEquals(response, activityResponse);
+        when(service.login(loginRequestModel)).thenReturn(Observable.just(success));
+        LoginViewModel loginViewModel = new LoginViewModel(service);
+        loginViewModel.login(loginRequestModel);
+        assertFalse(loginViewModel.getLoginResponse().getValue().isError());
+        assertEquals(loginViewModel.getLoginResponse().getValue().getRawResponse(), success);
     }
 }

@@ -20,18 +20,18 @@ public class LoginViewModel extends ViewModel {
         this.cycloneInsiderService = cycloneInsiderService;
     }
 
-    public void login(String username, String password) {
-        if (username.length() == 0 && password.length() == 0) { //Net ID and Password must be entered
+    public void login(LoginRequestModel loginRequestModel) {
+        if (loginRequestModel.username.length() == 0 && loginRequestModel.password.length() == 0) { //Net ID and Password must be entered
             loginResponse.setValue(LoginResponseModel.error(R.string.login_no_id_password));
             return;
-        } else if (username.length() == 0) { //Net ID must be entered
+        } else if (loginRequestModel.username.length() == 0) { //Net ID must be entered
             loginResponse.setValue(LoginResponseModel.error(R.string.login_no_id));
             return;
-        } else if (password.length() == 0) { //Password must be entered
+        } else if (loginRequestModel.password.length() == 0) { //Password must be entered
             loginResponse.setValue(LoginResponseModel.error(R.string.login_no_password));
             return;
         }
-        cycloneInsiderService.login(new LoginRequestModel(username, password)).map(LoginResponseModel::success).subscribe(loginResponse::postValue);
+        cycloneInsiderService.login(loginRequestModel).map(LoginResponseModel::success).subscribe(loginResponse::postValue);
     }
 
     public LiveData<LoginResponseModel> getLoginResponse() {
