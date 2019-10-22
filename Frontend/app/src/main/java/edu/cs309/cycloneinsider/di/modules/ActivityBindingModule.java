@@ -5,7 +5,7 @@ import dagger.android.ContributesAndroidInjector;
 import edu.cs309.cycloneinsider.activities.MainActivity;
 import edu.cs309.cycloneinsider.activities.StartupActivity;
 
-@Module
+@Module(includes = ViewModelModule.class)
 public abstract class ActivityBindingModule {
     @ContributesAndroidInjector(modules = {MainActivityBindingModule.class})
     abstract MainActivity bindMainActivity();
