@@ -16,10 +16,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.activities.CreatePostActivity;
-import edu.cs309.cycloneinsider.activities.InsiderActivity;
 import edu.cs309.cycloneinsider.activities.PostDetailActivity;
+import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.models.PostModel;
 import edu.cs309.cycloneinsider.fragments.adapters.PostListRecyclerViewAdapter;
 import io.reactivex.Observable;
@@ -29,6 +32,8 @@ import retrofit2.Response;
 
 public class PostListFragment extends Fragment {
     public static final String ROOM_UUID = "ROOM_UUID";
+    @Inject
+    CycloneInsiderService cycloneInsiderService;
     private String roomUUID;
     private Disposable postSub;
     private LinearLayoutManager layoutManager;
@@ -46,6 +51,7 @@ public class PostListFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        AndroidSupportInjection.inject(this);
         super.onCreate(savedInstanceState);
         roomUUID = getArguments().getString(ROOM_UUID);
     }
@@ -108,14 +114,10 @@ public class PostListFragment extends Fragment {
         Observable<Response<List<PostModel>>> postListObservable = null;
         //If the room uuid is null then we should get the front page posts.
         if (roomUUID == null) {
-            postListObservable = ((InsiderActivity) getActivity())
-                    .getInsiderApplication()
-                    .getApiService()
+            postListObservable = cycloneInsiderService
                     .getFrontPagePosts();
         } else {
-            postListObservable = ((InsiderActivity) getActivity())
-                    .getInsiderApplication()
-                    .getApiService()
+            postListObservable = cycloneInsiderService
                     .getRoomPosts(roomUUID);
         }
 

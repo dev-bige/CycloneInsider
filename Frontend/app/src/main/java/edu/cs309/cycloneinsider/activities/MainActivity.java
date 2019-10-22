@@ -22,7 +22,11 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 import edu.cs309.cycloneinsider.R;
+import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.models.MembershipModel;
 import edu.cs309.cycloneinsider.fragments.FavoritePostFragment;
 import edu.cs309.cycloneinsider.fragments.JoinRoomFragment;
@@ -41,6 +45,9 @@ public class MainActivity extends InsiderActivity {
     private boolean first = true;
     private List<MembershipModel> memberships;
 
+    @Inject
+    CycloneInsiderService cycloneInsiderService;
+
     public MembershipModel getSelectedMembership(MenuItem menuItem) {
         int size = classrooms.size();
         for (int i = 0; i < size; i++) {
@@ -54,7 +61,7 @@ public class MainActivity extends InsiderActivity {
     @SuppressLint("CheckResult")
     public void loadRooms(Action complete) {
 
-        getInsiderApplication().getApiService()
+        cycloneInsiderService
                 .getMemberships()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
@@ -98,6 +105,7 @@ public class MainActivity extends InsiderActivity {
     @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.open_main_page);
         mDrawer = findViewById(R.id.drawer_layout);
@@ -116,7 +124,7 @@ public class MainActivity extends InsiderActivity {
             return true;
         });
 
-        getInsiderApplication().getApiService().currentUser().observeOn(AndroidSchedulers.mainThread()).subscribe(userResponse -> {
+        cycloneInsiderService.currentUser().observeOn(AndroidSchedulers.mainThread()).subscribe(userResponse -> {
             ((TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_username)).setText(userResponse.body().username);
         });
 
