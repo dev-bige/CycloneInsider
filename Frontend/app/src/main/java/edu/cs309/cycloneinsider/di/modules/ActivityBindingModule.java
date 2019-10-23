@@ -4,6 +4,7 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 import edu.cs309.cycloneinsider.activities.LoginActivity;
 import edu.cs309.cycloneinsider.activities.MainActivity;
+import edu.cs309.cycloneinsider.activities.PostDetailActivity;
 import edu.cs309.cycloneinsider.activities.StartupActivity;
 
 @Module(includes = ViewModelModule.class)
@@ -16,4 +17,7 @@ public abstract class ActivityBindingModule {
 
     @ContributesAndroidInjector
     abstract LoginActivity bindLoginActivity();
+
+    @ContributesAndroidInjector
+    abstract PostDetailActivity bindPostDetailActivity();
 }
