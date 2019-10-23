@@ -94,14 +94,7 @@ public class PostController extends BaseController {
     }
 
 
-    @RequestMapping(value = "{postUuid}", method = RequestMethod.DELETE)
-    public void deletePost(@PathVariable("postUuid") UUID postUuid) {
-        Optional<Post> post = postRepository.findById(postUuid);
-        if (!post.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        postRepository.deleteById(postUuid);
-    }
+
 
 
 }

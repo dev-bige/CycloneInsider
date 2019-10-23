@@ -74,7 +74,7 @@ public class PostTest {
         String title = "TestTitle";
 
         UUID postuuid = post1.getUuid();
-        
+
         assertThat(post1.getTitle())
                 .isEqualTo(title);
 
