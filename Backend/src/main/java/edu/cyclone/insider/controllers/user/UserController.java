@@ -7,13 +7,12 @@ import edu.cyclone.insider.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController()
 @RequestMapping("users")
@@ -60,6 +59,15 @@ public class UserController extends BaseController {
 
     }
 
+
+    @RequestMapping(value = "{postUuid}", method = RequestMethod.DELETE)
+    public void deletePost(@PathVariable("postUuid") UUID postUuid) {
+        Optional<Post> post = postRepository.findById(getCurrentUser().getUuid());
+        if (!post.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        postRepository.deleteById(postUuid);
+    }
     @RequestMapping(value = "current", method = RequestMethod.GET)
     public InsiderUser current() {
         return getCurrentUser();
