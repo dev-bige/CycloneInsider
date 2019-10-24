@@ -48,7 +48,6 @@ public class MainActivity extends InsiderActivity {
 
     @Inject
     CycloneInsiderService cycloneInsiderService;
-
     @Inject
     Session session;
 
