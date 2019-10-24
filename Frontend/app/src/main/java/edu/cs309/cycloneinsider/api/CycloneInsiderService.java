@@ -10,6 +10,7 @@ import edu.cs309.cycloneinsider.api.models.FavoritePostModel;
 import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
 import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
 import edu.cs309.cycloneinsider.api.models.MembershipModel;
+import edu.cs309.cycloneinsider.api.models.NewPasswordRequestModel;
 import edu.cs309.cycloneinsider.api.models.PostCreateRequestModel;
 import edu.cs309.cycloneinsider.api.models.PostModel;
 import edu.cs309.cycloneinsider.api.models.RoomMembershipModel;
@@ -59,6 +60,9 @@ public interface CycloneInsiderService {
 
     @POST("login")
     Observable<Response<Void>> login(@Body LoginRequestModel loginRequestModel);
+
+    @POST("changePassword")
+    Observable<Response<Void>> changePassword(@Body NewPasswordRequestModel newPasswordRequestModel);
 
     @POST("/users/sign-up")
     Observable<Response<Void>> signUp(@Body SignUpRequestModel signUpRequestModel);

@@ -30,4 +30,7 @@ public abstract class ActivityBindingModule {
     @ContributesAndroidInjector
     abstract NewPasswordActivity bindNewPasswordActivity();
 
+    @ContributesAndroidInjector
+    abstract SettingsActivity bindSettingsActivity();
+
 }
