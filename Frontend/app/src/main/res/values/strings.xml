@@ -11,7 +11,10 @@
     <string name="professor_valid_check">I\'m a professor and would like to verify my account!</string>
     <string name="sign_up">Sign Up!</string>
 
-
+    <string name="error_sign_up_only_one_name">You must only enter one name!</string>
+    <string name="error_name_length">You must enter a name!</string>
+    <string name="error_invalid_password">You must enter a password with at least one capital letter, 8 or more characters, and must contain at least one number</string>
+    <string name="error_password_length">You must enter a password!</string>
 
     <string name="app_name">Cyclone Insider</string>
     <string name="login_no_id_password">You must enter your Net ID and Password</string>

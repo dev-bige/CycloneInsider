@@ -7,9 +7,19 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+import edu.cs309.cycloneinsider.api.Session;
+
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.models.SignUpRequestModel;
+import edu.cs309.cycloneinsider.di.ViewModelFactory;
+import edu.cs309.cycloneinsider.viewmodels.SignUpViewModel;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -26,28 +36,28 @@ Things to add
 
 public class SignUpActivity extends InsiderActivity {
 
+    @Inject
+    ViewModelFactory viewModelFactory;
+    @Inject
+    Session session;
+    private SignUpViewModel signUpViewModel;
     private boolean professorValidate;
-    private Disposable subscribe;
-
-    /**
-     * checks to make sure only one word is entered but checking for a space
-     *
-     * @param userEntry
-     * @return true if name is valid
-     */
-    public boolean checkName(String userEntry) {
-        for (int i = 0; i < userEntry.length(); i++) {
-            if (userEntry.charAt(i) == ' ') {
-                return false;
-            }
-        }
-        return true;
-    }
+    private EditText firstNameText, lastNameText, usernameText, passwordTextOne, passwordTextTwo;
+    private TextView userError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        firstNameText = findViewById(R.id.first_name);
+        lastNameText = findViewById(R.id.last_name);
+        usernameText = findViewById(R.id.username);
+        passwordTextOne = findViewById(R.id.password);
+        passwordTextTwo = findViewById(R.id.password_valid);
+        userError = findViewById(R.id.user_error);
+        userError.setVisibility(View.GONE);
 
         CheckBox prof = findViewById(R.id.checkbox_prof);
         prof.setOnClickListener(this::onCheckboxClicked);
@@ -59,108 +69,83 @@ public class SignUpActivity extends InsiderActivity {
 
 
     public void onCheckboxClicked(View view) {
-        boolean checked = ((CheckBox) view).isChecked();
-
-        professorValidate = checked;
+        professorValidate = ((CheckBox) view).isChecked();
     }
 
     public void onSignUpClicked(View view) {
-        EditText firstNameText = findViewById(R.id.first_name);
-        EditText lastNameText = findViewById(R.id.last_name);
-        EditText usernameText = findViewById(R.id.username);
-        EditText passwordTextOne = findViewById(R.id.password);
-        EditText passwordTextTwo = findViewById(R.id.password_valid);
-        TextView userError = findViewById(R.id.user_error);
-        userError.setVisibility(View.GONE);
 
-        String firstName = firstNameText.getText().toString();
-        String lastName = lastNameText.getText().toString();
-        String userNameText = usernameText.getText().toString();
-        String password = passwordTextOne.getText().toString();
-        String passwordValid = passwordTextTwo.getText().toString();
+        signUpViewModel = ViewModelProviders.of(this, viewModelFactory).get(SignUpViewModel.class);
 
-        // Checks to make sure only one name is entered
-        if (!checkName(firstName)) {
-            userError.setText("You must only enter your first name");
-            userError.setVisibility(View.VISIBLE);
-            return;
-        }
-        // Checks to make sure only one name is entered
-        else if (!checkName(lastName)) {
-            userError.setText("You must only enter your last name");
-            userError.setVisibility(View.VISIBLE);
-            return;
-        }
-        // checks to make sure that the password meets the correct criteria
-        else if (!validPassword(password)) {
-            userError.setText("You password must contain one uppercase letter, be 8 or more characters, and contain a number");
-            userError.setVisibility(View.VISIBLE);
-            return;
-        }
-        // password to see if both passwords are equal to each other
-        else if (!(password.equals(passwordValid))) {
-            userError.setText("Your passwords must match");
-            userError.setVisibility(View.VISIBLE);
-            return;
-        }
+        signUpViewModel.signUp().observe(this, signUpResponseModel -> {
+            if (signUpResponseModel.isError()) {
+                userError.setVisibility(View.VISIBLE);
+                userError.setText(signUpResponseModel.getStringError());
+            }
+            else {
+                String firstName = firstNameText.getText().toString();
+                String lastName = lastNameText.getText().toString();
+                String userNameText = usernameText.getText().toString();
+                String password = passwordTextOne.getText().toString();
+                signUpViewModel.signUp(new SignUpRequestModel(firstName, lastName, userNameText, password));
+                finish();
+            }
+        });
 
-        // checks if checkbox is checked
-//        if (professorValidate) {
-//            // send verification email
+//        String passwordValid = passwordTextTwo.getText().toString();
+
+//
+//        // Checks to make sure only one name is entered
+//        if (!checkName(firstName)) {
+//            userError.setText("You must only enter your first name");
+//            userError.setVisibility(View.VISIBLE);
 //            return;
 //        }
-
-        SignUpRequestModel signUpRequestModel = new SignUpRequestModel();
-        signUpRequestModel.firstName = firstName;
-        signUpRequestModel.lastName = lastName;
-        signUpRequestModel.username = userNameText;
-        signUpRequestModel.password = password;
-
-        subscribe = signUp(getInsiderApplication().getApiService(), signUpRequestModel)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(signUpRequestModelResponse -> {
-                    if (signUpRequestModelResponse.isSuccessful()) {
-                        finish();
-                    } else {
-                        userError.setText("You are already a user!");
-                        userError.setVisibility(View.VISIBLE);
-                    }
-                });
+//        // Checks to make sure only one name is entered
+//        else if (!checkName(lastName)) {
+//            userError.setText("You must only enter your last name");
+//            userError.setVisibility(View.VISIBLE);
+//            return;
+//        }
+//        // checks to make sure that the password meets the correct criteria
+//        else if (!validPassword(password)) {
+//            userError.setText("You password must contain one uppercase letter, be 8 or more characters, and contain a number");
+//            userError.setVisibility(View.VISIBLE);
+//            return;
+//        }
+//        // password to see if both passwords are equal to each other
+//        else if (!(password.equals(passwordValid))) {
+//            userError.setText("Your passwords must match");
+//            userError.setVisibility(View.VISIBLE);
+//            return;
+//        }
+//
+//        // checks if checkbox is checked
+////        if (professorValidate) {
+////            // send verification email
+////            return;
+////        }
+//
+//        SignUpRequestModel signUpRequestModel = new SignUpRequestModel();
+//        signUpRequestModel.firstName = firstName;
+//        signUpRequestModel.lastName = lastName;
+//        signUpRequestModel.username = userNameText;
+//        signUpRequestModel.password = password;
+//
+//        subscribe = signUp(getInsiderApplication().getApiService(), signUpRequestModel)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(signUpRequestModelResponse -> {
+//                    if (signUpRequestModelResponse.isSuccessful()) {
+//                        finish();
+//                    } else {
+//                        userError.setText("You are already a user!");
+//                        userError.setVisibility(View.VISIBLE);
+//                    }
+//                });
 
     }
 
     public Observable<Response<Void>> signUp(CycloneInsiderService service, SignUpRequestModel model) {
         return service.signUp(model);
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        if (subscribe != null && !subscribe.isDisposed()) {
-            subscribe.dispose();
-        }
-        super.onDestroy();
-    }
-
-    // username
-
-    /**
-     * Password
-     * -must contain uppercase
-     * -must contain a number
-     * -must be equal to or more than 8 characters
-     * -returns true if valid password
-     **/
-    public boolean validPassword(String userPassword) {
-        boolean hasUppercase = !userPassword.equals(userPassword.toLowerCase());
-        boolean correctLength = userPassword.length() >= 8;
-        boolean containsNumber = false;
-
-        for (int i = 0; i < userPassword.length(); i++) {
-            containsNumber = Character.isDigit(userPassword.charAt(i));
-        }
-
-        return hasUppercase && correctLength && containsNumber;
     }
 
 }

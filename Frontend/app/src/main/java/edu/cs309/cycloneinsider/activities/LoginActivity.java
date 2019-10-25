@@ -28,7 +28,6 @@ public class LoginActivity extends InsiderActivity {
     ViewModelFactory viewModelFactory;
     @Inject
     Session session;
-    private Disposable loginSub;
     private LoginViewModel viewModel;
     private EditText netID, password;
     private TextView hiddenText;
@@ -60,13 +59,6 @@ public class LoginActivity extends InsiderActivity {
         });
     }
 
-    @Override
-    protected void onDestroy() {
-        if (loginSub != null && !loginSub.isDisposed()) {
-            loginSub.dispose();
-        }
-        super.onDestroy();
-    }
 
     public void openMainPage(View view) {
         String netIDString = netID.getText().toString();
@@ -76,8 +68,4 @@ public class LoginActivity extends InsiderActivity {
         viewModel.login(new LoginRequestModel(netIDString, passwordString));
     }
 
-    public Observable<Response<Void>> login(CycloneInsiderService service, LoginRequestModel loginRequestModel) {
-        return service
-                .login(loginRequestModel);
-    }
 }
