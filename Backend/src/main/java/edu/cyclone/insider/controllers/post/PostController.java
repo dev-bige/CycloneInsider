@@ -10,6 +10,7 @@ import edu.cyclone.insider.controllers.post.models.PostCreateRequestModel;
 import edu.cyclone.insider.models.FavPost;
 import edu.cyclone.insider.models.Post;
 import edu.cyclone.insider.models.Room;
+import edu.cyclone.insider.repos.FavPostRepository;
 import edu.cyclone.insider.repos.PostRepository;
 import edu.cyclone.insider.repos.RoomRepository;
 import edu.cyclone.insider.repos.UsersRepository;
@@ -28,12 +29,14 @@ import java.util.UUID;
 public class PostController extends BaseController {
     private PostRepository postRepository;
     private RoomRepository roomRepository;
+    private FavPostRepository favPostRepository;
 
     @Autowired
-    public PostController(PostRepository postRepository, UsersRepository usersRepository, RoomRepository roomRepository) {
+    public PostController(PostRepository postRepository, UsersRepository usersRepository, RoomRepository roomRepository, FavPostRepository favPostRepository) {
         super(usersRepository);
         this.postRepository = postRepository;
         this.roomRepository = roomRepository;
+        this.favPostRepository = favPostRepository;
     }
 
     @RequestMapping(value = "front-page", method = RequestMethod.GET)
@@ -57,17 +60,17 @@ public class PostController extends BaseController {
     }
 
 
-    @RequestMapping(value = "{favPost/{postUuid}", method = RequestMethod.POST)
+    @RequestMapping(value = "{postUuid}/favorite", method = RequestMethod.POST)
     public FavPost favorite_Post(@PathVariable("postUuid") UUID postUuid) {
         Optional<Post> post = postRepository.findById(postUuid);
         if (!post.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         FavPost favPost = new FavPost();
-        favPost.setUser(getCurrentUser());
         favPost.setPost(post.get());
-
-
+        favPost.setUser(getCurrentUser());
+        favPost.setDate(new Date());
+        favPost = favPostRepository.save(favPost);
         return favPost;
     }
 
@@ -90,19 +93,8 @@ public class PostController extends BaseController {
         return post;
     }
 
-    @RequestMapping(value = "favPost/{postUuid}", method = RequestMethod.GET)
-    public List<Post> getFavPosts(@PathVariable("postUuid") UUID postUuid) {
-        return postRepository.getPostsByRoom(postUuid);
-    }
 
-    @RequestMapping(value = "{postUuid}", method = RequestMethod.DELETE)
-    public void deletePost(@PathVariable("postUuid") UUID postUuid) {
-        Optional<Post> post = postRepository.findById(postUuid);
-        if (!post.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        postRepository.deleteById(postUuid);
-    }
+
 
 
 }

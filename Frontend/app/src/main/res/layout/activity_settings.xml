@@ -21,24 +21,40 @@
 
 
             <TextView
-                android:id="@+id/feedback_button"
+                android:id="@+id/Settings"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
+                android:text="Settings"
+                android:gravity="center"
+                android:textSize="30dp"
+                android:textColor="#FFFFFF"
+                android:background="#FFD600"
+                />
+
+
+            <Button
+                android:id="@+id/feedback_button"
+                android:layout_width="300dp"
+                android:layout_height="90dp"
+                android:layout_marginVertical="20dp"
                 android:clickable="true"
                 android:onClick="openFeedBack"
                 android:text="Send Feedback?"
                 android:background="#E53935"
                 android:gravity="center"
+                android:layout_gravity="center"
                 android:textColor="#FFFFFF" />
-            <TextView
+            <Button
                 android:id="@+id/new_password_button"
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 android:layout_height="90dp"
+                android:layout_marginVertical="20dp"
                 android:clickable="true"
                 android:onClick="openNewPassword"
                 android:text="Create New Password"
                 android:background="#E53935"
                 android:gravity="center"
+                android:layout_gravity="center"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

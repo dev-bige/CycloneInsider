@@ -1,6 +1,7 @@
 package edu.cs309.cycloneinsider.api.models;
 
 
+import java.util.Date;
 import java.util.List;
 
 public class PostModel {
@@ -10,6 +11,7 @@ public class PostModel {
     InsiderUserModel user;
     RoomModel room;
     List<String> tags;
+    Date date;
 
     public String getContent() {
         return content;
@@ -17,22 +19,6 @@ public class PostModel {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public InsiderUserModel getUser() {
-        return user;
-    }
-
-    public void setUser(InsiderUserModel user) {
-        this.user = user;
     }
 
     public RoomModel getRoom() {
@@ -51,11 +37,35 @@ public class PostModel {
         this.tags = tags;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public InsiderUserModel getUser() {
+        return user;
+    }
+
+    public void setUser(InsiderUserModel user) {
+        this.user = user;
+    }
+
     public String getUuid() {
         return uuid;
     }
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

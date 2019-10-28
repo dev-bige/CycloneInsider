@@ -7,17 +7,24 @@ import androidx.annotation.Nullable;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 import edu.cs309.cycloneinsider.R;
+import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import io.reactivex.disposables.Disposable;
 
 public class StartupActivity extends InsiderActivity {
     private Disposable subscribe;
+    @Inject
+    public CycloneInsiderService cycloneInsiderService;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startup);
-        subscribe = getInsiderApplication()
-                .getApiService()
+        subscribe = cycloneInsiderService
                 .currentUser()
                 .delay(1, TimeUnit.SECONDS)
                 .subscribe(response -> {
@@ -33,7 +40,6 @@ public class StartupActivity extends InsiderActivity {
                 }, () -> {
 
                 });
-        super.onCreate(savedInstanceState);
     }
 
     @Override

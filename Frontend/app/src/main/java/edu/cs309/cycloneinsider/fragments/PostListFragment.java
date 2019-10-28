@@ -9,30 +9,37 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.activities.CreatePostActivity;
-import edu.cs309.cycloneinsider.activities.InsiderActivity;
 import edu.cs309.cycloneinsider.activities.PostDetailActivity;
 import edu.cs309.cycloneinsider.api.models.PostModel;
+import edu.cs309.cycloneinsider.di.ViewModelFactory;
 import edu.cs309.cycloneinsider.fragments.adapters.PostListRecyclerViewAdapter;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import edu.cs309.cycloneinsider.viewmodels.PostListViewModel;
 import io.reactivex.disposables.Disposable;
-import retrofit2.Response;
 
 public class PostListFragment extends Fragment {
     public static final String ROOM_UUID = "ROOM_UUID";
     private String roomUUID;
-    private Disposable postSub;
     private LinearLayoutManager layoutManager;
     private PostListRecyclerViewAdapter mAdapter;
     private Disposable postClicks;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+    @Inject
+    ViewModelFactory viewModelFactory;
+    private PostListViewModel viewModel;
 
     public static PostListFragment newInstance(String roomUuid) {
         PostListFragment postListFragment = new PostListFragment();
@@ -44,6 +51,7 @@ public class PostListFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        AndroidSupportInjection.inject(this);
         super.onCreate(savedInstanceState);
         roomUUID = getArguments().getString(ROOM_UUID);
     }
@@ -55,8 +63,20 @@ public class PostListFragment extends Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        if (postClicks != null && !postClicks.isDisposed()) {
+            postClicks.dispose();
+        }
+        super.onDestroy();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        viewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(PostListViewModel.class);
+        viewModel.setRoomUUID(roomUUID);
         super.onViewCreated(view, savedInstanceState);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(viewModel::refresh);
 
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -72,43 +92,25 @@ public class PostListFragment extends Fragment {
 
 
         getView().findViewById(R.id.new_post_button).setOnClickListener(view1 -> {
-            startActivity(new Intent(getActivity(), CreatePostActivity.class));
+            Intent intent = new Intent(getActivity(), CreatePostActivity.class);
+            intent.putExtra("ROOM_UUID", roomUUID);
+            startActivity(intent);
         });
-        Observable<Response<List<PostModel>>> postListObservable = null;
-        //If the room uuid is null then we should get the front page posts.
-        if (roomUUID == null) {
-            postListObservable = ((InsiderActivity) getActivity())
-                    .getInsiderApplication()
-                    .getApiService()
-                    .getFrontPagePosts()
-                    .observeOn(AndroidSchedulers.mainThread());
-        } else {
-            //TODO GET POSTS FOR ROOM UUID... for now, just have an empty steam so we don't crash.
-            postListObservable = Observable.empty();
-        }
 
-        postSub = postListObservable.subscribe(postsResponse -> {
-            if (postsResponse.isSuccessful()) {
-                List<PostModel> posts = postsResponse.body();
 
-                mAdapter.updateList(posts);
-            }
-        });
         postClicks = mAdapter.getItemClicks().subscribe(item -> {
             Intent intent = new Intent(getActivity(), PostDetailActivity.class);
             intent.putExtra("POST_UUID", item.getUuid());
             startActivity(intent);
         });
-    }
+        viewModel.getPostListResponse().observe(this, listResponse -> {
+            if (listResponse.isSuccessful()) {
+                List<PostModel> posts = listResponse.body();
 
-    @Override
-    public void onDestroy() {
-        if (postSub != null && !postSub.isDisposed()) {
-            postSub.dispose();
-        }
-        if (postClicks != null && !postClicks.isDisposed()) {
-            postSub.dispose();
-        }
-        super.onDestroy();
+                mAdapter.updateList(posts);
+            }
+            swipeRefreshLayout.setRefreshing(false);
+        });
+        viewModel.refresh();
     }
 }

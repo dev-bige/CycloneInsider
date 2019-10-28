@@ -20,13 +20,27 @@
     <style name="AppThemeWhite" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="colorPrimary">#F5F5F5</item>
-        <item name="colorPrimaryDark">#BDBDBD</item>
+        <item name="colorPrimary">#FFFFFF</item>
+        <item name="colorPrimaryDark">#616161</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="CollapsedTitleStyle">
         <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="PostDetailTitleAppearance">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

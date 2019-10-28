@@ -5,14 +5,45 @@
             android:id="@+id/nav_front_page"
             android:icon="@drawable/ic_home_black_24dp"
             android:title="Front Page" />
+
+        <item android:title="My Insider">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_fav_post"
+                        android:icon="@drawable/ic_star_black_24dp"
+                        android:title="Favorite Posts" />
+                    <item
+                        android:id="@+id/nav_my_post"
+                        android:icon="@drawable/ic_content_paste_black_24dp"
+                        android:title="My Posts" />
+                </group>
+
+            </menu>
+        </item>
+        <item
+            android:id="@+id/classrooms"
+            android:title="Classrooms">
+            <menu>
+                <item android:title="..." />
+            </menu>
+        </item>
+    </group>
+
+    <group
+        android:id="@+id/group_item_3"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_join_room"
             android:icon="@drawable/ic_add_circle_outline_black_24dp"
             android:title="Join Room" />
         <item
+            android:id="@+id/nav_create_room"
+            android:icon="@drawable/ic_edit_black_24dp"
+            android:title="Create Room" />
+        <item
             android:id="@+id/settings"
             android:icon="@drawable/ic_settings_black_24dp"
-            android:title="Settings"
-            />
+            android:title="Settings" />
     </group>
 </menu>

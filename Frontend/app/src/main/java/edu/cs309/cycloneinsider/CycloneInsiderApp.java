@@ -1,80 +1,46 @@
 package edu.cs309.cycloneinsider;
 
-import android.app.Application;
-import android.content.SharedPreferences;
+import androidx.fragment.app.Fragment;
 
-import edu.cs309.cycloneinsider.api.AuthorizationInterceptor;
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DaggerApplication;
+import dagger.android.DispatchingAndroidInjector;
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.Session;
-import edu.cs309.cycloneinsider.api.TokenRenewInterceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import edu.cs309.cycloneinsider.di.ApplicationComponent;
+import edu.cs309.cycloneinsider.di.DaggerApplicationComponent;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class CycloneInsiderApp extends Application {
-    private static String baseUrl = "http://coms-309-sb-5.misc.iastate.edu:8080";
-    private Session session;
-    private CycloneInsiderService apiService;
+public class CycloneInsiderApp extends DaggerApplication {
+    @Inject
+    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
-    public Session getSession() {
-        if (session == null) {
-            session = new Session() {
-                SharedPreferences preferences = getSharedPreferences("CycloneInsiderPrefs", 0);
-
-                @Override
-                public boolean isLoggedIn() {
-                    return getToken() != null;
-                }
-
-                @Override
-                public void saveToken(String token) {
-                    preferences.edit().putString("token", token).apply();
-                }
-
-                @Override
-                public String getToken() {
-                    return preferences.getString("token", null);
-                }
-
-
-                @Override
-                public void invalidate() {
-                    preferences.edit().putString("token", null).apply();
-                }
-            };
-        }
-        return session;
+    @Override
+    public void onCreate() {
+        super.onCreate();
     }
 
     public CycloneInsiderService getApiService() {
-        if (apiService == null) {
-            apiService = provideRetrofit(baseUrl).create(CycloneInsiderService.class);
-        }
-        return apiService;
+        return null;
+    }
+
+    public Session getSession() {
+        return null;
     }
 
     private Retrofit provideRetrofit(String url) {
-        return new Retrofit.Builder()
-                .baseUrl(url)
-                .client(provideOkHttpClient())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        return null;
     }
 
-    private OkHttpClient provideOkHttpClient() {
-        OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
-        okhttpClientBuilder.addInterceptor(chain -> {
-            if (getSession().isLoggedIn()) {
-                Request request = chain.request().newBuilder().addHeader("Authorization", getSession().getToken()).build();
-                return chain.proceed(request);
-            }
-            return chain.proceed(chain.request());
-        });
-        okhttpClientBuilder.addInterceptor(new TokenRenewInterceptor(getSession()));
-        okhttpClientBuilder.addInterceptor(new AuthorizationInterceptor(getSession()));
-        return okhttpClientBuilder.build();
+    @Override
+    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
+        ApplicationComponent component = DaggerApplicationComponent
+                .builder()
+                .application(this)
+                .build();
+        component.inject(this);
+        return component;
     }
 }

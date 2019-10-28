@@ -8,34 +8,28 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.apache.commons.lang3.time.DateUtils;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.models.PostModel;
-import edu.cs309.cycloneinsider.api.models.RoomModel;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
 public class PostListRecyclerViewAdapter extends RecyclerView.Adapter<PostListRecyclerViewAdapter.ViewHolder> {
     private final PublishSubject<PostModel> onClickSubject = PublishSubject.create();
+    SimpleDateFormat dayMonthFormat = new SimpleDateFormat("MMM d", Locale.US);
+    SimpleDateFormat timeDateFormat = new SimpleDateFormat("h:mm a", Locale.US);
     private List<PostModel> posts = new ArrayList<>();
 
-    @NonNull
-    @Override
-    public PostListRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_post, parent, false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull PostListRecyclerViewAdapter.ViewHolder holder, int position) {
-        final PostModel post = posts.get(position);
-        holder.title.setText(post.getTitle());
-        holder.username.setText(post.getUser().username);
-
-        holder.itemView.setOnClickListener(view -> onClickSubject.onNext(post));
+    public Observable<PostModel> getItemClicks() {
+        return onClickSubject.hide();
     }
 
     @Override
@@ -43,9 +37,28 @@ public class PostListRecyclerViewAdapter extends RecyclerView.Adapter<PostListRe
         return posts.size();
     }
 
+    @Override
+    public void onBindViewHolder(@NonNull PostListRecyclerViewAdapter.ViewHolder holder, int position) {
+        final PostModel post = posts.get(position);
+        holder.title.setText(post.getTitle());
+        Date rounded = DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH);
+        String date = "";
+        if (post.getDate().getTime() < rounded.getTime()) {
+            date = dayMonthFormat.format(post.getDate());
+        } else {
+            date = timeDateFormat.format(post.getDate());
+        }
+        holder.username.setText(String.format("%s - %s", post.getUser().getUsername(), date));
 
-    public Observable<PostModel> getItemClicks() {
-        return onClickSubject.hide();
+        holder.itemView.setOnClickListener(view -> onClickSubject.onNext(post));
+    }
+
+    @NonNull
+    @Override
+    public PostListRecyclerViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item_post, parent, false);
+        return new ViewHolder(view);
     }
 
     public void updateList(List<PostModel> posts) {

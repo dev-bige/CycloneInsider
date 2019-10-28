@@ -19,10 +19,11 @@
             android:layout_width="match_parent"
             app:elevation="4dp"
             android:layout_height="match_parent"
-            app:contentScrim="@color/colorPrimary"
-            app:collapsedTitleTextAppearance="@style/CollapsedTitleStyle"
+            android:background="@drawable/collapsing_bar_divider"
+            app:contentScrim="@color/colorAccent"
             app:expandedTitleGravity="top"
-            app:expandedTitleMarginStart="15dp"
+            app:expandedTitleMarginStart="16dp"
+            app:expandedTitleTextAppearance="@style/PostDetailTitleAppearance"
             app:expandedTitleMarginTop="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -30,7 +31,7 @@
                 layout="@layout/post_detail_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="48dp"
                 app:layout_collapseMode="parallax"
                 app:layout_scrollFlags="scroll" />
 
@@ -40,24 +41,33 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:theme="@style/AppThemeWhite" />
+
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/new_post_button"
+        android:id="@+id/new_comment_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
         app:backgroundTint="@color/colorAccent"
         app:srcCompat="@drawable/ic_add_black_24dp"
-        app:tint="@android:color/white" />
+        app:tint="?attr/colorOnSecondary" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
