@@ -1,5 +1,5 @@
 package edu.cyclone.insider.models;
-import static org.assertj.core.api.Assertions.*;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Entity;
@@ -16,6 +16,7 @@ public class InsiderUser extends BaseModel {
     private String lastName;
 
     private Boolean isAdmin;
+    private Boolean isProfessor;
 
     public InsiderUser() {
     }
@@ -54,5 +55,13 @@ public class InsiderUser extends BaseModel {
 
     public void setAdmin(Boolean isAdmin) {
         isAdmin = this.isAdmin;
+    }
+
+    public Boolean getAdmin() {
+        return isAdmin;
+    }
+
+    public Boolean getProfessor() {
+        return isProfessor;
     }
 }

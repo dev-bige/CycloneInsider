@@ -3,6 +3,7 @@ package edu.cyclone.insider.controllers.room;
 import edu.cyclone.insider.controllers.BaseController;
 import edu.cyclone.insider.controllers.post.models.PostCreateRequestModel;
 import edu.cyclone.insider.controllers.room.models.CreateRoomRequestModel;
+import edu.cyclone.insider.models.InsiderUser;
 import edu.cyclone.insider.models.Post;
 import edu.cyclone.insider.models.Room;
 import edu.cyclone.insider.models.RoomMembership;
@@ -46,8 +47,18 @@ public class RoomController extends BaseController {
         //Check if membership already exists
         Optional<RoomMembership> membership = roomMembershipRepository.findMembership(getCurrentUser().getUuid(), room_uuid);
         if (membership.isPresent()) {
+            RoomMembership roomMembership = membership.get();
+            //If pending, we need to change it to not pending
+            if (roomMembership.getPending()) {
+                roomMembership.setPending(false);
+                roomMembership = roomMembershipRepository.save(roomMembership);
+            }
             //Return current membership if already exists...
-            return membership.get();
+            return roomMembership;
+        }
+
+        if (byId.get().getPrivateRoom()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
         RoomMembership roomMembership = new RoomMembership();
@@ -81,6 +92,26 @@ public class RoomController extends BaseController {
     @RequestMapping(value = "{roomUuid}/posts", method = RequestMethod.GET)
     public List<Post> getRoomPosts(@PathVariable("roomUuid") UUID roomUuid) {
         return postRepository.getPostsByRoom(roomUuid);
+    }
+
+    @RequestMapping(value = "{roomUuid}/invite", method = RequestMethod.POST)
+    public RoomMembership invite(@RequestParam("userUuid") UUID userId, @PathVariable("roomUuid") UUID roomUuid) {
+        if (!getCurrentUser().getAdmin() || !getCurrentUser().getProfessor()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        Optional<Room> room = roomRepository.findById(roomUuid);
+        Optional<InsiderUser> user = usersRepository.findById(userId);
+
+        if (!room.isPresent() || !user.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        RoomMembership roomMembership = new RoomMembership();
+        roomMembership.setPending(true);
+        roomMembership.setUser(user.get());
+        roomMembership.setRoom(room.get());
+        roomMembership.setInvitedBy(getCurrentUser());
+        return roomMembershipRepository.save(roomMembership);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
@@ -130,6 +161,7 @@ public class RoomController extends BaseController {
 
     /**
      * Checks if user is part of the room, if not, we throw an exception
+     *
      * @param roomUuid
      */
     public void membershipCheck(UUID roomUuid) {

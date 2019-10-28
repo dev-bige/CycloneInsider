@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @RestController()
 @RequestMapping("users")
@@ -39,35 +37,36 @@ public class UserController extends BaseController {
         return roomMembershipRepository.findUserMemberships(getCurrentUser().getUuid());
     }
 
+    @RequestMapping(value = "memberships/pending", method = RequestMethod.GET)
+    public List<RoomMembership> getPendingMemberships() {
+        return roomMembershipRepository.findPendingUserMemberships(getCurrentUser().getUuid());
+    }
 
     @RequestMapping(value = "current/favorite-posts", method = RequestMethod.GET)
     public List<FavPost> getFavPosts() {
         return favPostRepository.findFavByUser(getCurrentUser().getUuid());
     }
 
-
     @RequestMapping(value = "current/users-comments", method = RequestMethod.GET)
     public List<Comment> getMyComments() {
         return commentsRepository.findCommentsByUser(getCurrentUser().getUuid());
-
     }
-
 
     @RequestMapping(value = "current/users-posts", method = RequestMethod.GET)
     public List<Post> getMyPosts() {
         return postRepository.findPostsByUser(getCurrentUser().getUuid());
-
     }
 
 
-    @RequestMapping(value = "{postUuid}", method = RequestMethod.DELETE)
-    public void deletePost(@PathVariable("postUuid") UUID postUuid) {
-        Optional<Post> post = postRepository.findById(getCurrentUser().getUuid());
-        if (!post.isPresent()) {
+    @RequestMapping(value = "{username}/profile", method = RequestMethod.GET)
+    public InsiderUser getUser(@PathVariable("username") String username) {
+        InsiderUser userByUsername = usersRepository.findUserByUsername(username);
+        if (userByUsername == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        postRepository.deleteById(postUuid);
+        return userByUsername;
     }
+
     @RequestMapping(value = "current", method = RequestMethod.GET)
     public InsiderUser current() {
         return getCurrentUser();

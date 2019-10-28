@@ -8,6 +8,8 @@ public class RoomMembership extends BaseModel {
     @ManyToOne
     private InsiderUser user;
     @ManyToOne
+    private InsiderUser invitedBy;
+    @ManyToOne
     private Room room;
 
     private Boolean pending;
@@ -37,5 +39,13 @@ public class RoomMembership extends BaseModel {
 
     public void setPending(Boolean pending) {
         this.pending = pending;
+    }
+
+    public InsiderUser getInvitedBy() {
+        return invitedBy;
+    }
+
+    public void setInvitedBy(InsiderUser invitedBy) {
+        this.invitedBy = invitedBy;
     }
 }

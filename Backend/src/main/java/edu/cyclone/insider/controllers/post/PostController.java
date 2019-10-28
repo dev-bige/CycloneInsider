@@ -59,6 +59,19 @@ public class PostController extends BaseController {
         return post.get();
     }
 
+    @RequestMapping(value = "{postUuid}", method = RequestMethod.DELETE)
+    public Post deletePost(@PathVariable("postUuid") UUID postUuid) {
+        Optional<Post> post = postRepository.findById(postUuid);
+        if (!post.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        if (!post.get().getUser().getUuid().toString()
+                .equals(getCurrentUser().getUuid().toString())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        postRepository.delete(post.get());
+        return post.get();
+    }
 
     @RequestMapping(value = "{postUuid}/favorite", method = RequestMethod.POST)
     public FavPost favorite_Post(@PathVariable("postUuid") UUID postUuid) {
@@ -74,7 +87,7 @@ public class PostController extends BaseController {
         return favPost;
     }
 
-    private Post createPost(@RequestBody PostCreateRequestModel request, UUID roomUUid) {
+    private Post createPost(PostCreateRequestModel request, UUID roomUUid) {
         Optional<Room> byId = null;
         if (roomUUid != null) {
             byId = roomRepository.findById(roomUUid);
@@ -92,9 +105,6 @@ public class PostController extends BaseController {
         post = postRepository.save(post);
         return post;
     }
-
-
-
 
 
 }
