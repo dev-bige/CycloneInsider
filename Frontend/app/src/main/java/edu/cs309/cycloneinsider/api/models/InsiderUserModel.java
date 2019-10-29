@@ -5,6 +5,8 @@ public class InsiderUserModel {
     public String firstName;
     public String lastName;
     public String username;
+    public Boolean admin;
+    public Boolean professor;
 
     public String getFirstName() {
         return firstName;
@@ -36,5 +38,21 @@ public class InsiderUserModel {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public Boolean getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
+    }
+
+    public Boolean getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(Boolean professor) {
+        this.professor = professor;
     }
 }
