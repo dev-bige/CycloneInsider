@@ -28,7 +28,7 @@ public class SettingsActivity extends InsiderActivity {
 
     public void openFeedBack(View view) {
 
-        startActivity(new Intent(this, FeedbackActivity.class));
+        startActivity(new Intent(this, FeedbackOptionsActivity.class));
 
     }
 

@@ -3,6 +3,7 @@ package edu.cs309.cycloneinsider.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -98,9 +99,50 @@ public class FeedbackActivity extends AppCompatActivity {
         }
 
         //Sends email
+
+        View inflatedView = getLayoutInflater().inflate(R.layout.activity_feedback_options,null);
+
+        CheckBox tech = (CheckBox) inflatedView.findViewById(R.id.technical_problem);
+        CheckBox improve = (CheckBox) inflatedView.findViewById(R.id.improvement);
+        CheckBox feature = (CheckBox) inflatedView.findViewById(R.id.feature);
+        CheckBox other = (CheckBox) inflatedView.findViewById(R.id.other);
+
+        boolean isCheckedTech = tech.isChecked();
+        boolean isCheckedImprove = improve.isChecked();
+        boolean isCheckedFeature = feature.isChecked();
+        boolean isCheckedOther = other.isChecked();
+
+        String Subject = "";
+
+        if(isCheckedTech){
+
+            Subject += "Technical: ";
+
+        }
+
+        if(isCheckedImprove){
+
+            Subject += "Improve: ";
+
+        }
+
+        if(isCheckedFeature){
+
+            Subject += "Feature: ";
+
+        }
+
+        if(isCheckedOther){
+
+            Subject += "Other: ";
+
+        }
+
+        Subject += "(User Feedback)";
+
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"cycloneinsider@gmail.com"});
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback: User");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, Subject);
         emailIntent.putExtra(Intent.EXTRA_TEXT, emailString);
         emailIntent.setType("message/rfcc822");
         startActivity(emailIntent);
