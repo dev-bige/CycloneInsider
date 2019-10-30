@@ -56,10 +56,7 @@ public class Application {
                 .build();
     }
 
-    @Bean
-    public ServerEndpointExporter serverEndpointExporter() {
-        return new ServerEndpointExporter();
-    }
+
 
     @Bean
     UiConfiguration uiConfig() {
