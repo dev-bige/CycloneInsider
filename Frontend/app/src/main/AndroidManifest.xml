@@ -39,6 +39,8 @@
         <activity android:name=".activities.SettingsActivity" />
         <activity android:name=".activities.FeedbackActivity" />
         <activity android:name=".activities.NewPasswordActivity" />
+
+        <service android:name=".NotificationService" android:enabled="true" android:exported="true" />
     </application>
 
 </manifest>

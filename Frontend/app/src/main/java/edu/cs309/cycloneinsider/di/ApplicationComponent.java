@@ -13,12 +13,14 @@ import edu.cs309.cycloneinsider.CycloneInsiderApp;
 import edu.cs309.cycloneinsider.di.modules.ActivityBindingModule;
 import edu.cs309.cycloneinsider.di.modules.ApplicationModule;
 import edu.cs309.cycloneinsider.di.modules.ContextModule;
+import edu.cs309.cycloneinsider.di.modules.ServiceBindingModule;
 
 @Singleton
 @Component(modules = {
         ContextModule.class,
         AndroidSupportInjectionModule.class,
         ActivityBindingModule.class,
+        ServiceBindingModule.class,
         ApplicationModule.class})
 public interface ApplicationComponent extends AndroidInjector<DaggerApplication> {
     void inject(CycloneInsiderApp application);
