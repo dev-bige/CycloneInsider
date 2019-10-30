@@ -32,10 +32,14 @@ public class NotificationController {
         userUuidSessionMap.remove(uuid);
     }
 
-    public static void broadcastNotificationToUUID(UUID uuid, String message) throws IOException {
+    public static void broadcastNotificationToUUID(UUID uuid, String message)  {
         Session session = userUuidSessionMap.get(uuid);
         if (session != null) {
-            session.getBasicRemote().sendText(message);
+            try {
+                session.getBasicRemote().sendText(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 package edu.cyclone.insider.controllers.room;
 
 import edu.cyclone.insider.controllers.BaseController;
+import edu.cyclone.insider.controllers.notifications.NotificationController;
 import edu.cyclone.insider.controllers.post.models.PostCreateRequestModel;
 import edu.cyclone.insider.controllers.room.models.CreateRoomRequestModel;
 import edu.cyclone.insider.models.InsiderUser;
@@ -111,6 +112,8 @@ public class RoomController extends BaseController {
         roomMembership.setUser(user.get());
         roomMembership.setRoom(room.get());
         roomMembership.setInvitedBy(getCurrentUser());
+        String format = String.format("You have been invited to %s from %s", room.get().getName(), user.get().getFullName());
+        NotificationController.broadcastNotificationToUUID(userId, format);
         return roomMembershipRepository.save(roomMembership);
     }
 
