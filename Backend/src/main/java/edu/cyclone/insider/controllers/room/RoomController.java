@@ -97,9 +97,6 @@ public class RoomController extends BaseController {
 
     @RequestMapping(value = "{roomUuid}/invite", method = RequestMethod.POST)
     public RoomMembership invite(@RequestParam("userUuid") UUID userId, @PathVariable("roomUuid") UUID roomUuid) {
-        if (!getCurrentUser().getAdmin() || !getCurrentUser().getProfessor()) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        }
         Optional<Room> room = roomRepository.findById(roomUuid);
         Optional<InsiderUser> user = usersRepository.findById(userId);
 
