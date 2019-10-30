@@ -103,13 +103,17 @@ public class RoomController extends BaseController {
         if (!room.isPresent() || !user.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
+        String format = String.format("You have been invited to %s from %s", room.get().getName(), user.get().getFullName());
+        Optional<RoomMembership> membership = roomMembershipRepository.findMembership(userId, roomUuid);
+        if (membership.isPresent()) {
+            return membership.get();
+        }
 
         RoomMembership roomMembership = new RoomMembership();
         roomMembership.setPending(true);
         roomMembership.setUser(user.get());
         roomMembership.setRoom(room.get());
         roomMembership.setInvitedBy(getCurrentUser());
-        String format = String.format("You have been invited to %s from %s", room.get().getName(), user.get().getFullName());
         NotificationController.broadcastNotificationToUUID(userId, format);
         return roomMembershipRepository.save(roomMembership);
     }
