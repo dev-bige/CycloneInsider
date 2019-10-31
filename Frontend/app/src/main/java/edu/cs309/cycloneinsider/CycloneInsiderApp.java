@@ -41,14 +41,6 @@ public class CycloneInsiderApp extends DaggerApplication {
         return null;
     }
 
-    public Session getSession() {
-        return null;
-    }
-
-    private Retrofit provideRetrofit(String url) {
-        return null;
-    }
-
     @Override
     protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
         ApplicationComponent component = DaggerApplicationComponent
