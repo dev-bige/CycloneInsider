@@ -3,6 +3,7 @@ package edu.cs309.cycloneinsider.activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
@@ -56,11 +57,19 @@ public class FeedbackOptionsActivity extends AppCompatActivity {
         boolean isCheckedFeature = feature.isChecked();
         boolean isCheckedOther = other.isChecked();
 
+
+
         hidden.setVisibility(View.INVISIBLE);
 
         if(isCheckedTech || isCheckedImprove || isCheckedFeature || isCheckedOther) {
 
             Intent emailIntent = new Intent(FeedbackOptionsActivity.this, FeedbackActivity.class);
+            Bundle extras = new Bundle();
+            extras.putBoolean("CHECK_TECH",isCheckedTech);
+            extras.putBoolean("CHECK_IMPROVE",isCheckedImprove);
+            extras.putBoolean("CHECK_FEATURE",isCheckedFeature);
+            extras.putBoolean("CHECK_OTHER",isCheckedOther);
+            emailIntent.putExtras(extras);
             startActivity(emailIntent);
       //      return;
 

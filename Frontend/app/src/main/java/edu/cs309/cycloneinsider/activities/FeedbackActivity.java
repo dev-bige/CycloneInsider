@@ -1,6 +1,8 @@
 package edu.cs309.cycloneinsider.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -107,10 +109,16 @@ public class FeedbackActivity extends AppCompatActivity {
         CheckBox feature = (CheckBox) inflatedView.findViewById(R.id.feature);
         CheckBox other = (CheckBox) inflatedView.findViewById(R.id.other);
 
-        boolean isCheckedTech = tech.isChecked();
+       /* boolean isCheckedTech = tech.isChecked();
         boolean isCheckedImprove = improve.isChecked();
         boolean isCheckedFeature = feature.isChecked();
-        boolean isCheckedOther = other.isChecked();
+        boolean isCheckedOther = other.isChecked();*/
+
+        Bundle extras = getIntent().getExtras();
+        boolean isCheckedTech = extras.getBoolean("CHECK_TECH");
+        boolean isCheckedImprove = extras.getBoolean("CHECK_IMPROVE");
+        boolean isCheckedFeature = extras.getBoolean("CHECK_FEATURE");
+        boolean isCheckedOther = extras.getBoolean("CHECK_OTHER");
 
         String Subject = "";
 
