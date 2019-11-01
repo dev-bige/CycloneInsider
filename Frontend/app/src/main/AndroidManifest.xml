@@ -13,7 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.FavoritePostActivity"></activity>
+        <activity
+            android:name=".activities.InviteActivity"
+            android:label="@string/title_activity_invite"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".activities.FavoritePostActivity" />
         <activity
             android:name=".activities.CreateRoomActivity"
             android:label="@string/title_activity_create_room"
@@ -40,7 +44,10 @@
         <activity android:name=".activities.FeedbackActivity" />
         <activity android:name=".activities.NewPasswordActivity" />
 
-        <service android:name=".NotificationService" android:enabled="true" android:exported="true" />
+        <service
+            android:name=".NotificationService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>
