@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.constraints.Null;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -57,6 +58,24 @@ public class PostController extends BaseController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         return post.get();
+    }
+
+    @RequestMapping(value = "{postUuid}/editPost", method = RequestMethod.PUT)
+
+    public Post edit_Post(@PathVariable("postUuid") UUID postUuid,@RequestBody PostCreateRequestModel request) {
+        Optional<Post> post = postRepository.findById(postUuid);
+        if (!post.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        Post editPost = post.get();
+        editPost.setContent(request.content);
+
+
+        editPost.setDate(new Date());
+
+        editPost = postRepository.save(editPost);
+
+        return editPost;
     }
 
 
