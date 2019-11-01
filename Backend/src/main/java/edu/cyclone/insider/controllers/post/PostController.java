@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.constraints.Null;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -59,6 +60,7 @@ public class PostController extends BaseController {
         return post.get();
     }
 
+
     @RequestMapping(value = "{postUuid}", method = RequestMethod.DELETE)
     public Post deletePost(@PathVariable("postUuid") UUID postUuid) {
         Optional<Post> post = postRepository.findById(postUuid);
@@ -72,6 +74,26 @@ public class PostController extends BaseController {
         postRepository.delete(post.get());
         return post.get();
     }
+
+    @RequestMapping(value = "{postUuid}/editPost", method = RequestMethod.PUT)
+
+    public Post edit_Post(@PathVariable("postUuid") UUID postUuid,@RequestBody PostCreateRequestModel request) {
+        Optional<Post> post = postRepository.findById(postUuid);
+        if (!post.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        Post editPost = post.get();
+        editPost.setContent(request.content);
+
+
+        editPost.setDate(new Date());
+
+        editPost = postRepository.save(editPost);
+
+        return editPost;
+    }
+
+
 
     @RequestMapping(value = "{postUuid}/favorite", method = RequestMethod.POST)
     public FavPost favorite_Post(@PathVariable("postUuid") UUID postUuid) {
