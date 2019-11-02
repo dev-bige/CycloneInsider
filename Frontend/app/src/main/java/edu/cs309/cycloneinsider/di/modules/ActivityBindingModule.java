@@ -3,6 +3,7 @@ package edu.cs309.cycloneinsider.di.modules;
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 import edu.cs309.cycloneinsider.activities.CreateRoomActivity;
+import edu.cs309.cycloneinsider.activities.InviteActivity;
 import edu.cs309.cycloneinsider.activities.LoginActivity;
 import edu.cs309.cycloneinsider.activities.MainActivity;
 //import edu.cs309.cycloneinsider.activities.NewPasswordActivity;
@@ -36,5 +37,8 @@ public abstract class ActivityBindingModule {
 
     @ContributesAndroidInjector
     abstract SignUpActivity bindSignUpActivity();
+
+    @ContributesAndroidInjector
+    abstract InviteActivity bindInviteActivity();
 
 }

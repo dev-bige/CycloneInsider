@@ -7,10 +7,12 @@ import dagger.Binds;
 import dagger.Module;
 import dagger.multibindings.IntoMap;
 //import edu.cs309.cycloneinsider.activities.NewPasswordActivity;
+import edu.cs309.cycloneinsider.activities.InviteActivity;
 import edu.cs309.cycloneinsider.di.ViewModelFactory;
 import edu.cs309.cycloneinsider.di.ViewModelKey;
 import edu.cs309.cycloneinsider.viewmodels.CreateRoomViewModel;
 import edu.cs309.cycloneinsider.viewmodels.FavoritePostViewModel;
+import edu.cs309.cycloneinsider.viewmodels.InviteViewModel;
 import edu.cs309.cycloneinsider.viewmodels.LoginViewModel;
 //import edu.cs309.cycloneinsider.viewmodels.NewPasswordViewModel;
 import edu.cs309.cycloneinsider.viewmodels.MyPostListViewModel;
@@ -59,6 +61,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SignUpViewModel.class)
     abstract ViewModel bindSignUpUpViewModel(SignUpViewModel signUpViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(InviteViewModel.class)
+    abstract ViewModel bindInviteViewModel(InviteViewModel signUpViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);
