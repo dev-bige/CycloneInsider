@@ -1,9 +1,8 @@
 package edu.cyclone.insider.models;
-import static org.assertj.core.api.Assertions.*;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -15,7 +14,10 @@ public class InsiderUser extends BaseModel {
     private String firstName;
     private String lastName;
 
-    private Boolean isAdmin;
+    @Enumerated(EnumType.STRING)
+    @Column
+    private UserLevel userLevel = UserLevel.USER;
+
     public InsiderUser() {
     }
 
@@ -52,6 +54,22 @@ public class InsiderUser extends BaseModel {
     }
 
     public void setAdmin(Boolean isAdmin) {
-        isAdmin = this.isAdmin;
+        this.userLevel = UserLevel.ADMIN;
+    }
+
+    public String getFullName() {
+        return String.format("%s %s", getFirstName(), getLastName());
+    }
+
+    public Boolean getAdmin() {
+        return this.userLevel == UserLevel.ADMIN;
+    }
+
+    public Boolean getProfessor() {
+        return this.userLevel == UserLevel.PROFESSOR;
+    }
+
+    public UserLevel getUserLevel() {
+        return userLevel;
     }
 }

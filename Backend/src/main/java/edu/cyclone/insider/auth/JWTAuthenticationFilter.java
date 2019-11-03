@@ -20,6 +20,9 @@ import java.util.Date;
 
 import static edu.cyclone.insider.auth.AuthConstants.*;
 
+/**
+ * JWTAuthenticationFilter attempts to take the /login endpoint params and tries to authenticate
+ */
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
 
@@ -37,6 +40,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
     }
 
+    /**
+     * Creates token for the user that has successfully authenticated and add it to the header
+     */
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         String token = JWT.create()

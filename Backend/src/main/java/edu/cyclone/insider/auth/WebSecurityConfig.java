@@ -15,6 +15,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import static edu.cyclone.insider.auth.AuthConstants.SIGN_UP_URL;
 
+/**
+ * Config for WebSecurity, this configures our Authentication
+ */
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 

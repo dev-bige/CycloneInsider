@@ -11,6 +11,7 @@ import android.view.SubMenu;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -24,10 +25,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjection;
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.Session;
+import edu.cs309.cycloneinsider.api.UserStateService;
 import edu.cs309.cycloneinsider.api.models.MembershipModel;
 import edu.cs309.cycloneinsider.fragments.FavoritePostFragment;
 import edu.cs309.cycloneinsider.fragments.JoinRoomFragment;
@@ -38,6 +39,12 @@ import io.reactivex.functions.Action;
 
 public class MainActivity extends InsiderActivity {
     private static final String TAG = "MainActivity";
+    @Inject
+    CycloneInsiderService cycloneInsiderService;
+    @Inject
+    Session session;
+    @Inject
+    UserStateService userStateService;
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
     private ActionBarDrawerToggle drawerToggle;
@@ -45,11 +52,6 @@ public class MainActivity extends InsiderActivity {
     private SubMenu classrooms;
     private boolean first = true;
     private List<MembershipModel> memberships;
-
-    @Inject
-    CycloneInsiderService cycloneInsiderService;
-    @Inject
-    Session session;
 
     public MembershipModel getSelectedMembership(MenuItem menuItem) {
         int size = classrooms.size();
@@ -84,7 +86,7 @@ public class MainActivity extends InsiderActivity {
                         }
                         navigationView.invalidate();
                     }
-                    if(first) {
+                    if (first) {
                         navigationView.setCheckedItem(R.id.nav_front_page);
                         selectDrawerItem(navigationView.getCheckedItem());
                         first = false;
@@ -108,7 +110,6 @@ public class MainActivity extends InsiderActivity {
     @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.open_main_page);
         mDrawer = findViewById(R.id.drawer_layout);
@@ -127,8 +128,11 @@ public class MainActivity extends InsiderActivity {
             return true;
         });
 
-        cycloneInsiderService.currentUser().observeOn(AndroidSchedulers.mainThread()).subscribe(userResponse -> {
-            ((TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_username)).setText(userResponse.body().username);
+       userStateService.getUserAsync().subscribe(userResponse -> {
+            ((TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_username)).setText(userResponse.getUsername());
+            if(!userResponse.getAdmin() && !userResponse.getProfessor()) {
+                navigationView.getMenu().findItem(R.id.nav_create_room).setVisible(false);
+            }
         });
 
         navigationView.getHeaderView(0).findViewById(R.id.sign_out).setOnClickListener(view -> {

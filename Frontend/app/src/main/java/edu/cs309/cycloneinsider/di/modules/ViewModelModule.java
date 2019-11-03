@@ -6,14 +6,19 @@ import androidx.lifecycle.ViewModelProvider;
 import dagger.Binds;
 import dagger.Module;
 import dagger.multibindings.IntoMap;
-import edu.cs309.cycloneinsider.activities.NewPasswordActivity;
+//import edu.cs309.cycloneinsider.activities.NewPasswordActivity;
+import edu.cs309.cycloneinsider.activities.InviteActivity;
 import edu.cs309.cycloneinsider.di.ViewModelFactory;
 import edu.cs309.cycloneinsider.di.ViewModelKey;
 import edu.cs309.cycloneinsider.viewmodels.CreateRoomViewModel;
+import edu.cs309.cycloneinsider.viewmodels.FavoritePostViewModel;
+import edu.cs309.cycloneinsider.viewmodels.InviteViewModel;
 import edu.cs309.cycloneinsider.viewmodels.LoginViewModel;
-import edu.cs309.cycloneinsider.viewmodels.NewPasswordViewModel;
+//import edu.cs309.cycloneinsider.viewmodels.NewPasswordViewModel;
+import edu.cs309.cycloneinsider.viewmodels.MyPostListViewModel;
 import edu.cs309.cycloneinsider.viewmodels.PostDetailViewModel;
 import edu.cs309.cycloneinsider.viewmodels.PostListViewModel;
+import edu.cs309.cycloneinsider.viewmodels.SignUpViewModel;
 
 @Module
 abstract class ViewModelModule {
@@ -21,6 +26,16 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(PostListViewModel.class)
     abstract ViewModel bindPostListViewModel(PostListViewModel postListViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FavoritePostViewModel.class)
+    abstract ViewModel bindFavoritePostViewModel(FavoritePostViewModel favoritePostViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MyPostListViewModel.class)
+    abstract ViewModel bindMyPostListViewModel(MyPostListViewModel myPostListViewModel);
 
     @Binds
     @IntoMap
@@ -37,10 +52,20 @@ abstract class ViewModelModule {
     @ViewModelKey(PostDetailViewModel.class)
     abstract ViewModel bindPostDetailViewModel(PostDetailViewModel postListViewModel);
 
+//    @Binds
+//    @IntoMap
+//    @ViewModelKey(NewPasswordViewModel.class)
+//    abstract ViewModel bindNewPasswordViewModel(NewPasswordViewModel newPasswordViewModel);
+
     @Binds
     @IntoMap
-    @ViewModelKey(NewPasswordViewModel.class)
-    abstract ViewModel bindNewPasswordViewMdel(NewPasswordViewModel newPasswordViewModel);
+    @ViewModelKey(SignUpViewModel.class)
+    abstract ViewModel bindSignUpUpViewModel(SignUpViewModel signUpViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(InviteViewModel.class)
+    abstract ViewModel bindInviteViewModel(InviteViewModel signUpViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);

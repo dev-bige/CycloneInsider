@@ -1,8 +1,10 @@
 package edu.cyclone.insider.controllers.room;
 
 import edu.cyclone.insider.controllers.BaseController;
+import edu.cyclone.insider.controllers.notifications.NotificationController;
 import edu.cyclone.insider.controllers.post.models.PostCreateRequestModel;
 import edu.cyclone.insider.controllers.room.models.CreateRoomRequestModel;
+import edu.cyclone.insider.models.InsiderUser;
 import edu.cyclone.insider.models.Post;
 import edu.cyclone.insider.models.Room;
 import edu.cyclone.insider.models.RoomMembership;
@@ -44,10 +46,20 @@ public class RoomController extends BaseController {
         }
 
         //Check if membership already exists
-        RoomMembership membership = roomMembershipRepository.findMembership(getCurrentUser().getUuid(), room_uuid);
-        if (membership != null) {
+        Optional<RoomMembership> membership = roomMembershipRepository.findMembership(getCurrentUser().getUuid(), room_uuid);
+        if (membership.isPresent()) {
+            RoomMembership roomMembership = membership.get();
+            //If pending, we need to change it to not pending
+            if (roomMembership.getPending()) {
+                roomMembership.setPending(false);
+                roomMembership = roomMembershipRepository.save(roomMembership);
+            }
             //Return current membership if already exists...
-            return membership;
+            return roomMembership;
+        }
+
+        if (byId.get().getPrivateRoom()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 
         RoomMembership roomMembership = new RoomMembership();
@@ -62,9 +74,10 @@ public class RoomController extends BaseController {
         return roomRepository.findAll();
     }
 
-    @RequestMapping(value = "{uuid}", method = RequestMethod.GET)
-    public Room getRoom(@PathVariable("uuid") UUID uuid) {
-        Optional<Room> byId = roomRepository.findById(uuid);
+    @RequestMapping(value = "{roomUuid}", method = RequestMethod.GET)
+    public Room getRoom(@PathVariable("roomUuid") UUID roomUuid) {
+        membershipCheck(roomUuid);
+        Optional<Room> byId = roomRepository.findById(roomUuid);
         if (byId.isPresent()) {
             return byId.get();
         }
@@ -73,6 +86,7 @@ public class RoomController extends BaseController {
 
     @RequestMapping(value = "{roomUuid}/posts", method = RequestMethod.POST)
     public Post postToRoom(@PathVariable("roomUuid") UUID roomUuid, @RequestBody PostCreateRequestModel request) {
+        membershipCheck(roomUuid);
         return createPost(request, roomUuid);
     }
 
@@ -81,20 +95,59 @@ public class RoomController extends BaseController {
         return postRepository.getPostsByRoom(roomUuid);
     }
 
+    @RequestMapping(value = "{roomUuid}/invite", method = RequestMethod.POST)
+    public RoomMembership invite(@RequestParam("userUuid") UUID userId, @PathVariable("roomUuid") UUID roomUuid) {
+        Optional<Room> room = roomRepository.findById(roomUuid);
+        Optional<InsiderUser> user = usersRepository.findById(userId);
+
+        if (!room.isPresent() || !user.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        String format = String.format("You have been invited to %s from %s", room.get().getName(), user.get().getFullName());
+        Optional<RoomMembership> membership = roomMembershipRepository.findMembership(userId, roomUuid);
+        if (membership.isPresent()) {
+            return membership.get();
+        }
+
+        RoomMembership roomMembership = new RoomMembership();
+        roomMembership.setPending(true);
+        roomMembership.setUser(user.get());
+        roomMembership.setRoom(room.get());
+        roomMembership.setInvitedBy(getCurrentUser());
+        NotificationController.broadcastNotificationToUUID(userId, format);
+        return roomMembershipRepository.save(roomMembership);
+    }
+
+    /**
+     * Create a room
+     * @param model the room model
+     * @return the room that was created
+     */
     @RequestMapping(value = "", method = RequestMethod.POST)
     public Room createRoom(@RequestBody CreateRoomRequestModel model) {
         Room room = new Room();
         room.setName(model.name);
+        room.setCreator(getCurrentUser());
+        room.setPrivateRoom(model.privateRoom);
         room.setDescription(model.description);
         room = roomRepository.save(room);
+        joinRoom(room.getUuid());
         return room;
     }
 
+    /**
+     * Delete a room. Only the user that created the room can delete it
+     * @param roomUuid The room uuid you want to delete
+     */
     @RequestMapping(value = "{roomUuid}", method = RequestMethod.DELETE)
     public void deleteRoom(@PathVariable("roomUuid") UUID roomUuid) {
         Optional<Room> room = roomRepository.findById(roomUuid);
         if (!room.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        UUID creatorUUID = room.get().getCreator().getUuid();
+        if (!creatorUUID.equals(getCurrentUser().getUuid())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Only the creator can delete the room");
         }
         roomRepository.deleteById(roomUuid);
     }
@@ -110,12 +163,24 @@ public class RoomController extends BaseController {
         }
         Post post = new Post();
         post.setContent(request.content);
-         post.setRoom(roomUUid == null ? null : byId.get());
+        post.setRoom(roomUUid == null ? null : byId.get());
         post.setUser(getCurrentUser());
         post.setTags(request.tags);
         post.setTitle(request.title);
         post.setDate(new Date());
         post = postRepository.save(post);
         return post;
+    }
+
+    /**
+     * Checks if user is part of the room, if not, we throw an exception
+     *
+     * @param roomUuid
+     */
+    public void membershipCheck(UUID roomUuid) {
+        Optional<RoomMembership> membership = roomMembershipRepository.findMembership(getCurrentUser().getUuid(), roomUuid);
+        if (!membership.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "This user is not part of this room");
+        }
     }
 }

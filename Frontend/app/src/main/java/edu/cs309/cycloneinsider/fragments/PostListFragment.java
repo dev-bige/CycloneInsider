@@ -3,6 +3,9 @@ package edu.cs309.cycloneinsider.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -22,6 +25,7 @@ import javax.inject.Inject;
 import dagger.android.support.AndroidSupportInjection;
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.activities.CreatePostActivity;
+import edu.cs309.cycloneinsider.activities.InviteActivity;
 import edu.cs309.cycloneinsider.activities.PostDetailActivity;
 import edu.cs309.cycloneinsider.api.models.PostModel;
 import edu.cs309.cycloneinsider.di.ViewModelFactory;
@@ -54,6 +58,8 @@ public class PostListFragment extends Fragment {
         AndroidSupportInjection.inject(this);
         super.onCreate(savedInstanceState);
         roomUUID = getArguments().getString(ROOM_UUID);
+
+        setHasOptionsMenu(roomUUID != null);
     }
 
     @Nullable
@@ -68,6 +74,21 @@ public class PostListFragment extends Fragment {
             postClicks.dispose();
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_post_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.menu_post_list_invite) {
+            Intent intent = new Intent(getActivity(), InviteActivity.class);
+            intent.putExtra("ROOM_UUID", roomUUID);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -42,7 +42,7 @@ public class NewPasswordViewModel extends ViewModel {
 
         }
 
-        cycloneInsiderService.changePassword(newPasswordRequestModel).map(NewPasswordResponseModel::success).subscribe(newpasswordResponse::postValue);
+        //cycloneInsiderService.changePassword(newPasswordRequestModel).map(NewPasswordResponseModel::success).subscribe(newpasswordResponse::postValue);
         return;
 
     }

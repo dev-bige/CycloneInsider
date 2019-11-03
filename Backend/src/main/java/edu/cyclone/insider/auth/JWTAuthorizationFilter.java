@@ -16,6 +16,9 @@ import java.util.ArrayList;
 
 import static edu.cyclone.insider.auth.AuthConstants.*;
 
+/**
+ * JWTAuthorizationFilter checks if user is correctly authenticated
+ */
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     public JWTAuthorizationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
