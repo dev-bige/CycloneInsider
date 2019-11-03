@@ -18,7 +18,10 @@ public class Room extends BaseModel {
     public void setDescription(String description) {
         this.description = description;
     }
-
+    /**
+     * gets the name of the room that was created
+     * @return the full name of the room
+     */
     public String getName() {
         return name;
     }
@@ -30,7 +33,9 @@ public class Room extends BaseModel {
     public Boolean getPrivateRoom() {
         return privateRoom;
     }
-
+    /**
+     * sets a flag to indicate a room is private.
+     */
     public void setPrivateRoom(Boolean privateRoom) {
         this.privateRoom = privateRoom;
     }
@@ -39,6 +44,9 @@ public class Room extends BaseModel {
         return creator;
     }
 
+    /**
+     * sets the creator of a post to the user that made it
+     */
     public void setCreator(InsiderUser creator) {
         this.creator = creator;
     }
