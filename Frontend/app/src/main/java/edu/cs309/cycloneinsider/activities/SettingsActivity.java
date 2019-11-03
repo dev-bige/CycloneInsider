@@ -10,6 +10,10 @@ import io.reactivex.disposables.Disposable;
 public class SettingsActivity extends InsiderActivity {
     private Disposable subscribe;
 
+    /**
+     * Creates activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -18,6 +22,9 @@ public class SettingsActivity extends InsiderActivity {
 
     }
 
+    /**
+     * Destroys activity
+     */
     @Override
     protected void onDestroy() {
         if (subscribe != null && !subscribe.isDisposed()) {
@@ -26,12 +33,20 @@ public class SettingsActivity extends InsiderActivity {
         super.onDestroy();
     }
 
+    /**
+     * Method opens an intent for FeedbackOptionsActivity class
+     * @param view
+     */
     public void openFeedBack(View view) {
 
-        startActivity(new Intent(this, FeedbackActivity.class));
+        startActivity(new Intent(this, FeedbackOptionsActivity.class));
 
     }
 
+    /**
+     * Method opens an intent for NewPasswordActivity class
+     * @param view
+     */
     public void openNewPassword(View view) {
 
         startActivity(new Intent(this, NewPasswordActivity.class));
