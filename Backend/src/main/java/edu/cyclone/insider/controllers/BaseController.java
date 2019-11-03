@@ -13,10 +13,16 @@ public class BaseController {
         this.usersRepository = usersRepository;
     }
 
+    /**
+     * @return the current user that is requesting
+     */
     public final InsiderUser getCurrentUser() {
         return usersRepository.findUserByUsername(getCurrentUsername());
     }
 
+    /**
+     * @return the current username that is requesting
+     */
     public final String getCurrentUsername() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }

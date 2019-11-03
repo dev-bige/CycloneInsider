@@ -16,11 +16,14 @@ public class BaseModel {
     @Column(columnDefinition = "BINARY(16)")
     private UUID uuid;
 
+    /**
+     * @return the primary key uuid of the model
+     */
     public UUID getUuid() {
         return uuid;
     }
 
-    public void setUuid(UUID uuid) {
+    private void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
 }

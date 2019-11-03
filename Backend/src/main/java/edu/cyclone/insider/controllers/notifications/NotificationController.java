@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * NotificationController handles notifications and allows you to send a message to a connected client (if they are connected)
+ */
 @ServerEndpoint("/user/{userUuid}/notifications")
 @Component
 public class NotificationController {
@@ -32,6 +35,11 @@ public class NotificationController {
         userUuidSessionMap.remove(uuid);
     }
 
+    /**
+     * Send a message to a user
+     * @param uuid the user uuid
+     * @param message the message
+     */
     public static void broadcastNotificationToUUID(UUID uuid, String message)  {
         Session session = userUuidSessionMap.get(uuid);
         if (session != null) {

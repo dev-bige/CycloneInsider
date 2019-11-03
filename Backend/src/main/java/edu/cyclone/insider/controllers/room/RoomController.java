@@ -118,6 +118,11 @@ public class RoomController extends BaseController {
         return roomMembershipRepository.save(roomMembership);
     }
 
+    /**
+     * Create a room
+     * @param model the room model
+     * @return the room that was created
+     */
     @RequestMapping(value = "", method = RequestMethod.POST)
     public Room createRoom(@RequestBody CreateRoomRequestModel model) {
         Room room = new Room();
@@ -130,6 +135,10 @@ public class RoomController extends BaseController {
         return room;
     }
 
+    /**
+     * Delete a room. Only the user that created the room can delete it
+     * @param roomUuid The room uuid you want to delete
+     */
     @RequestMapping(value = "{roomUuid}", method = RequestMethod.DELETE)
     public void deleteRoom(@PathVariable("roomUuid") UUID roomUuid) {
         Optional<Room> room = roomRepository.findById(roomUuid);

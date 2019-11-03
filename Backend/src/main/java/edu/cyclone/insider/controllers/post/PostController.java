@@ -40,17 +40,30 @@ public class PostController extends BaseController {
         this.favPostRepository = favPostRepository;
     }
 
+    /**
+     * @return a list of the front page posts
+     */
     @RequestMapping(value = "front-page", method = RequestMethod.GET)
     public List<Post> getFrontPagePosts() {
         return postRepository.getFrontPagePosts();
     }
 
+    /**
+     * Create a post for the front page
+     * @param request the post creation body
+     * @return the post that was created
+     */
     @RequestMapping(value = "front-page", method = RequestMethod.POST)
     public Post postFrontPagePost(@RequestBody PostCreateRequestModel request) {
         return createPost(request, null);
     }
 
 
+    /**
+     * Get post by uuid
+     * @param postUuid the post uuid
+     * @return the post
+     */
     @RequestMapping(value = "{postUuid}", method = RequestMethod.GET)
     public Post getPost(@PathVariable("postUuid") UUID postUuid) {
         Optional<Post> post = postRepository.findById(postUuid);
@@ -61,6 +74,11 @@ public class PostController extends BaseController {
     }
 
 
+    /**
+     * Delete a post. Only the original creator can delete the post
+     * @param postUuid the post uuid
+     * @return the post that was deleted
+     */
     @RequestMapping(value = "{postUuid}", method = RequestMethod.DELETE)
     public Post deletePost(@PathVariable("postUuid") UUID postUuid) {
         Optional<Post> post = postRepository.findById(postUuid);
@@ -75,8 +93,13 @@ public class PostController extends BaseController {
         return post.get();
     }
 
+    /**
+     * Edit a post
+     * @param postUuid the post uuid you want to edit
+     * @param request the update model
+     * @return the post that was modified
+     */
     @RequestMapping(value = "{postUuid}/editPost", method = RequestMethod.PUT)
-
     public Post edit_Post(@PathVariable("postUuid") UUID postUuid,@RequestBody PostCreateRequestModel request) {
         Optional<Post> post = postRepository.findById(postUuid);
         if (!post.isPresent()) {
@@ -94,7 +117,11 @@ public class PostController extends BaseController {
     }
 
 
-
+    /**
+     * Create a favorite post
+     * @param postUuid the post you want to favorite
+     * @return the {@link FavPost} relationship model
+     */
     @RequestMapping(value = "{postUuid}/favorite", method = RequestMethod.POST)
     public FavPost favorite_Post(@PathVariable("postUuid") UUID postUuid) {
         Optional<Post> post = postRepository.findById(postUuid);

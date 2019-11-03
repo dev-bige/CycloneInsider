@@ -30,11 +30,21 @@ public class CommentsController extends BaseController {
         this.postRepository = postRepository;
     }
 
+    /**
+     * Get all the comments for a post
+     * @param postUuid the post uuid
+     * @return a list of comments under the postUuid
+     */
     @RequestMapping(value = "", method = RequestMethod.GET)
     public List<Comment> getAllComments(@PathVariable("postUuid") UUID postUuid) {
         return commentsRepository.getCommentsByPost(postUuid);
     }
 
+    /**
+     * Create a comment for a post
+     * @param postUuid the post uuid that you want to comment to
+     * @param request the comment body model
+     */
     @RequestMapping(value = "", method = RequestMethod.POST)
     public void commentToPost(@PathVariable("postUuid") UUID postUuid, @RequestBody CommentCreateRequestModel request) {
         Optional<Post> post = postRepository.findById(postUuid);
