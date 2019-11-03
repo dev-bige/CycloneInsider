@@ -89,6 +89,13 @@ public class NewPasswordActivity extends InsiderActivity {
 
     }*/
 
+    /**
+     * Method checks if the password can be changed
+     * @param old old password
+     * @param newPass new password
+     * @param newPass2 new password in 2nd text box
+     * @return boolean value if the password can be changed or not
+     */
     public boolean checkPassword(String old, String newPass, String newPass2) {
 
 
@@ -108,6 +115,10 @@ public class NewPasswordActivity extends InsiderActivity {
 
     }
 
+    /**
+     * Method creates the layout and then creates an observable for changing the user's password
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
@@ -143,6 +154,9 @@ public class NewPasswordActivity extends InsiderActivity {
 
     }
 
+    /**
+     * Destroys activity
+     */
     @Override
     protected void onDestroy() {
 

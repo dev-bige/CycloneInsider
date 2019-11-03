@@ -25,7 +25,10 @@ public class FeedbackOptionsActivity extends AppCompatActivity {
     private Disposable subscribe;
     private TextView hidden;
 
-
+    /**
+     * Creates activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -44,7 +47,10 @@ public class FeedbackOptionsActivity extends AppCompatActivity {
         super.onDestroy();
     }*/
 
-
+    /**
+     * Method sends the checkbox values to the FeedbackActivity when the button Proceed is clicked
+     * @param view
+     */
     public void Proceed(View view){
 
         CheckBox tech = findViewById(R.id.technical_problem);
@@ -56,8 +62,6 @@ public class FeedbackOptionsActivity extends AppCompatActivity {
         boolean isCheckedImprove = improve.isChecked();
         boolean isCheckedFeature = feature.isChecked();
         boolean isCheckedOther = other.isChecked();
-
-
 
         hidden.setVisibility(View.INVISIBLE);
 

@@ -32,6 +32,11 @@ public class FeedbackActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    /**
+     * Method returns a boolean value if the string of text contains an explicit word
+     * @param text String of words to be checked for explicit word
+     * @return boolean value of if the text contains an explicit word or not
+     */
     public boolean check(String text){
 
         String[] texts = text.split(" ",0);
@@ -65,6 +70,10 @@ public class FeedbackActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Method checks if the text of words can be sent and then sends the email to the Google Gmail app
+     * @param view
+     */
     public void sendEmail(View view) {
 
         EditText email = findViewById(R.id.feedback_message);
@@ -154,7 +163,6 @@ public class FeedbackActivity extends AppCompatActivity {
         emailIntent.putExtra(Intent.EXTRA_TEXT, emailString);
         emailIntent.setType("message/rfcc822");
         startActivity(emailIntent);
-
 
     }
 }
