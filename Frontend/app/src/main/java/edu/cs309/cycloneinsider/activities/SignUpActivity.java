@@ -25,15 +25,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import retrofit2.Response;
 
-/*
-Eventually send info to server
-Things to add
--add
--check for possible explicit username
--assign uuid to user randomly
--if someone enters both a wrong name and an invalid password possibility
- */
 
+/**
+ * Activity that is accessed by pressing the sign up button on the login page
+ * The user has the options to either enter the required fields to sign up or press the back
+ * button to go to the login page
+ */
 public class SignUpActivity extends InsiderActivity {
 
     @Inject
@@ -90,57 +87,6 @@ public class SignUpActivity extends InsiderActivity {
                 finish();
             }
         });
-
-//        String passwordValid = passwordTextTwo.getText().toString();
-
-//
-//        // Checks to make sure only one name is entered
-//        if (!checkName(firstName)) {
-//            userError.setText("You must only enter your first name");
-//            userError.setVisibility(View.VISIBLE);
-//            return;
-//        }
-//        // Checks to make sure only one name is entered
-//        else if (!checkName(lastName)) {
-//            userError.setText("You must only enter your last name");
-//            userError.setVisibility(View.VISIBLE);
-//            return;
-//        }
-//        // checks to make sure that the password meets the correct criteria
-//        else if (!validPassword(password)) {
-//            userError.setText("You password must contain one uppercase letter, be 8 or more characters, and contain a number");
-//            userError.setVisibility(View.VISIBLE);
-//            return;
-//        }
-//        // password to see if both passwords are equal to each other
-//        else if (!(password.equals(passwordValid))) {
-//            userError.setText("Your passwords must match");
-//            userError.setVisibility(View.VISIBLE);
-//            return;
-//        }
-//
-//        // checks if checkbox is checked
-////        if (professorValidate) {
-////            // send verification email
-////            return;
-////        }
-//
-//        SignUpRequestModel signUpRequestModel = new SignUpRequestModel();
-//        signUpRequestModel.firstName = firstName;
-//        signUpRequestModel.lastName = lastName;
-//        signUpRequestModel.username = userNameText;
-//        signUpRequestModel.password = password;
-//
-//        subscribe = signUp(getInsiderApplication().getApiService(), signUpRequestModel)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(signUpRequestModelResponse -> {
-//                    if (signUpRequestModelResponse.isSuccessful()) {
-//                        finish();
-//                    } else {
-//                        userError.setText("You are already a user!");
-//                        userError.setVisibility(View.VISIBLE);
-//                    }
-//                });
 
     }
 

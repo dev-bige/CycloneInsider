@@ -33,6 +33,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import retrofit2.Response;
 
+/**
+ * This fragment is to display the posts that a user has created
+ * Fragment uses dependency injection and uses the MyPostViewModel class
+ * A user is able to press on a post in their list and it takes them to the post detail of their
+ * respected post
+ */
 public class MyPostListFragment extends Fragment {
     private Disposable myPostClicks;
     private LinearLayoutManager layoutManager;
@@ -99,26 +105,4 @@ public class MyPostListFragment extends Fragment {
         });
         myPostListViewModel.refresh();
     }
-
-//    public void refresh() {
-//        if (myPostSub != null && !myPostSub.isDisposed()) {
-//            myPostSub.dispose();
-//        }
-//        Observable<Response<List<PostModel>>> myPostListObservable = ((InsiderActivity) getActivity())
-//                .getInsiderApplication()
-//                .getApiService()
-//                .getMyPosts();
-//
-//        myPostSub = myPostListObservable
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(myPostModelResponse -> {
-//                    if (myPostModelResponse.isSuccessful()) {
-//                        List<PostModel> myPostModelList = myPostModelResponse.body();
-//                        mAdapter.updateList(myPostModelList);
-//                    } else {
-//                        noPost.setText("No Posts to show!");
-//                    }
-//                    swipeRefreshLayout.setRefreshing(false);
-//                });
-//    }
 }

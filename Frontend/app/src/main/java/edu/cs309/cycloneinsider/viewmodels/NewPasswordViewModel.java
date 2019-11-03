@@ -17,6 +17,9 @@ import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.models.NewPasswordRequestModel;
 import edu.cs309.cycloneinsider.viewmodels.responsemodels.NewPasswordResponseModel;
 
+/**
+ * A view model that is used within the New Password Activity class
+ */
 public class NewPasswordViewModel extends ViewModel {
     private CycloneInsiderService cycloneInsiderService;
     private MutableLiveData<NewPasswordResponseModel> newpasswordResponse = new MutableLiveData<>();
@@ -26,6 +29,10 @@ public class NewPasswordViewModel extends ViewModel {
         this.cycloneInsiderService = cycloneInsiderService;
     }
 
+    /**
+     * Checks if the user enters something in either text box and also that the passwords being entered are the same on each text box
+     * @param newPasswordRequestModel a object that is created based on the user trying to change their password
+     */
     public void changePassword(NewPasswordRequestModel newPasswordRequestModel) {
 
 

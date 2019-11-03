@@ -15,6 +15,10 @@ import edu.cs309.cycloneinsider.api.models.PostModel;
 import io.reactivex.Observable;
 import retrofit2.Response;
 
+/**
+ * A view model that is injected into the Post List Fragment
+ * Displays either the front page posts or the respected room posts
+ */
 public class PostListViewModel extends ViewModel {
     private final MutableLiveData<Response<List<PostModel>>> postListResponse = new MutableLiveData<>();
     private CycloneInsiderService cycloneInsiderService;
@@ -30,6 +34,11 @@ public class PostListViewModel extends ViewModel {
         super.onCleared();
     }
 
+    /**
+     * An API call to get the posts for a user
+     * If the room UUID for a post is empty means that is being displayed on the front page of the application
+     * Otherwise if there is a specified UUID then there is a call to get the posts of the specified room
+     */
     public void refresh() {
         Observable<Response<List<PostModel>>> observable = null;
         if (Strings.isNullOrEmpty(this.getRoomUUID())) {

@@ -11,6 +11,11 @@ import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.models.SignUpRequestModel;
 import edu.cs309.cycloneinsider.viewmodels.responsemodels.SignUpResponseModel;
 
+/**
+ * A class that is used to for dependency injection for the sign up activity class
+ * Methods for logic checking if a name or password is valid
+ * If the sign up is successful makes a POST request to the server for the new user
+ **/
 public class SignUpViewModel extends ViewModel {
     private CycloneInsiderService service;
     private MutableLiveData<SignUpResponseModel> signUpResponse = new MutableLiveData<>();
@@ -20,6 +25,11 @@ public class SignUpViewModel extends ViewModel {
         this.service = service;
     }
 
+    /**
+     * A function called in the sign up activity that does the logic checking for the password and name
+     * the user entered.
+     * @param signUpRequestResponse a object of type SignUpRequestModel who checks sign up will be valid
+     */
     public void signUp(SignUpRequestModel signUpRequestResponse) {
         if (!checkName(signUpRequestResponse.firstName)) {
             signUpResponse.setValue(SignUpResponseModel.error(R.string.error_sign_up_only_one_name));
@@ -53,13 +63,14 @@ public class SignUpViewModel extends ViewModel {
     }
 
     /**
-     * Password
+     * @param userPassword a password that the user enters in the password field box
+     * Password Criteria
      * -must contain uppercase
      * -must contain a number
      * -must be equal to or more than 8 characters
-     * -returns true if valid password
+     * @returns true if valid password
      **/
-    public boolean validPassword(String userPassword) {
+    private boolean validPassword(String userPassword) {
         boolean hasUppercase = !userPassword.equals(userPassword.toLowerCase());
         boolean correctLength = userPassword.length() >= 8;
         boolean containsNumber = false;
@@ -72,12 +83,10 @@ public class SignUpViewModel extends ViewModel {
     }
 
     /**
-     * checks to make sure only one word is entered but checking for a space
-     *
-     * @param userEntry
-     * @return true if name is valid
+     * @param userEntry a name that use enters in to the text field
+     * @return true if name contains no spaces hence only one name is entered
      */
-    public boolean checkName(String userEntry) {
+    private boolean checkName(String userEntry) {
         for (int i = 0; i < userEntry.length(); i++) {
             if (userEntry.charAt(i) == ' ') {
                 return false;

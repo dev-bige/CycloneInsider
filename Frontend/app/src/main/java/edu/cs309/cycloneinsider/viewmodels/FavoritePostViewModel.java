@@ -16,6 +16,9 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Response;
 
+/**
+ * Class that is injected into the favorite post fragment. Deals with the new data being accessed
+ */
 public class FavoritePostViewModel extends ViewModel {
     private final MutableLiveData<Response<List<PostModel>>> favPostResponse = new MutableLiveData<>();
     private CycloneInsiderService cycloneInsiderService;
@@ -30,6 +33,11 @@ public class FavoritePostViewModel extends ViewModel {
         super.onCleared();
     }
 
+    /**
+     * Is called when either the user goes into the fragment or pulls down on the screen to refresh the
+     * activity
+     * Maps the FavoritePostModel response to the PostModel response to be called by the adapter class
+     */
     public void refresh() {
         Observable<Response<List<FavoritePostModel>>> observable = null;
 
