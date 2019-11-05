@@ -18,6 +18,7 @@ import edu.cs309.cycloneinsider.viewmodels.LoginViewModel;
 import edu.cs309.cycloneinsider.viewmodels.MyPostListViewModel;
 import edu.cs309.cycloneinsider.viewmodels.PostDetailViewModel;
 import edu.cs309.cycloneinsider.viewmodels.PostListViewModel;
+import edu.cs309.cycloneinsider.viewmodels.RoomInvitationViewModel;
 import edu.cs309.cycloneinsider.viewmodels.SignUpViewModel;
 
 @Module
@@ -68,5 +69,11 @@ abstract class ViewModelModule {
     abstract ViewModel bindInviteViewModel(InviteViewModel signUpViewModel);
 
     @Binds
+    @IntoMap
+    @ViewModelKey(RoomInvitationViewModel.class)
+    abstract ViewModel bindRoomInivationViewModel(RoomInvitationViewModel roomInvitationViewModel);
+
+    @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);
+
 }

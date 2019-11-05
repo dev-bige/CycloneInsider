@@ -5,6 +5,7 @@ import dagger.android.ContributesAndroidInjector;
 import edu.cs309.cycloneinsider.fragments.FavoritePostFragment;
 import edu.cs309.cycloneinsider.fragments.MyPostListFragment;
 import edu.cs309.cycloneinsider.fragments.PostListFragment;
+import edu.cs309.cycloneinsider.fragments.RoomInvitationFragment;
 
 @Module
 public abstract class MainActivityBindingModule {
@@ -16,4 +17,7 @@ public abstract class MainActivityBindingModule {
 
     @ContributesAndroidInjector
     abstract MyPostListFragment provideMyPostFragment();
+
+    @ContributesAndroidInjector
+    abstract RoomInvitationFragment roomInviteFragement();
 }
