@@ -49,7 +49,7 @@ public class RoomInvitationFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        if (!onClickSubscription.isDisposed()) {
+        if (onClickSubscription!= null && !onClickSubscription.isDisposed()) {
             onClickSubscription.dispose();
         }
         super.onDestroy();
@@ -93,18 +93,7 @@ public class RoomInvitationFragment extends Fragment {
                    .setTitle("Join " + roomModel.name + "?")
 
                    .setPositiveButton("Accept", (dialogInterface, i) -> {
-                        Disposable subscribe = ((InsiderActivity) getActivity())
-                                .getInsiderApplication()
-                                .getApiService()
-                                .joinRoom(roomModel.uuid)
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(roomMembershipModelResponse -> {
-                                    if (roomMembershipModelResponse.isSuccessful()) {
-
-
-
-                                    }
-                                });
+                            roomInvitationViewModel.joinRoom(roomModel.uuid);
                    })
                    .setNegativeButton("Deny", ((dialogInterface, i) -> {
                        roomListRecyclerViewAdapter.removeItem(recyclerView.getLayoutManager().getPosition(view));

@@ -17,6 +17,8 @@ import retrofit2.Response;
 
 public class RoomInvitationViewModel extends ViewModel {
     private final MutableLiveData<Response<List<RoomModel>>> pendingInvites = new MutableLiveData<>();
+    private final MutableLiveData<Response<RoomMembershipModel>> joinRoomMembership = new MutableLiveData<>();
+
     private CycloneInsiderService cycloneInsiderService;
 
     @Inject
@@ -42,6 +44,13 @@ public class RoomInvitationViewModel extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(pendingInvites::postValue);
 
+    }
+
+    public void joinRoom(String roomUUID) {
+        Observable<Response<RoomMembershipModel>> observable = null;
+        observable = cycloneInsiderService.joinRoom(roomUUID);
+        observable.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(joinRoomMembership::postValue);
     }
 
     public LiveData<Response<List<RoomModel>>> getPendingInvites() {
