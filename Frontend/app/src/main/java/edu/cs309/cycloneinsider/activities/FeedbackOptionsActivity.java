@@ -1,21 +1,13 @@
 package edu.cs309.cycloneinsider.activities;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
-import org.w3c.dom.Text;
 
 import edu.cs309.cycloneinsider.R;
 import io.reactivex.disposables.Disposable;
@@ -27,6 +19,7 @@ public class FeedbackOptionsActivity extends AppCompatActivity {
 
     /**
      * Creates activity
+     *
      * @param savedInstanceState
      */
     @Override
@@ -49,9 +42,10 @@ public class FeedbackOptionsActivity extends AppCompatActivity {
 
     /**
      * Method sends the checkbox values to the FeedbackActivity when the button Proceed is clicked
+     *
      * @param view
      */
-    public void Proceed(View view){
+    public void Proceed(View view) {
 
         CheckBox tech = findViewById(R.id.technical_problem);
         CheckBox improve = findViewById(R.id.improvement);
@@ -65,23 +59,21 @@ public class FeedbackOptionsActivity extends AppCompatActivity {
 
         hidden.setVisibility(View.INVISIBLE);
 
-        if(isCheckedTech || isCheckedImprove || isCheckedFeature || isCheckedOther) {
+        if (isCheckedTech || isCheckedImprove || isCheckedFeature || isCheckedOther) {
 
             Intent emailIntent = new Intent(FeedbackOptionsActivity.this, FeedbackActivity.class);
             Bundle extras = new Bundle();
-            extras.putBoolean("CHECK_TECH",isCheckedTech);
-            extras.putBoolean("CHECK_IMPROVE",isCheckedImprove);
-            extras.putBoolean("CHECK_FEATURE",isCheckedFeature);
-            extras.putBoolean("CHECK_OTHER",isCheckedOther);
+            extras.putBoolean("CHECK_TECH", isCheckedTech);
+            extras.putBoolean("CHECK_IMPROVE", isCheckedImprove);
+            extras.putBoolean("CHECK_FEATURE", isCheckedFeature);
+            extras.putBoolean("CHECK_OTHER", isCheckedOther);
             emailIntent.putExtras(extras);
             startActivity(emailIntent);
-      //      return;
+            //      return;
 
-        }
+        } else {
 
-        else{
-
-            hidden.setText("Must check at least one box!" );
+            hidden.setText("Must check at least one box!");
             hidden.setTextColor(Color.parseColor("#FF0000"));
             hidden.setVisibility(View.VISIBLE);
             return;
@@ -90,8 +82,6 @@ public class FeedbackOptionsActivity extends AppCompatActivity {
 
 
     }
-
-
 
 
 }

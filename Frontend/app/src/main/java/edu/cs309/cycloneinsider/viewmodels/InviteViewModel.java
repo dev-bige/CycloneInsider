@@ -27,6 +27,7 @@ public class InviteViewModel extends ViewModel {
 
     /**
      * A check to make sure that the user being invited already exists
+     *
      * @param username username of the user trying to be invited
      */
     @SuppressLint("CheckResult")

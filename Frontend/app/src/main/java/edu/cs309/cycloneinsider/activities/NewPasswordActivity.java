@@ -1,6 +1,5 @@
 package edu.cs309.cycloneinsider.activities;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -17,19 +16,16 @@ import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.Session;
 import edu.cs309.cycloneinsider.api.models.NewPasswordRequestModel;
 import edu.cs309.cycloneinsider.di.ViewModelFactory;
-import edu.cs309.cycloneinsider.viewmodels.LoginViewModel;
 import edu.cs309.cycloneinsider.viewmodels.NewPasswordViewModel;
-import edu.cs309.cycloneinsider.viewmodels.responsemodels.NewPasswordResponseModel;
 import io.reactivex.disposables.Disposable;
 
 public class NewPasswordActivity extends InsiderActivity {
-    private Disposable subscribe;
-    private NewPasswordViewModel viewModel;
-
     @Inject
     ViewModelFactory viewModelFactory;
     @Inject
     Session session;
+    private Disposable subscribe;
+    private NewPasswordViewModel viewModel;
 
 
    /* public void changePassword(View view) {
@@ -91,8 +87,9 @@ public class NewPasswordActivity extends InsiderActivity {
 
     /**
      * Method checks if the password can be changed
-     * @param old old password
-     * @param newPass new password
+     *
+     * @param old      old password
+     * @param newPass  new password
      * @param newPass2 new password in 2nd text box
      * @return boolean value if the password can be changed or not
      */
@@ -105,18 +102,13 @@ public class NewPasswordActivity extends InsiderActivity {
 
         }
 
-        if (!newPass.equals(newPass2)) {
-
-            return false;
-
-        }
-
-        return true;
+        return newPass.equals(newPass2);
 
     }
 
     /**
      * Method creates the layout and then creates an observable for changing the user's password
+     *
      * @param savedInstanceState
      */
     @Override
@@ -133,10 +125,10 @@ public class NewPasswordActivity extends InsiderActivity {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(NewPasswordViewModel.class);
         findViewById(R.id.change_password).setOnClickListener(view -> {
-            String oldPasswordString = oldPassword.getText().toString(); //gets what the user put it for old password
-            String newPasswordAgainString = newPasswordAgain.getText().toString(); //gets what the user put in for the second new password
-            String newPasswordString = newPassword.getText().toString(); //gets what the user put in for new password
-            viewModel.changePassword(new NewPasswordRequestModel(oldPasswordString, newPasswordString, newPasswordAgainString));
+                    String oldPasswordString = oldPassword.getText().toString(); //gets what the user put it for old password
+                    String newPasswordAgainString = newPasswordAgain.getText().toString(); //gets what the user put in for the second new password
+                    String newPasswordString = newPassword.getText().toString(); //gets what the user put in for new password
+                    viewModel.changePassword(new NewPasswordRequestModel(oldPasswordString, newPasswordString, newPasswordAgainString));
                 }
         );
 

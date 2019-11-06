@@ -12,6 +12,7 @@ public class SettingsActivity extends InsiderActivity {
 
     /**
      * Creates activity
+     *
      * @param savedInstanceState
      */
     @Override
@@ -35,6 +36,7 @@ public class SettingsActivity extends InsiderActivity {
 
     /**
      * Method opens an intent for FeedbackOptionsActivity class
+     *
      * @param view
      */
     public void openFeedBack(View view) {
@@ -45,6 +47,7 @@ public class SettingsActivity extends InsiderActivity {
 
     /**
      * Method opens an intent for NewPasswordActivity class
+     *
      * @param view
      */
     public void openNewPassword(View view) {

@@ -20,32 +20,25 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjection;
 import dagger.android.support.AndroidSupportInjection;
 import edu.cs309.cycloneinsider.R;
-import edu.cs309.cycloneinsider.activities.InsiderActivity;
 import edu.cs309.cycloneinsider.activities.PostDetailActivity;
-import edu.cs309.cycloneinsider.api.models.FavoritePostModel;
 import edu.cs309.cycloneinsider.api.models.PostModel;
 import edu.cs309.cycloneinsider.di.ViewModelFactory;
 import edu.cs309.cycloneinsider.fragments.adapters.PostListRecyclerViewAdapter;
 import edu.cs309.cycloneinsider.viewmodels.FavoritePostViewModel;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import retrofit2.Response;
 
 public class FavoritePostFragment extends Fragment {
     public static String USER_UUID = "USER_UUID";
+    @Inject
+    ViewModelFactory viewModelFactory;
     private String userUUID;
     private Disposable favPostSub, favPostClicks;
     private LinearLayoutManager layoutManager;
     private PostListRecyclerViewAdapter postListRecyclerViewAdapter;
     private TextView room, post;
     private SwipeRefreshLayout swipeRefreshLayout;
-
-    @Inject
-    ViewModelFactory viewModelFactory;
     private FavoritePostViewModel favoritePostViewModel;
 
     @Override
@@ -97,11 +90,11 @@ public class FavoritePostFragment extends Fragment {
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         favoritePostViewModel.getFavoritePostResponse().observe(this, listResponse -> {
-                if (listResponse.isSuccessful()) {
-                   List<PostModel> favPostModelList = listResponse.body();
-                   postListRecyclerViewAdapter.updateList(favPostModelList);
-                }
-                swipeRefreshLayout.setRefreshing(false);
+            if (listResponse.isSuccessful()) {
+                List<PostModel> favPostModelList = listResponse.body();
+                postListRecyclerViewAdapter.updateList(favPostModelList);
+            }
+            swipeRefreshLayout.setRefreshing(false);
         });
 
 

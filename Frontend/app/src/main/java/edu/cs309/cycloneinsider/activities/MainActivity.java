@@ -11,7 +11,6 @@ import android.view.SubMenu;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -129,9 +128,9 @@ public class MainActivity extends InsiderActivity {
             return true;
         });
 
-       userStateService.getUserAsync().subscribe(userResponse -> {
+        userStateService.getUserAsync().subscribe(userResponse -> {
             ((TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_username)).setText(userResponse.getUsername());
-            if(!userResponse.getAdmin() && !userResponse.getProfessor()) {
+            if (!userResponse.getAdmin() && !userResponse.getProfessor()) {
                 navigationView.getMenu().findItem(R.id.nav_create_room).setVisible(false);
             }
         });

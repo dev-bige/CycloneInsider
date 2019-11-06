@@ -26,6 +26,7 @@ public class CreateRoomViewModel extends ViewModel {
 
     /**
      * Allows for a user to pass a createRoomRequestModel and then make an API call to make the respected room
+     *
      * @param createRoomRequestModel a object that stores certain fields related to the room that is being created
      */
     public void createRoom(CreateRoomRequestModel createRoomRequestModel) {

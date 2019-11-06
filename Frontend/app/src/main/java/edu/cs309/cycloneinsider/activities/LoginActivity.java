@@ -12,15 +12,10 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
 import edu.cs309.cycloneinsider.R;
-import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.Session;
 import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
 import edu.cs309.cycloneinsider.di.ViewModelFactory;
 import edu.cs309.cycloneinsider.viewmodels.LoginViewModel;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import retrofit2.Response;
 
 public class LoginActivity extends InsiderActivity {
     private static final String TAG = "LoginActivity";

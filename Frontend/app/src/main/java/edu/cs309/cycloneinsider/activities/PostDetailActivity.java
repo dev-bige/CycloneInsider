@@ -33,14 +33,13 @@ import edu.cs309.cycloneinsider.viewmodels.PostDetailViewModel;
 
 public class PostDetailActivity extends InsiderActivity implements View.OnClickListener {
     private static final String TAG = "PostDetailActivity";
+    @Inject
+    ViewModelFactory viewModelFactory;
     private LinearLayoutManager layoutManager;
     private CommentsListAdapter mAdapter;
     private TextView content, username;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
-
-    @Inject
-    ViewModelFactory viewModelFactory;
     private PostDetailViewModel viewModel;
 
     @SuppressLint("CheckResult")
