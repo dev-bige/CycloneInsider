@@ -75,7 +75,7 @@ public class InviteActivity extends InsiderActivity {
                 }));
 
         viewModel.getInviteResponse().observe(this, roomMembershipModelResponse -> {
-            if(roomMembershipModelResponse.isSuccessful()) {
+            if (roomMembershipModelResponse.isSuccessful()) {
                 finish();
             }
         });

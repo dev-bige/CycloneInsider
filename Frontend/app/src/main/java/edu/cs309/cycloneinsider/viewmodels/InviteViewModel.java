@@ -15,7 +15,6 @@ import javax.inject.Inject;
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.UserStateService;
 import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
-import edu.cs309.cycloneinsider.api.models.MembershipModel;
 import edu.cs309.cycloneinsider.api.models.RoomMembershipModel;
 import retrofit2.Response;
 

@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
-import edu.cs309.cycloneinsider.api.UserStateService;
 import io.reactivex.disposables.Disposable;
 
 public class StartupActivity extends InsiderActivity {

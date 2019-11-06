@@ -1,7 +1,6 @@
 package edu.cs309.cycloneinsider;
 
 import android.content.Intent;
-import android.os.Build;
 
 import androidx.fragment.app.Fragment;
 

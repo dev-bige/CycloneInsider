@@ -53,11 +53,11 @@ public class InsiderUserModel {
         return professor;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
-
     public void setProfessor(Boolean professor) {
         this.professor = professor;
+    }
+
+    public String getFullName() {
+        return fullName;
     }
 }
