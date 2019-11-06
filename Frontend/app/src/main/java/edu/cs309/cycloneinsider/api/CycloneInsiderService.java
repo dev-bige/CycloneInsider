@@ -76,4 +76,7 @@ public interface CycloneInsiderService {
 
     @GET("/users/{username}/profile")
     Observable<Response<InsiderUserModel>> findUser(@Path("username") String username);
+
+    @GET("/users/memberships/pending")
+    Observable<Response<List<RoomMembershipModel>>> getPendingMemberships();
 }
