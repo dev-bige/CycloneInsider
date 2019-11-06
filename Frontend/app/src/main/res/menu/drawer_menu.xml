@@ -17,6 +17,9 @@
                         android:id="@+id/nav_my_post"
                         android:icon="@drawable/ic_content_paste_black_24dp"
                         android:title="My Posts" />
+                    <item
+                        android:id="@+id/nav_room_invitation"
+                        android:title="Room Invites"/>
                 </group>
 
             </menu>
