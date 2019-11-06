@@ -32,6 +32,7 @@ public class PostDetailViewModel extends ViewModel {
 
     /**
      * API call for creating a new comment on the respected post
+     *
      * @param createCommentRequestModel A model that is created when a user is wanting to make a comment on the post
      */
     public void createComment(CreateCommentRequestModel createCommentRequestModel) {

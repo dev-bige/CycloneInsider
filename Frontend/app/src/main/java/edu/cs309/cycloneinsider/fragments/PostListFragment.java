@@ -35,14 +35,13 @@ import io.reactivex.disposables.Disposable;
 
 public class PostListFragment extends Fragment {
     public static final String ROOM_UUID = "ROOM_UUID";
+    @Inject
+    ViewModelFactory viewModelFactory;
     private String roomUUID;
     private LinearLayoutManager layoutManager;
     private PostListRecyclerViewAdapter mAdapter;
     private Disposable postClicks;
     private SwipeRefreshLayout swipeRefreshLayout;
-
-    @Inject
-    ViewModelFactory viewModelFactory;
     private PostListViewModel viewModel;
 
     public static PostListFragment newInstance(String roomUuid) {
@@ -83,7 +82,7 @@ public class PostListFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.menu_post_list_invite) {
+        if (item.getItemId() == R.id.menu_post_list_invite) {
             Intent intent = new Intent(getActivity(), InviteActivity.class);
             intent.putExtra("ROOM_UUID", roomUUID);
             startActivity(intent);

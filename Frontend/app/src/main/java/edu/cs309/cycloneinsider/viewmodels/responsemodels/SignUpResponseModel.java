@@ -2,7 +2,6 @@ package edu.cs309.cycloneinsider.viewmodels.responsemodels;
 
 import androidx.annotation.StringRes;
 
-import edu.cs309.cycloneinsider.api.models.SignUpRequestModel;
 import retrofit2.Response;
 
 public class SignUpResponseModel {
@@ -11,7 +10,7 @@ public class SignUpResponseModel {
     @StringRes
     private int stringError;
 
-    public SignUpResponseModel(Response<Void> rawResponse, boolean error,@StringRes int stringError) {
+    public SignUpResponseModel(Response<Void> rawResponse, boolean error, @StringRes int stringError) {
         this.rawResponse = rawResponse;
         this.error = error;
         this.stringError = stringError;

@@ -3,7 +3,6 @@ package edu.cs309.cycloneinsider.activities;
 import android.os.Bundle;
 import android.widget.EditText;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.jakewharton.rxbinding3.widget.RxTextView;

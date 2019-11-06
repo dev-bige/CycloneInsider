@@ -7,22 +7,18 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
-import edu.cs309.cycloneinsider.api.Session;
-
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
+import edu.cs309.cycloneinsider.api.Session;
 import edu.cs309.cycloneinsider.api.models.SignUpRequestModel;
 import edu.cs309.cycloneinsider.di.ViewModelFactory;
 import edu.cs309.cycloneinsider.viewmodels.SignUpViewModel;
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import retrofit2.Response;
 
 
@@ -77,8 +73,7 @@ public class SignUpActivity extends InsiderActivity {
             if (signUpResponseModel.isError()) {
                 userError.setVisibility(View.VISIBLE);
                 userError.setText(signUpResponseModel.getStringError());
-            }
-            else {
+            } else {
                 String firstName = firstNameText.getText().toString();
                 String lastName = lastNameText.getText().toString();
                 String userNameText = usernameText.getText().toString();

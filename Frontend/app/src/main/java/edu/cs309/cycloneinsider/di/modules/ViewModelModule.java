@@ -6,19 +6,19 @@ import androidx.lifecycle.ViewModelProvider;
 import dagger.Binds;
 import dagger.Module;
 import dagger.multibindings.IntoMap;
-//import edu.cs309.cycloneinsider.activities.NewPasswordActivity;
-import edu.cs309.cycloneinsider.activities.InviteActivity;
 import edu.cs309.cycloneinsider.di.ViewModelFactory;
 import edu.cs309.cycloneinsider.di.ViewModelKey;
 import edu.cs309.cycloneinsider.viewmodels.CreateRoomViewModel;
 import edu.cs309.cycloneinsider.viewmodels.FavoritePostViewModel;
-import edu.cs309.cycloneinsider.viewmodels.InviteViewModel;
+import edu.cs309.cycloneinsider.viewmodels.JoinRoomViewModel;
 import edu.cs309.cycloneinsider.viewmodels.LoginViewModel;
-//import edu.cs309.cycloneinsider.viewmodels.NewPasswordViewModel;
 import edu.cs309.cycloneinsider.viewmodels.MyPostListViewModel;
 import edu.cs309.cycloneinsider.viewmodels.PostDetailViewModel;
 import edu.cs309.cycloneinsider.viewmodels.PostListViewModel;
 import edu.cs309.cycloneinsider.viewmodels.SignUpViewModel;
+
+//import edu.cs309.cycloneinsider.activities.NewPasswordActivity;
+//import edu.cs309.cycloneinsider.viewmodels.NewPasswordViewModel;
 
 @Module
 abstract class ViewModelModule {
@@ -64,8 +64,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(InviteViewModel.class)
-    abstract ViewModel bindInviteViewModel(InviteViewModel signUpViewModel);
+    @ViewModelKey(JoinRoomViewModel.class)
+    abstract ViewModel bindJoinRoomViewModel(JoinRoomViewModel signUpViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);

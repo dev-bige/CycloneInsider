@@ -22,5 +22,7 @@ public class NewPasswordRequestModel {
         return newPassword;
     }
 
-    public String getNewPassword2(){ return newPassword2; }
+    public String getNewPassword2() {
+        return newPassword2;
+    }
 }

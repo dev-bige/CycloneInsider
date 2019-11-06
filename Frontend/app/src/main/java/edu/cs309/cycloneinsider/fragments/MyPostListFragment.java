@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,16 +21,12 @@ import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
 import edu.cs309.cycloneinsider.R;
-import edu.cs309.cycloneinsider.activities.InsiderActivity;
 import edu.cs309.cycloneinsider.activities.PostDetailActivity;
 import edu.cs309.cycloneinsider.api.models.PostModel;
 import edu.cs309.cycloneinsider.di.ViewModelFactory;
 import edu.cs309.cycloneinsider.fragments.adapters.PostListRecyclerViewAdapter;
 import edu.cs309.cycloneinsider.viewmodels.MyPostListViewModel;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import retrofit2.Response;
 
 /**
  * This fragment is to display the posts that a user has created
@@ -40,13 +35,12 @@ import retrofit2.Response;
  * respected post
  */
 public class MyPostListFragment extends Fragment {
+    @Inject
+    ViewModelFactory viewModelFactory;
     private Disposable myPostClicks;
     private LinearLayoutManager layoutManager;
     private PostListRecyclerViewAdapter mAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
-
-    @Inject
-    ViewModelFactory viewModelFactory;
     private MyPostListViewModel myPostListViewModel;
 
     @Override

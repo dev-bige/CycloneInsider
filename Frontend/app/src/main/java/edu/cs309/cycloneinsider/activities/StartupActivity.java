@@ -15,9 +15,9 @@ import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import io.reactivex.disposables.Disposable;
 
 public class StartupActivity extends InsiderActivity {
-    private Disposable subscribe;
     @Inject
     public CycloneInsiderService cycloneInsiderService;
+    private Disposable subscribe;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

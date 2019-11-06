@@ -1,14 +1,8 @@
 package edu.cs309.cycloneinsider.viewmodels;
 
-import android.graphics.Color;
-import android.view.View;
-import android.widget.TextView;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
-import com.google.android.material.textfield.TextInputEditText;
 
 import javax.inject.Inject;
 
@@ -31,10 +25,10 @@ public class NewPasswordViewModel extends ViewModel {
 
     /**
      * Checks if the user enters something in either text box and also that the passwords being entered are the same on each text box
+     *
      * @param newPasswordRequestModel a object that is created based on the user trying to change their password
      */
     public void changePassword(NewPasswordRequestModel newPasswordRequestModel) {
-
 
 
         if (newPasswordRequestModel.oldPassword.length() == 0 || newPasswordRequestModel.newPassword.length() == 0 || newPasswordRequestModel.newPassword2.length() == 0) {

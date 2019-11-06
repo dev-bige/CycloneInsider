@@ -28,30 +28,26 @@ public class SignUpViewModel extends ViewModel {
     /**
      * A function called in the sign up activity that does the logic checking for the password and name
      * the user entered.
+     *
      * @param signUpRequestResponse a object of type SignUpRequestModel who checks sign up will be valid
      */
     public void signUp(SignUpRequestModel signUpRequestResponse) {
         if (!checkName(signUpRequestResponse.firstName)) {
             signUpResponse.setValue(SignUpResponseModel.error(R.string.error_sign_up_only_one_name));
             return;
-        }
-        else if (signUpRequestResponse.firstName.length() == 0) {
+        } else if (signUpRequestResponse.firstName.length() == 0) {
             signUpResponse.setValue(SignUpResponseModel.error(R.string.error_name_length));
             return;
-        }
-        else if (!checkName(signUpRequestResponse.lastName)) {
+        } else if (!checkName(signUpRequestResponse.lastName)) {
             signUpResponse.setValue(SignUpResponseModel.error(R.string.error_sign_up_only_one_name));
             return;
-        }
-        else if (signUpRequestResponse.lastName.length() == 0) {
+        } else if (signUpRequestResponse.lastName.length() == 0) {
             signUpResponse.setValue(SignUpResponseModel.error(R.string.error_name_length));
             return;
-        }
-        else if (!validPassword(signUpRequestResponse.password)) {
+        } else if (!validPassword(signUpRequestResponse.password)) {
             signUpResponse.setValue(SignUpResponseModel.error(R.string.error_invalid_password));
             return;
-        }
-        else if (signUpRequestResponse.password.length() == 0) {
+        } else if (signUpRequestResponse.password.length() == 0) {
             signUpResponse.setValue(SignUpResponseModel.error(R.string.error_password_length));
             return;
         }
@@ -64,10 +60,10 @@ public class SignUpViewModel extends ViewModel {
 
     /**
      * @param userPassword a password that the user enters in the password field box
-     * Password Criteria
-     * -must contain uppercase
-     * -must contain a number
-     * -must be equal to or more than 8 characters
+     *                     Password Criteria
+     *                     -must contain uppercase
+     *                     -must contain a number
+     *                     -must be equal to or more than 8 characters
      * @returns true if valid password
      **/
     private boolean validPassword(String userPassword) {

@@ -166,12 +166,12 @@ public class CreatePostActivity extends InsiderActivity {
 
     }
 
-    public boolean checkFilter(String text){
+    public boolean checkFilter(String text) {
 
-        String[] words = text.split(" ",0);
-        for(int i = 0; i < words.length; i++){
+        String[] words = text.split(" ", 0);
+        for (int i = 0; i < words.length; i++) {
 
-            if(dict.containsKey(words[i])){
+            if (dict.containsKey(words[i])) {
 
                 return false;
 

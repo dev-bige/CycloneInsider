@@ -1,8 +1,6 @@
 package edu.cs309.cycloneinsider.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -34,12 +32,13 @@ public class FeedbackActivity extends AppCompatActivity {
 
     /**
      * Method returns a boolean value if the string of text contains an explicit word
+     *
      * @param text String of words to be checked for explicit word
      * @return boolean value of if the text contains an explicit word or not
      */
-    public boolean check(String text){
+    public boolean check(String text) {
 
-        String[] texts = text.split(" ",0);
+        String[] texts = text.split(" ", 0);
 
         if (texts.length == 0) {
 
@@ -59,19 +58,13 @@ public class FeedbackActivity extends AppCompatActivity {
 
         }
 
-        if (spacesFlag == texts.length) {
-
-            return false;
-
-        }
-
-
-        return true;
+        return spacesFlag != texts.length;
 
     }
 
     /**
      * Method checks if the text of words can be sent and then sends the email to the Google Gmail app
+     *
      * @param view
      */
     public void sendEmail(View view) {
@@ -111,12 +104,12 @@ public class FeedbackActivity extends AppCompatActivity {
 
         //Sends email
 
-        View inflatedView = getLayoutInflater().inflate(R.layout.activity_feedback_options,null);
+        View inflatedView = getLayoutInflater().inflate(R.layout.activity_feedback_options, null);
 
-        CheckBox tech = (CheckBox) inflatedView.findViewById(R.id.technical_problem);
-        CheckBox improve = (CheckBox) inflatedView.findViewById(R.id.improvement);
-        CheckBox feature = (CheckBox) inflatedView.findViewById(R.id.feature);
-        CheckBox other = (CheckBox) inflatedView.findViewById(R.id.other);
+        CheckBox tech = inflatedView.findViewById(R.id.technical_problem);
+        CheckBox improve = inflatedView.findViewById(R.id.improvement);
+        CheckBox feature = inflatedView.findViewById(R.id.feature);
+        CheckBox other = inflatedView.findViewById(R.id.other);
 
        /* boolean isCheckedTech = tech.isChecked();
         boolean isCheckedImprove = improve.isChecked();
@@ -131,25 +124,25 @@ public class FeedbackActivity extends AppCompatActivity {
 
         String Subject = "";
 
-        if(isCheckedTech){
+        if (isCheckedTech) {
 
             Subject += "Technical: ";
 
         }
 
-        if(isCheckedImprove){
+        if (isCheckedImprove) {
 
             Subject += "Improve: ";
 
         }
 
-        if(isCheckedFeature){
+        if (isCheckedFeature) {
 
             Subject += "Feature: ";
 
         }
 
-        if(isCheckedOther){
+        if (isCheckedOther) {
 
             Subject += "Other: ";
 
