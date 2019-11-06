@@ -57,8 +57,6 @@ public class PostListFragment extends Fragment {
         AndroidSupportInjection.inject(this);
         super.onCreate(savedInstanceState);
         roomUUID = getArguments().getString(ROOM_UUID);
-
-        setHasOptionsMenu(roomUUID != null);
     }
 
     @Nullable
@@ -85,7 +83,7 @@ public class PostListFragment extends Fragment {
         if (item.getItemId() == R.id.menu_post_list_invite) {
             Intent intent = new Intent(getActivity(), InviteActivity.class);
             intent.putExtra("ROOM_UUID", roomUUID);
-            startActivity(intent);
+            this.getActivity().startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -131,6 +129,8 @@ public class PostListFragment extends Fragment {
             }
             swipeRefreshLayout.setRefreshing(false);
         });
+        viewModel.getCanCreateInvite().observe(this, this::setHasOptionsMenu);
+
         viewModel.refresh();
     }
 }

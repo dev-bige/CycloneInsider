@@ -42,6 +42,7 @@ public class LoginActivity extends InsiderActivity {
         findViewById(R.id.sign_up).setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, SignUpActivity.class)));
 
         viewModel.getLoginResponse().observe(this, loginResponseModel -> {
+
             findViewById(R.id.progress_bar).setVisibility(View.GONE);
             if (loginResponseModel.isError()) {
                 hiddenText.setVisibility(View.VISIBLE);
