@@ -96,7 +96,7 @@ public class RoomInvitationFragment extends Fragment {
                             roomInvitationViewModel.joinRoom(roomModel.uuid);
                    })
                    .setNegativeButton("Deny", ((dialogInterface, i) -> {
-                       roomListRecyclerViewAdapter.removeItem(recyclerView.getLayoutManager().getPosition(view));
+
                    }))
                    .setNeutralButton("Cancel", (dialogInterface, i) -> {
 

@@ -50,12 +50,6 @@ public class RoomListRecyclerViewAdapter extends RecyclerView.Adapter<RoomListRe
         this.notifyDataSetChanged();
     }
 
-    public void removeItem(int position) {
-        rooms.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position, rooms.size());
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
 
