@@ -65,6 +65,7 @@ public class RoomController extends BaseController {
         RoomMembership roomMembership = new RoomMembership();
         roomMembership.setRoom(byId.get());
         roomMembership.setUser(getCurrentUser());
+        roomMembership.setPending(false);
         roomMembership = roomMembershipRepository.save(roomMembership);
         return roomMembership;
     }
