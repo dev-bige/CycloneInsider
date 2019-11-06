@@ -108,34 +108,4 @@ public class FavoritePostFragment extends Fragment {
         favoritePostViewModel.refresh();
     }
 
-//    private void refresh() {
-//
-//
-//
-//        if (favPostSub != null && !favPostSub.isDisposed()) {
-//            favPostSub.dispose();
-//        }
-//
-//        Observable<Response<List<FavoritePostModel>>> favPostObservable = null;
-//
-//        favPostObservable = ((InsiderActivity) getActivity())
-//                .getInsiderApplication()
-//                .getApiService()
-//                .getFavoritePost();
-//        favPostSub = favPostObservable
-//                .filter(Response::isSuccessful)
-//                .map(Response::body)
-//                .concatMap(Observable::fromIterable)
-//                .map(FavoritePostModel::getPost)
-//                .toList()
-//                .map(Response::success)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(favPostResponse -> {
-//                    if (favPostResponse.isSuccessful()) {
-//                        List<PostModel> favPostModelList = favPostResponse.body();
-//                        postListRecyclerViewAdapter.updateList(favPostModelList);
-//                    }
-//                    swipeRefreshLayout.setRefreshing(false);
-//                });
-//    }
 }
