@@ -6,6 +6,7 @@ public class InsiderUserModel {
     public String lastName;
     public String username;
     public Boolean admin;
+    public String fullName;
     public Boolean professor;
 
     public String getFirstName() {
@@ -54,5 +55,9 @@ public class InsiderUserModel {
 
     public void setProfessor(Boolean professor) {
         this.professor = professor;
+    }
+
+    public String getFullName() {
+        return fullName;
     }
 }

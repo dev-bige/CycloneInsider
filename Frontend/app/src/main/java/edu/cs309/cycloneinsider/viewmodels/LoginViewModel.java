@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
+import edu.cs309.cycloneinsider.api.UserStateService;
 import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
 import edu.cs309.cycloneinsider.viewmodels.responsemodels.LoginResponseModel;
 
@@ -16,11 +17,13 @@ import edu.cs309.cycloneinsider.viewmodels.responsemodels.LoginResponseModel;
  */
 public class LoginViewModel extends ViewModel {
     private CycloneInsiderService cycloneInsiderService;
+    private UserStateService userStateService;
     private MutableLiveData<LoginResponseModel> loginResponse = new MutableLiveData<>();
 
     @Inject
-    public LoginViewModel(CycloneInsiderService cycloneInsiderService) {
+    public LoginViewModel(CycloneInsiderService cycloneInsiderService, UserStateService userStateService) {
         this.cycloneInsiderService = cycloneInsiderService;
+        this.userStateService = userStateService;
     }
 
     /**
@@ -41,7 +44,8 @@ public class LoginViewModel extends ViewModel {
             loginResponse.setValue(LoginResponseModel.error(R.string.login_no_password));
             return;
         }
-        cycloneInsiderService.login(loginRequestModel).map(LoginResponseModel::success).subscribe(loginResponse::postValue);
+        cycloneInsiderService.login(loginRequestModel).map(LoginResponseModel::success).subscribe(loginResponse::postValue, e -> {
+        }, () -> userStateService.invalidateUser());
     }
 
     public LiveData<LoginResponseModel> getLoginResponse() {

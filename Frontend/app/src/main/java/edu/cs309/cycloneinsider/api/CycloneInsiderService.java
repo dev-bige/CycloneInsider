@@ -56,6 +56,9 @@ public interface CycloneInsiderService {
     @POST("rooms/{uuid}/join")
     Observable<Response<RoomMembershipModel>> joinRoom(@Path("uuid") String room_uuid);
 
+    @GET("rooms/{uuid}")
+    Observable<Response<RoomModel>> getRoom(@Path("uuid") String room_uuid);
+
     @POST("login")
     Observable<Response<Void>> login(@Body LoginRequestModel loginRequestModel);
 
