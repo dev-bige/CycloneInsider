@@ -56,4 +56,5 @@ public class RoomInvitationViewModel extends ViewModel {
     public LiveData<Response<List<RoomModel>>> getPendingInvites() {
         return pendingInvites;
     }
+
 }
