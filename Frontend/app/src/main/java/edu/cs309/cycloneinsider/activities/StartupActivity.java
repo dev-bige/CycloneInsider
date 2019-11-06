@@ -2,6 +2,7 @@ package edu.cs309.cycloneinsider.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -12,9 +13,11 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
+import edu.cs309.cycloneinsider.api.UserStateService;
 import io.reactivex.disposables.Disposable;
 
 public class StartupActivity extends InsiderActivity {
+    private static final String TAG = "StartupActivity";
     @Inject
     public CycloneInsiderService cycloneInsiderService;
     private Disposable subscribe;
@@ -28,6 +31,7 @@ public class StartupActivity extends InsiderActivity {
                 .currentUser()
                 .delay(1, TimeUnit.SECONDS)
                 .subscribe(response -> {
+                    Log.d(TAG, "onCreate: " + response.body());
                     if (response.isSuccessful()) {
                         startActivity(new Intent(this, MainActivity.class));
                         finish();

@@ -11,7 +11,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
+import edu.cs309.cycloneinsider.api.UserStateService;
+import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
 import edu.cs309.cycloneinsider.api.models.PostModel;
+import edu.cs309.cycloneinsider.api.models.RoomModel;
 import io.reactivex.Observable;
 import retrofit2.Response;
 
@@ -21,12 +24,15 @@ import retrofit2.Response;
  */
 public class PostListViewModel extends ViewModel {
     private final MutableLiveData<Response<List<PostModel>>> postListResponse = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> canCreateInvite = new MutableLiveData<>(false);
     private CycloneInsiderService cycloneInsiderService;
+    private UserStateService userStateService;
     private String roomUUID;
 
     @Inject
-    public PostListViewModel(CycloneInsiderService cycloneInsiderService) {
+    public PostListViewModel(CycloneInsiderService cycloneInsiderService, UserStateService userStateService) {
         this.cycloneInsiderService = cycloneInsiderService;
+        this.userStateService = userStateService;
     }
 
     @Override
@@ -47,6 +53,21 @@ public class PostListViewModel extends ViewModel {
             observable = cycloneInsiderService.getRoomPosts(this.getRoomUUID());
         }
         observable.subscribe(postListResponse::postValue);
+        hasInviteAccess();
+    }
+
+    private void hasInviteAccess() {
+        if (Strings.isNullOrEmpty(roomUUID)) {
+            return;
+        }
+
+        this.cycloneInsiderService.getRoom(roomUUID)
+                .filter(Response::isSuccessful)
+                .map(Response::body)
+                .map(RoomModel::getCreator)
+                .map(InsiderUserModel::getUuid)
+                .map(uuid -> uuid.equals(userStateService.getUser().uuid))
+                .subscribe(canCreateInvite::postValue);
     }
 
     public String getRoomUUID() {
@@ -59,5 +80,9 @@ public class PostListViewModel extends ViewModel {
 
     public LiveData<Response<List<PostModel>>> getPostListResponse() {
         return postListResponse;
+    }
+
+    public LiveData<Boolean> getCanCreateInvite() {
+        return canCreateInvite;
     }
 }
