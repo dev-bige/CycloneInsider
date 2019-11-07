@@ -79,4 +79,7 @@ public interface CycloneInsiderService {
 
     @GET("/users/memberships/pending")
     Observable<Response<List<RoomMembershipModel>>> getPendingMemberships();
+
+    @GET("/users/memberships/pending-professors")
+    Observable<Response<List<InsiderUserModel>>> getPendingProfessorMemberships();
 }

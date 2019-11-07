@@ -2,6 +2,7 @@ package edu.cs309.cycloneinsider.di.modules;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
+import edu.cs309.cycloneinsider.fragments.AdminProfessorValidateFragment;
 import edu.cs309.cycloneinsider.fragments.FavoritePostFragment;
 import edu.cs309.cycloneinsider.fragments.JoinRoomFragment;
 import edu.cs309.cycloneinsider.fragments.MyPostListFragment;
@@ -26,4 +27,7 @@ public abstract class MainActivityBindingModule {
 
     @ContributesAndroidInjector
     abstract JoinRoomFragment provideJoinRoomFragment();
+
+    @ContributesAndroidInjector
+    abstract AdminProfessorValidateFragment provideAdminProfessorValidateFragment();
 }
