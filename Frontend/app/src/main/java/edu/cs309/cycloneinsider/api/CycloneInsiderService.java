@@ -21,6 +21,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface CycloneInsiderService {
     @POST("posts/{uuid}/comments")
@@ -82,4 +83,8 @@ public interface CycloneInsiderService {
 
     @GET("/users/memberships/pending")
     Observable<Response<List<RoomMembershipModel>>> getPendingMemberships();
+
+    @POST("/rooms/{roomUuid}/invite")
+    Observable<Response<RoomMembershipModel>> invite(@Path("roomUuid") String roomUuid, @Query("userUuid") String userUuid);
+
 }

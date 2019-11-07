@@ -6,6 +6,7 @@ import edu.cs309.cycloneinsider.fragments.FavoritePostFragment;
 import edu.cs309.cycloneinsider.fragments.JoinRoomFragment;
 import edu.cs309.cycloneinsider.fragments.MyPostListFragment;
 import edu.cs309.cycloneinsider.fragments.PostListFragment;
+import edu.cs309.cycloneinsider.fragments.RoomInvitationFragment;
 import edu.cs309.cycloneinsider.viewmodels.JoinRoomViewModel;
 
 @Module
