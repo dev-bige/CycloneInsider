@@ -46,7 +46,7 @@ public class CommentsController extends BaseController {
      * @param request the comment body model
      */
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public void commentToPost(@PathVariable("postUuid") UUID postUuid, @RequestBody CommentCreateRequestModel request) {
+    private Comment commentToPost(@PathVariable("postUuid") UUID postUuid, @RequestBody CommentCreateRequestModel request) {
         Optional<Post> post = postRepository.findById(postUuid);
         if (!post.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -59,7 +59,27 @@ public class CommentsController extends BaseController {
         comment.setDate(new Date());
 
         commentsRepository.save(comment);
+        return comment;
     }
+
+
+    @RequestMapping(value = "{commentUuid}/editComment", method = RequestMethod.PUT)
+    public Comment edit_Comment(@PathVariable("commentUuid") UUID commentUuid, @RequestBody CommentCreateRequestModel request) {
+        Optional<Comment> comment= commentsRepository.findById(commentUuid);
+        if (!comment.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        Comment editComment = comment.get();
+        editComment.setComment(request.comment);
+
+
+        editComment .setDate(new Date());
+
+        editComment  = commentsRepository.save(editComment );
+
+        return editComment ;
+    }
+
 
 
 }
