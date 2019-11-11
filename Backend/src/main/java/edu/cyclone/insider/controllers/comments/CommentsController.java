@@ -63,7 +63,7 @@ public class CommentsController extends BaseController {
     }
 
 
-    @RequestMapping(value = "{commentUuid}/editComment", method = RequestMethod.PUT)
+    @RequestMapping(value = "{commentUuid}", method = RequestMethod.PUT)
     public Comment edit_Comment(@PathVariable("commentUuid") UUID commentUuid, @RequestBody CommentCreateRequestModel request) {
         Optional<Comment> comment= commentsRepository.findById(commentUuid);
         if (!comment.isPresent()) {
@@ -79,7 +79,4 @@ public class CommentsController extends BaseController {
 
         return editComment ;
     }
-
-
-
 }

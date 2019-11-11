@@ -4,10 +4,7 @@ import edu.cyclone.insider.controllers.BaseController;
 import edu.cyclone.insider.controllers.notifications.NotificationController;
 import edu.cyclone.insider.controllers.post.models.PostCreateRequestModel;
 import edu.cyclone.insider.controllers.room.models.CreateRoomRequestModel;
-import edu.cyclone.insider.models.InsiderUser;
-import edu.cyclone.insider.models.Post;
-import edu.cyclone.insider.models.Room;
-import edu.cyclone.insider.models.RoomMembership;
+import edu.cyclone.insider.models.*;
 import edu.cyclone.insider.repos.PostRepository;
 import edu.cyclone.insider.repos.RoomMembershipRepository;
 import edu.cyclone.insider.repos.RoomRepository;
@@ -66,13 +63,14 @@ public class RoomController extends BaseController {
         roomMembership.setRoom(byId.get());
         roomMembership.setUser(getCurrentUser());
         roomMembership.setPending(false);
+        roomMembership.setRoomLevel(RoomLevel.USER);
         roomMembership = roomMembershipRepository.save(roomMembership);
         return roomMembership;
     }
 
-    @RequestMapping(value = "all", method = RequestMethod.GET)
-    public List<Room> getAllRooms() {
-        return roomRepository.findAll();
+    @RequestMapping(value = "public", method = RequestMethod.GET)
+    public List<Room> getPublicRooms() {
+        return roomRepository.publicRooms();
     }
 
     @RequestMapping(value = "{roomUuid}", method = RequestMethod.GET)
@@ -132,7 +130,14 @@ public class RoomController extends BaseController {
         room.setPrivateRoom(model.privateRoom);
         room.setDescription(model.description);
         room = roomRepository.save(room);
-        joinRoom(room.getUuid());
+
+        RoomMembership roomMembership = new RoomMembership();
+        roomMembership.setRoom(room);
+        roomMembership.setUser(getCurrentUser());
+        roomMembership.setPending(false);
+        roomMembership.setRoomLevel(RoomLevel.CREATOR);
+        roomMembership = roomMembershipRepository.save(roomMembership);
+
         return room;
     }
 

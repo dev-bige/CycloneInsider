@@ -1,7 +1,7 @@
 package edu.cyclone.insider.models;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+
 /**
  * class for generating a room for posts
  */
@@ -13,6 +13,10 @@ public class RoomMembership extends BaseModel {
     private InsiderUser invitedBy;
     @ManyToOne
     private Room room;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column
+    private RoomLevel roomLevel = RoomLevel.USER;
 
     private Boolean pending;
 
@@ -73,5 +77,13 @@ public class RoomMembership extends BaseModel {
      */
     public void setInvitedBy(InsiderUser invitedBy) {
         this.invitedBy = invitedBy;
+    }
+
+    public RoomLevel getRoomLevel() {
+        return roomLevel;
+    }
+
+    public void setRoomLevel(RoomLevel userLevel) {
+        this.roomLevel = userLevel;
     }
 }

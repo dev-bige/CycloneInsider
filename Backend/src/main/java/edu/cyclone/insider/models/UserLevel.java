@@ -6,5 +6,6 @@ public enum UserLevel {
      */
     USER,
     PROFESSOR,
-    ADMIN
+    ADMIN,
+    NONE;
 }

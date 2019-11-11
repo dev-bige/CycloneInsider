@@ -17,7 +17,7 @@ public class InsiderUser extends BaseModel {
     private String firstName;
     private String lastName;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     @Column
     private UserLevel userLevel = UserLevel.USER;
 

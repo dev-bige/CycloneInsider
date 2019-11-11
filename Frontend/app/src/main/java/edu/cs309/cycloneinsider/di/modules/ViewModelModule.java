@@ -75,6 +75,11 @@ abstract class ViewModelModule {
     abstract ViewModel bindInviteViewModel(InviteViewModel inviteViewModel);
 
     @Binds
+    @IntoMap
+    @ViewModelKey(RoomInvitationViewModel.class)
+    abstract ViewModel bindRoomInvitationViewModel(RoomInvitationViewModel inviteViewModel);
+
+    @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);
 
 }

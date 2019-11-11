@@ -31,17 +31,21 @@ public class AdminController extends BaseController {
 
     }
 
+
     //Will be adding more funct. for permissions
     @RequestMapping(value = "{userUuid}/acceptAdminReq", method = RequestMethod.GET)
     public InsiderUser setUserToAdmin(@RequestParam("roomUuid") UUID roomUuid, @PathVariable("userUuid") UUID userUuid) {
         Optional<RoomMembership> membership = roomMembershipRepository.findMembership(getCurrentUser().getUuid(), roomUuid);
         Optional<InsiderUser> user = usersRepository.findById(userUuid);
         Optional<Room> room = roomRepository.findById(roomUuid);
-        Room roomReq = room.get();
-        InsiderUser userReq = user.get();
-        if (user == null) {
+
+        if (!user.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+
+        Room roomReq = room.get();
+        InsiderUser userReq = user.get();
+
         //checks to see if user is a admin yet and that they are a member of the room they will become admin in
         if (userReq.getAdmin() == Boolean.FALSE && membership.isPresent()) {
             userReq.setAdmin(Boolean.TRUE);
