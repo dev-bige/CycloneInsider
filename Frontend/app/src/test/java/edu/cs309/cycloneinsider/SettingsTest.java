@@ -10,6 +10,7 @@ import org.mockito.junit.MockitoRule;
 
 import edu.cs309.cycloneinsider.activities.CreatePostActivity;
 import edu.cs309.cycloneinsider.activities.FeedbackActivity;
+import edu.cs309.cycloneinsider.activities.FeedbackOptionsActivity;
 import edu.cs309.cycloneinsider.activities.NewPasswordActivity;
 import edu.cs309.cycloneinsider.activities.SettingsActivity;
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
@@ -160,4 +161,202 @@ public class SettingsTest {
         assertEquals(pass.checkPassword(oldPass,newPass,newPass2),true);
 
     }
+
+    @Test
+    public void FeedbackOptions1(){
+
+        FeedbackOptionsActivity feed = mock(FeedbackOptionsActivity.class);
+        boolean value1 = true;
+        boolean value2 = false;
+        boolean value3 = false;
+        boolean value4 = false;
+        feed.Check(value1,value2,value3,value4);
+        when(feed.Check(value1,value2,value3,value4)).thenReturn(true);
+        assertEquals(feed.Check(value1,value2,value3,value4), true);
+
+    }
+
+    @Test
+    public void FeedbackOptions2(){
+
+        FeedbackOptionsActivity feed = mock(FeedbackOptionsActivity.class);
+        boolean value1 = false;
+        boolean value2 = false;
+        boolean value3 = false;
+        boolean value4 = false;
+        feed.Check(value1,value2,value3,value4);
+        when(feed.Check(value1,value2,value3,value4)).thenReturn(false);
+        assertEquals(feed.Check(value1,value2,value3,value4), false);
+
+    }
+
+    @Test
+    public void FeedbackOptions3(){
+
+        FeedbackOptionsActivity feed = mock(FeedbackOptionsActivity.class);
+        boolean value1 = false;
+        boolean value2 = true;
+        boolean value3 = false;
+        boolean value4 = false;
+        feed.Check(value1,value2,value3,value4);
+        when(feed.Check(value1,value2,value3,value4)).thenReturn(true);
+        assertEquals(feed.Check(value1,value2,value3,value4), true);
+
+    }
+
+    @Test
+    public void FeedbackOptions4(){
+
+        FeedbackOptionsActivity feed = mock(FeedbackOptionsActivity.class);
+        boolean value1 = false;
+        boolean value2 = false;
+        boolean value3 = true;
+        boolean value4 = false;
+        feed.Check(value1,value2,value3,value4);
+        when(feed.Check(value1,value2,value3,value4)).thenReturn(true);
+        assertEquals(feed.Check(value1,value2,value3,value4), true);
+
+    }
+
+    @Test
+    public void FeedbackOptions5(){
+
+        FeedbackOptionsActivity feed = mock(FeedbackOptionsActivity.class);
+        boolean value1 = false;
+        boolean value2 = false;
+        boolean value3 = false;
+        boolean value4 = true;
+        feed.Check(value1,value2,value3,value4);
+        when(feed.Check(value1,value2,value3,value4)).thenReturn(true);
+        assertEquals(feed.Check(value1,value2,value3,value4), true);
+
+    }
+
+    @Test
+    public void FeedbackOptions6(){
+
+        FeedbackOptionsActivity feed = mock(FeedbackOptionsActivity.class);
+        boolean value1 = true;
+        boolean value2 = true;
+        boolean value3 = false;
+        boolean value4 = false;
+        feed.Check(value1,value2,value3,value4);
+        when(feed.Check(value1,value2,value3,value4)).thenReturn(true);
+        assertEquals(feed.Check(value1,value2,value3,value4), true);
+
+    }
+
+    @Test
+    public void FeedbackOptions7(){
+
+        FeedbackOptionsActivity feed = mock(FeedbackOptionsActivity.class);
+        boolean value1 = true;
+        boolean value2 = false;
+        boolean value3 = false;
+        boolean value4 = true;
+        feed.Check(value1,value2,value3,value4);
+        when(feed.Check(value1,value2,value3,value4)).thenReturn(true);
+        assertEquals(feed.Check(value1,value2,value3,value4), true);
+
+    }
+
+    @Test
+    public void AdditionalFeedbackOptions1(){
+
+        FeedbackActivity feed = mock(FeedbackActivity.class);
+        boolean value1 = false;
+        boolean value2 = false;
+        boolean value3 = false;
+        boolean value4 = false;
+        feed.CheckSubject(value1,value2,value3,value4);
+        when(feed.CheckSubject(value1,value2,value3,value4)).thenReturn("(User Feedback)");
+        assertEquals(feed.CheckSubject(value1,value2,value3,value4),"(User Feedback)");
+
+    }
+
+    @Test
+    public void AdditionalFeedbackOptions2(){
+
+        FeedbackActivity feed = mock(FeedbackActivity.class);
+        boolean value1 = true;
+        boolean value2 = false;
+        boolean value3 = false;
+        boolean value4 = false;
+        feed.CheckSubject(value1,value2,value3,value4);
+        when(feed.CheckSubject(value1,value2,value3,value4)).thenReturn("Technical: (User Feedback)");
+        assertEquals(feed.CheckSubject(value1,value2,value3,value4),"Technical: (User Feedback)");
+
+    }
+
+    @Test
+    public void AdditionalFeedbackOptions3(){
+
+        FeedbackActivity feed = mock(FeedbackActivity.class);
+        boolean value1 = false;
+        boolean value2 = true;
+        boolean value3 = false;
+        boolean value4 = false;
+        feed.CheckSubject(value1,value2,value3,value4);
+        when(feed.CheckSubject(value1,value2,value3,value4)).thenReturn("Improve: (User Feedback)");
+        assertEquals(feed.CheckSubject(value1,value2,value3,value4),"Improve: (User Feedback)");
+
+    }
+
+    @Test
+    public void AdditionalFeedbackOptions4(){
+
+        FeedbackActivity feed = mock(FeedbackActivity.class);
+        boolean value1 = false;
+        boolean value2 = false;
+        boolean value3 = true;
+        boolean value4 = false;
+        feed.CheckSubject(value1,value2,value3,value4);
+        when(feed.CheckSubject(value1,value2,value3,value4)).thenReturn("Feature: (User Feedback)");
+        assertEquals(feed.CheckSubject(value1,value2,value3,value4),"Feature: (User Feedback)");
+
+    }
+
+
+    @Test
+    public void AdditionalFeedbackOptions5(){
+
+        FeedbackActivity feed = mock(FeedbackActivity.class);
+        boolean value1 = false;
+        boolean value2 = false;
+        boolean value3 = false;
+        boolean value4 = true;
+        feed.CheckSubject(value1,value2,value3,value4);
+        when(feed.CheckSubject(value1,value2,value3,value4)).thenReturn("Other: (User Feedback)");
+        assertEquals(feed.CheckSubject(value1,value2,value3,value4),"Other: (User Feedback)");
+
+    }
+
+    @Test
+    public void AdditionalFeedbackOptions6(){
+
+        FeedbackActivity feed = mock(FeedbackActivity.class);
+        boolean value1 = true;
+        boolean value2 = false;
+        boolean value3 = false;
+        boolean value4 = true;
+        feed.CheckSubject(value1,value2,value3,value4);
+        when(feed.CheckSubject(value1,value2,value3,value4)).thenReturn("Technical: Other: (User Feedback)");
+        assertEquals(feed.CheckSubject(value1,value2,value3,value4),"Technical: Other: (User Feedback)");
+
+    }
+
+    @Test
+    public void AdditionalFeedbackOptions7(){
+
+        FeedbackActivity feed = mock(FeedbackActivity.class);
+        boolean value1 = true;
+        boolean value2 = true;
+        boolean value3 = true;
+        boolean value4 = true;
+        feed.CheckSubject(value1,value2,value3,value4);
+        when(feed.CheckSubject(value1,value2,value3,value4)).thenReturn("Technical: Improve: Feature: Other: (User Feedback)");
+        assertEquals(feed.CheckSubject(value1,value2,value3,value4),"Technical: Improve: Feature: Other: (User Feedback)");
+
+    }
+
 }
