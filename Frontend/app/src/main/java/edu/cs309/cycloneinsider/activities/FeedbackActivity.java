@@ -62,6 +62,39 @@ public class FeedbackActivity extends AppCompatActivity {
 
     }
 
+    public String CheckSubject(boolean val1, boolean val2, boolean val3, boolean val4){
+
+        String subject = "";
+        if (val1) {
+
+            subject += "Technical: ";
+
+        }
+
+        if (val2) {
+
+            subject += "Improve: ";
+
+        }
+
+        if (val3) {
+
+            subject += "Feature: ";
+
+        }
+
+        if (val4) {
+
+            subject += "Other: ";
+
+        }
+
+        subject += "(User Feedback)";
+
+        return subject;
+
+    }
+
     /**
      * Method checks if the text of words can be sent and then sends the email to the Google Gmail app
      *

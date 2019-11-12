@@ -59,7 +59,7 @@ public class FeedbackOptionsActivity extends AppCompatActivity {
 
         hidden.setVisibility(View.INVISIBLE);
 
-        if (isCheckedTech || isCheckedImprove || isCheckedFeature || isCheckedOther) {
+        if (Check(isCheckedTech, isCheckedImprove, isCheckedFeature, isCheckedOther)) {
 
             Intent emailIntent = new Intent(FeedbackOptionsActivity.this, FeedbackActivity.class);
             Bundle extras = new Bundle();
@@ -82,6 +82,26 @@ public class FeedbackOptionsActivity extends AppCompatActivity {
 
 
     }
+
+    /**
+     *Method checks if any of the values are true
+     * @param value1 boolean value to check
+     * @param value2 2nd boolean value to check
+     * @param value3 3rd boolean value to check
+     * @param value4 4th boolean value to check
+     * @return if either of the values are true
+     */
+    public boolean Check(boolean value1, boolean value2, boolean value3, boolean value4) {
+
+        if(value1 || value2 || value3 || value4) {
+
+            return true;
+        }
+
+        return false;
+
+    }
+
 
 
 }
