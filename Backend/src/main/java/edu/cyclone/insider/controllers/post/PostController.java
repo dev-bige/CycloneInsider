@@ -145,6 +145,12 @@ public class PostController extends BaseController {
         return favPost;
     }
 
+    @RequestMapping(value = "{postUuid}/favorite", method = RequestMethod.DELETE)
+    public void deleteFavoritePost(@PathVariable("postUuid") UUID postUuid) {
+        Optional<FavPost> maybeFavPost = this.favPostRepository.findFavPost(getCurrentUser().getUuid(), postUuid);
+        maybeFavPost.ifPresent(favPost -> favPostRepository.delete(favPost));
+    }
+
     private Post createPost(PostCreateRequestModel request, UUID roomUUid) {
         Optional<Room> byId = null;
         if (roomUUid != null) {
