@@ -27,10 +27,6 @@ public class CycloneInsiderApp extends DaggerApplication {
         startService(new Intent(this, NotificationService.class));
     }
 
-    public CycloneInsiderService getApiService() {
-        return null;
-    }
-
     @Override
     protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
         ApplicationComponent component = DaggerApplicationComponent

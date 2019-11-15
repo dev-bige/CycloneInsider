@@ -9,15 +9,21 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.lifecycle.ViewModelProviders;
+
 import com.google.common.base.Strings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import javax.inject.Inject;
+
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.api.models.PostCreateRequestModel;
 import edu.cs309.cycloneinsider.api.models.PostModel;
+import edu.cs309.cycloneinsider.di.ViewModelFactory;
+import edu.cs309.cycloneinsider.viewmodels.CreatePostViewModel;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -26,6 +32,9 @@ import retrofit2.Response;
 public class CreatePostActivity extends InsiderActivity {
     private HashMap<String, Integer> dict = new HashMap<>();
     private Disposable subscribe;
+    @Inject
+    ViewModelFactory viewModelFactory;
+    private CreatePostViewModel createPostViewModel;
 
     /**
      * Method is used to bold or un-bold text
@@ -79,7 +88,7 @@ public class CreatePostActivity extends InsiderActivity {
 
     }
 
-    private void ExplicitWordMap() {
+    private void initWordMap() {
         //String of all the swear words we are using
         String swearWordList = "anal\n" +
                 "anus\n" +
@@ -393,43 +402,29 @@ public class CreatePostActivity extends InsiderActivity {
         postCreateRequestModel.title = title;
         postCreateRequestModel.tags = new ArrayList<>();
 
-        Observable<Response<PostModel>> createPostObservable = Observable.empty();
-        if (Strings.isNullOrEmpty(getIntent().getStringExtra("ROOM_UUID"))) {
-            createPostObservable = getInsiderApplication()
-                    .getApiService()
-                    .createFrontPagePost(postCreateRequestModel);
-        } else {
-            createPostObservable = getInsiderApplication()
-                    .getApiService()
-                    .createRoomPost(getIntent().getStringExtra("ROOM_UUID"), postCreateRequestModel);
-        }
 
-        subscribe = createPostObservable
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(postModelResponse -> {
-                    if (postModelResponse.isSuccessful()) {
-                        //Handle 200 response
-                        Intent intent = new Intent(this, PostDetailActivity.class);
-                        intent.putExtra("POST_UUID", postModelResponse.body().getUuid());
-                        startActivity(intent);
-                        finish();
-                    }
-                }, error -> {
-                    //Handle error
-                }, () -> {
-                    //Cleanup...
-                });
-        return;
+        this.createPostViewModel.createPost(postCreateRequestModel, getIntent().getStringExtra("ROOM_UUID"));
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+        createPostViewModel = ViewModelProviders.of(this, viewModelFactory).get(CreatePostViewModel.class);
+
         setContentView(R.layout.activity_create_post);
-        ExplicitWordMap(); //initializes the explicit words in the Map
+        initWordMap(); //initializes the explicit words in the Map
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().setStatusBarColor(getResources().getColor(R.color.colorAccentDark));
+
+        createPostViewModel.getCreatePostModelResponse().observe(this, postModelResponse -> {
+            if (postModelResponse.isSuccessful()) {
+                //Handle 200 response
+                Intent intent = new Intent(this, PostDetailActivity.class);
+                intent.putExtra("POST_UUID", postModelResponse.body().getUuid());
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     @Override
