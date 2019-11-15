@@ -19,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.validation.constraints.Null;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +49,7 @@ public class PostController extends BaseController {
 
     /**
      * Create a post for the front page
+     *
      * @param request the post creation body
      * @return the post that was created
      */
@@ -61,6 +61,7 @@ public class PostController extends BaseController {
 
     /**
      * Get post by uuid
+     *
      * @param postUuid the post uuid
      * @return the post
      */
@@ -76,6 +77,7 @@ public class PostController extends BaseController {
 
     /**
      * Delete a post. Only the original creator can delete the post
+     *
      * @param postUuid the post uuid
      * @return the post that was deleted
      */
@@ -95,12 +97,13 @@ public class PostController extends BaseController {
 
     /**
      * Edit a post
+     *
      * @param postUuid the post uuid you want to edit
-     * @param request the update model
+     * @param request  the update model
      * @return the post that was modified
      */
     @RequestMapping(value = "{postUuid}/editPost", method = RequestMethod.PUT)
-    public Post edit_Post(@PathVariable("postUuid") UUID postUuid,@RequestBody PostCreateRequestModel request) {
+    public Post edit_Post(@PathVariable("postUuid") UUID postUuid, @RequestBody PostCreateRequestModel request) {
         Optional<Post> post = postRepository.findById(postUuid);
         if (!post.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -119,11 +122,17 @@ public class PostController extends BaseController {
 
     /**
      * Create a favorite post
+     *
      * @param postUuid the post you want to favorite
      * @return the {@link FavPost} relationship model
      */
     @RequestMapping(value = "{postUuid}/favorite", method = RequestMethod.POST)
     public FavPost favorite_Post(@PathVariable("postUuid") UUID postUuid) {
+        Optional<FavPost> maybeFavPost = this.favPostRepository.findFavPost(getCurrentUser().getUuid(), postUuid);
+        if (maybeFavPost.isPresent()) {
+            return maybeFavPost.get();
+        }
+
         Optional<Post> post = postRepository.findById(postUuid);
         if (!post.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
