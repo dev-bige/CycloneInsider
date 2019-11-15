@@ -18,6 +18,7 @@ import edu.cs309.cycloneinsider.api.models.SignUpRequestModel;
 import io.reactivex.Observable;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -77,6 +78,12 @@ public interface CycloneInsiderService {
 
     @POST("/rooms/{uuid}/posts")
     Observable<Response<PostModel>> createRoomPost(@Path("uuid") String room_uuid, @Body PostCreateRequestModel body);
+
+    @POST("/posts/{postUuid}/favorite")
+    Observable<Response<FavoritePostModel>> favoritePost(@Path("postUuid") String post_uuid);
+
+    @DELETE("/posts/{postUuid}/favorite")
+    Observable<Response<Void>> removeFavoritePost(@Path("postUuid") String post_uuid);
 
     @GET("/users/{username}/profile")
     Observable<Response<InsiderUserModel>> findUser(@Path("username") String username);

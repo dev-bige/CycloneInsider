@@ -39,7 +39,8 @@ public class MyPostListFragment extends Fragment {
     ViewModelFactory viewModelFactory;
     private Disposable myPostClicks;
     private LinearLayoutManager layoutManager;
-    private PostListRecyclerViewAdapter mAdapter;
+    @Inject
+    PostListRecyclerViewAdapter mAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private MyPostListViewModel myPostListViewModel;
 
@@ -74,7 +75,6 @@ public class MyPostListFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(getContext());
-        mAdapter = new PostListRecyclerViewAdapter();
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mAdapter);
 

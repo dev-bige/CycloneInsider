@@ -11,6 +11,8 @@ import edu.cs309.cycloneinsider.api.AuthorizationInterceptor;
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.Session;
 import edu.cs309.cycloneinsider.api.TokenRenewInterceptor;
+import edu.cs309.cycloneinsider.api.UserStateService;
+import edu.cs309.cycloneinsider.fragments.adapters.PostListRecyclerViewAdapter;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Retrofit;
@@ -18,7 +20,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
-public class ApplicationModule {
+public abstract class ApplicationModule {
     private static final String baseUrl = "http://coms-309-sb-5.misc.iastate.edu:8080";
 
     @Singleton
@@ -58,5 +60,10 @@ public class ApplicationModule {
     @Provides
     static CycloneInsiderService provideCycloneInsiderService(Retrofit retrofit) {
         return retrofit.create(CycloneInsiderService.class);
+    }
+
+    @Provides
+    static PostListRecyclerViewAdapter providePostListRecyclerViewAdapter(UserStateService userStateService, CycloneInsiderService cycloneInsiderService) {
+        return new PostListRecyclerViewAdapter(userStateService, cycloneInsiderService);
     }
 }

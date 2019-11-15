@@ -39,7 +39,9 @@ public class PostListFragment extends Fragment {
     ViewModelFactory viewModelFactory;
     private String roomUUID;
     private LinearLayoutManager layoutManager;
-    private PostListRecyclerViewAdapter mAdapter;
+
+    @Inject
+    PostListRecyclerViewAdapter mAdapter;
     private Disposable postClicks;
     private SwipeRefreshLayout swipeRefreshLayout;
     private PostListViewModel viewModel;
@@ -102,7 +104,6 @@ public class PostListFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new PostListRecyclerViewAdapter();
         recyclerView.setAdapter(mAdapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
