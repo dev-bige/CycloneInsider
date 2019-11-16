@@ -16,6 +16,7 @@ public class InsiderUser extends BaseModel {
 
     private String firstName;
     private String lastName;
+    private Boolean pending;
 
     @Enumerated(EnumType.ORDINAL)
     @Column
@@ -107,6 +108,15 @@ public class InsiderUser extends BaseModel {
     public Boolean getProfessor() {
         return this.userLevel == UserLevel.PROFESSOR;
     }
+    /**
+     * sets the user to pending when Box on front end is checked.
+     */
+
+    public void setProfPending(Boolean pending) {
+
+        this.pending=pending;
+    }
+
     /**
      * gets the permission level a user has (i.e Admin,Professor,User)
      * @return the level of the user

@@ -53,5 +53,17 @@ public class AdminController extends BaseController {
         return userReq;
     }
 
+    @RequestMapping(value = "{userUuid}/verifyProfessor", method = RequestMethod.GET)
+    public InsiderUser setUserToProfessor(@RequestParam("userUuid") UUID roomUuid, @PathVariable("userUuid") UUID userUuid) {
+        Optional<InsiderUser> user = usersRepository.findById(userUuid);
+        if (!user.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        InsiderUser userReq = user.get();
+        userReq.setProfPending(Boolean.FALSE);
+        usersRepository.save(userReq);
+        return userReq;
+
+    }
 
 }

@@ -87,4 +87,24 @@ public class UserController extends BaseController {
         newUser.setUsername(request.username);
         usersRepository.save(newUser);
     }
+
+
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public void checkPendProfBox(@RequestBody SignUpRequestModel request) {
+        InsiderUser user = getCurrentUser();
+
+
+        if (user.getProfessor()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Already a Professor");
+
+        }
+
+
+
+    }
+
+
+
+
+
 }
