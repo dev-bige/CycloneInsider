@@ -1,5 +1,5 @@
 package edu.cyclone.insider.controllers.user;
-
+import edu.cyclone.insider.models.UserLevel;
 import edu.cyclone.insider.controllers.BaseController;
 import edu.cyclone.insider.controllers.user.models.SignUpRequestModel;
 import edu.cyclone.insider.models.*;
@@ -21,6 +21,7 @@ public class UserController extends BaseController {
     private FavPostRepository favPostRepository;
     private CommentsRepository commentsRepository;
     private PostRepository postRepository;
+    private UserLevel userLevel;
 
     @Autowired
     public UserController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, RoomMembershipRepository roomMembershipRepository, FavPostRepository favPostRepository, CommentsRepository commentsRepository, PostRepository postRepository) {
@@ -85,19 +86,18 @@ public class UserController extends BaseController {
         newUser.setLastName(request.lastName);
         newUser.setPassword(passwordEncoder.encode(request.password));
         newUser.setUsername(request.username);
-        usersRepository.save(newUser);
-    }
-
-
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public void checkPendProfBox(@RequestBody SignUpRequestModel request) {
-        InsiderUser user = getCurrentUser();
-
-
-        if (user.getProfessor()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Already a Professor");
-
+        if(newUser.getProfPending()) {
+            userLevel = (UserLevel.USER);
         }
+        usersRepository.save(newUser);
+
+
+    }
+
+
+
+
+
 
 
 
@@ -107,4 +107,4 @@ public class UserController extends BaseController {
 
 
 
-}
+

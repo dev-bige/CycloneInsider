@@ -5,4 +5,5 @@ public class SignUpRequestModel {
     public String password;
     public String firstName;
     public String lastName;
+    public Boolean pending;
 }

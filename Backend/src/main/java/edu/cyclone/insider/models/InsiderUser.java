@@ -117,6 +117,11 @@ public class InsiderUser extends BaseModel {
         this.pending=pending;
     }
 
+    public Boolean getProfPending() {
+
+        return pending;
+    }
+
     /**
      * gets the permission level a user has (i.e Admin,Professor,User)
      * @return the level of the user
