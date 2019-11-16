@@ -105,7 +105,6 @@ public class AdminProfessorValidateFragment extends Fragment {
                     .create()
                     .show();
         });
-
         viewModel.refresh();
     }
 }
