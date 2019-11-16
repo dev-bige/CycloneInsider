@@ -23,7 +23,10 @@ public class RoomMembershipService {
     private RoomMembershipRepository roomMembershipRepository;
 
     @Autowired
-    public RoomMembershipService(RoomService roomService, UserService userService, UserStateService userStateService, RoomMembershipRepository roomMembershipRepository) {
+    public RoomMembershipService(RoomService roomService,
+                                 UserService userService,
+                                 UserStateService userStateService,
+                                 RoomMembershipRepository roomMembershipRepository) {
         this.roomService = roomService;
         this.userService = userService;
         this.userStateService = userStateService;
@@ -31,7 +34,7 @@ public class RoomMembershipService {
     }
 
     public boolean isMember(UUID roomUuid) {
-        return getMembership(roomUuid).isPresent();
+        return getMembershipOptional(roomUuid).isPresent();
     }
 
     public List<RoomMembership> getMemberships() {
@@ -50,13 +53,26 @@ public class RoomMembershipService {
         return roomMembershipRepository.findPendingUserMemberships(userId);
     }
 
-    public Optional<RoomMembership> getMembership(UUID roomUuid) {
+    public Optional<RoomMembership> getMembershipOptional(UUID roomUuid) {
+        return getMembershipOptional(userStateService.getCurrentUser().getUuid(), roomUuid);
+    }
+
+    public Optional<RoomMembership> getMembershipOptional(UUID roomUuid, UUID userUuid) {
+        return roomMembershipRepository.findMembership(userUuid, roomUuid);
+    }
+
+    public RoomMembership getMembership(UUID roomUuid) {
         return getMembership(userStateService.getCurrentUser().getUuid(), roomUuid);
     }
 
-    public Optional<RoomMembership> getMembership(UUID roomUuid, UUID userUuid) {
-        return roomMembershipRepository.findMembership(userUuid, roomUuid);
+    public RoomMembership getMembership(UUID roomUuid, UUID userUuid) {
+        Optional<RoomMembership> membership = roomMembershipRepository.findMembership(userUuid, roomUuid);
+        if (membership.isPresent()) {
+            return membership.get();
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
+
 
     public boolean hasCreatorPrivileges(UUID roomUuid) {
         return hasPrivilege(roomUuid, RoomLevel.CREATOR);
@@ -67,7 +83,7 @@ public class RoomMembershipService {
     }
 
     private boolean hasPrivilege(UUID roomUuid, RoomLevel roomLevel) {
-        Optional<RoomMembership> membership = getMembership(roomUuid);
+        Optional<RoomMembership> membership = getMembershipOptional(roomUuid);
         if (membership.isPresent()) {
             return membership.get().getRoomLevel() == roomLevel;
         }
@@ -75,16 +91,13 @@ public class RoomMembershipService {
     }
 
     public RoomMembership invite(UUID roomUuid, UUID userUuid) {
-        Optional<InsiderUser> invitedUser = userService.getByUUID(userUuid);
-        Optional<Room> room = roomService.getByUUID(roomUuid);
-        if (!invitedUser.isPresent() || !room.isPresent()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        InsiderUser invitedUser = userService.getByUUID(userUuid);
+        Room room = roomService.getByUUID(roomUuid);
 
-        String message = String.format("You have been invited to %s from %s", room.get().getName(), userStateService.getCurrentUser().getFullName());
+        String message = String.format("You have been invited to %s from %s", room.getName(), userStateService.getCurrentUser().getFullName());
         NotificationController.broadcastNotificationToUUID(userUuid, message);
 
-        Optional<RoomMembership> currentMembership = getMembership(roomUuid, userUuid);
+        Optional<RoomMembership> currentMembership = getMembershipOptional(roomUuid, userUuid);
         if (currentMembership.isPresent()) {
             return currentMembership.get();
         }
@@ -92,11 +105,66 @@ public class RoomMembershipService {
         boolean hasCreatorPrivileges = hasCreatorPrivileges(roomUuid);
         if (hasCreatorPrivileges) {
             RoomMembership roomMembership = new RoomMembership();
-            roomMembership.setUser(invitedUser.get());
+            roomMembership.setUser(invitedUser);
             roomMembership.setRoomLevel(RoomLevel.USER);
             roomMembership.setInvitedBy(userStateService.getCurrentUser());
-            roomMembership.setPending(true);
+            roomMembership.setIsPending(true);
         }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+    }
+
+    public RoomMembership joinRoom(UUID roomUuid) {
+        Room room = roomService.getByUUID(roomUuid);
+
+        //Logic for joining a room that is (invites)
+        //Check if membership already exists
+        Optional<RoomMembership> membership = getMembershipOptional(roomUuid);
+        if (membership.isPresent()) {
+            RoomMembership roomMembership = membership.get();
+            //If pending, we need to change it to not pending
+            if (roomMembership.isPending()) {
+                roomMembership.setIsPending(false);
+                roomMembership = roomMembershipRepository.save(roomMembership);
+            }
+            //Return current membership if already exists...
+            return roomMembership;
+        }
+
+        if (room.getPrivateRoom()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        RoomMembership roomMembership = new RoomMembership();
+        roomMembership.setRoom(room);
+        roomMembership.setUser(this.userStateService.getCurrentUser());
+        roomMembership.setIsPending(false);
+        roomMembership.setRoomLevel(RoomLevel.USER);
+        roomMembership = roomMembershipRepository.save(roomMembership);
+        return roomMembership;
+    }
+
+    public void deleteMembership(UUID roomUuid) {
+        deleteMembership(roomUuid, userStateService.getCurrentUser().getUuid());
+    }
+
+    public void deleteMembership(UUID roomId, UUID userId) {
+        Room room = roomService.getByUUID(roomId);
+        RoomMembership myMembership = getMembership(roomId);
+        RoomLevel myLevel = myMembership.getRoomLevel();
+        RoomMembership membership = getMembership(roomId, userId);
+        boolean isMyMembership = myMembership.getUuid().equals(membership.getUuid());
+
+        //It's my membership, i have global admin, i am the creator of the room, or  i am a moderator for the room, and i can't leave a room i created
+        boolean canDelete =
+                isMyMembership ||
+                        userStateService.hasAdminPrivileges() ||
+                        myLevel == RoomLevel.CREATOR ||
+                        myLevel == RoomLevel.MODERATOR;
+        canDelete = canDelete && !(isMyMembership && myLevel == RoomLevel.CREATOR);
+
+        if (canDelete) {
+            roomMembershipRepository.delete(membership);
+        }
+
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
     }
 }

@@ -23,13 +23,17 @@ public class UserService {
         this.usersRepository = usersRepository;
     }
 
-    public Optional<InsiderUser> getByUUID(UUID uuid) {
-        return usersRepository.findById(uuid);
+    public InsiderUser getByUUID(UUID uuid) {
+        Optional<InsiderUser> user = usersRepository.findById(uuid);
+        if (user.isPresent()) {
+            return user.get();
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
     public InsiderUser findByUsername(String username) {
         Optional<InsiderUser> userByUsername = usersRepository.findUserByUsername(username);
-        if(userByUsername.isPresent()) {
+        if (userByUsername.isPresent()) {
             return userByUsername.get();
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -52,4 +56,6 @@ public class UserService {
         usersRepository.save(newUser);
         return newUser;
     }
+
+
 }

@@ -35,4 +35,12 @@ public class UserStateService {
     public UserLevel getUserLevel() {
         return getCurrentUser().getUserLevel();
     }
+
+    public boolean hasAdminPrivileges() {
+        return getCurrentUser().getUserLevel() == UserLevel.ADMIN;
+    }
+
+    public boolean hasProfessorPrivileges() {
+        return getCurrentUser().getUserLevel() == UserLevel.PROFESSOR;
+    }
 }
