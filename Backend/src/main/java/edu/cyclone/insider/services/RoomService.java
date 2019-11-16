@@ -20,17 +20,14 @@ import java.util.UUID;
 public class RoomService {
     private RoomRepository roomRepository;
     private UserStateService userStateService;
-    private RoomMembershipService roomMembershipService;
     private RoomMembershipRepository roomMembershipRepository;
 
     @Autowired
     public RoomService(RoomRepository roomRepository,
                        UserStateService userStateService,
-                       RoomMembershipService roomMembershipService,
                        RoomMembershipRepository roomMembershipRepository) {
         this.roomRepository = roomRepository;
         this.userStateService = userStateService;
-        this.roomMembershipService = roomMembershipService;
         this.roomMembershipRepository = roomMembershipRepository;
     }
 
@@ -72,8 +69,8 @@ public class RoomService {
     }
 
     public void deleteRoom(UUID roomId) {
-        boolean hasCreatorPrivileges = roomMembershipService.hasCreatorPrivileges(roomId);
-        if(hasCreatorPrivileges) {
+        Optional<RoomMembership> membership = roomMembershipRepository.findMembership(userStateService.getCurrentUser().getUuid(), roomId);
+        if(membership.isPresent() && membership.get().getRoomLevel() == RoomLevel.CREATOR) {
             roomRepository.deleteById(roomId);
             return;
         }

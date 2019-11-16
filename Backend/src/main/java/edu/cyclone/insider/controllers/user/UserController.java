@@ -1,10 +1,7 @@
 package edu.cyclone.insider.controllers.user;
 
 import edu.cyclone.insider.controllers.user.models.SignUpRequestModel;
-import edu.cyclone.insider.models.Comment;
-import edu.cyclone.insider.models.InsiderUser;
-import edu.cyclone.insider.models.Post;
-import edu.cyclone.insider.models.RoomMembership;
+import edu.cyclone.insider.models.*;
 import edu.cyclone.insider.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +45,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "current/favorite-posts", method = RequestMethod.GET)
-    public List<Post> getFavPosts() {
+    public List<FavPost> getFavPosts() {
         return favoritePostService.getFavPosts();
     }
 

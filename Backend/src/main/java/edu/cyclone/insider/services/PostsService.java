@@ -64,4 +64,40 @@ public class PostsService {
         post = postRepository.save(post);
         return post;
     }
+
+    public Post getPostById(UUID postId) {
+        Optional<Post> post = postRepository.findById(postId);
+        if (post.isPresent()) {
+            return post.get();
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    }
+
+    public Post editPost(UUID postUuid, PostCreateRequestModel request) {
+        Optional<Post> post = postRepository.findById(postUuid);
+        if (!post.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        Post editPost = post.get();
+        editPost.setContent(request.content);
+
+
+        editPost.setDate(new Date());
+
+        editPost = postRepository.save(editPost);
+
+        return editPost;
+    }
+
+    public void deletePost(UUID postUuid) {
+        Post post = getPostById(postUuid);
+        if (!post.getUser().getUuid().toString().equals(userStateService.getCurrentUser().getUuid().toString())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        postRepository.delete(post);
+    }
+
+    public List<Post> getFrontPagePosts() {
+        return postRepository.getFrontPagePosts();
+    }
 }
