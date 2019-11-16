@@ -96,6 +96,7 @@ public class RoomController extends BaseController {
 
     @RequestMapping(value = "{roomUuid}/invite", method = RequestMethod.POST)
     public RoomMembership invite(@RequestParam("userUuid") UUID userId, @PathVariable("roomUuid") UUID roomUuid) {
+
         Optional<Room> room = roomRepository.findById(roomUuid);
         Optional<InsiderUser> user = usersRepository.findById(userId);
 
@@ -103,7 +104,7 @@ public class RoomController extends BaseController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         String format = String.format("You have been invited to %s from %s", room.get().getName(), user.get().getFullName());
-        NotificationController.broadcastNotificationToUUID(userId, format);
+
         Optional<RoomMembership> membership = roomMembershipRepository.findMembership(userId, roomUuid);
         if (membership.isPresent()) {
             return membership.get();

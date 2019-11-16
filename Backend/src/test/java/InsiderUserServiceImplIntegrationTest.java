@@ -37,7 +37,7 @@ public class InsiderUserServiceImplIntegrationTest {
         timmy.setUsername("LilTimTim");
 
 
-        Mockito.when(usersRepository.findUserByUsername(timmy.getUsername()))
+        Mockito.when(usersRepository.findUserByUsernameNotNull(timmy.getUsername()))
                 .thenReturn(timmy); //this mocks the user repo and does a local instance to get the username of timmy i sent a link to a good article.
 
     }
