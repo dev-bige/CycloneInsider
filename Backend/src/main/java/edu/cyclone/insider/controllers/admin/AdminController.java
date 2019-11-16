@@ -4,6 +4,7 @@ import edu.cyclone.insider.controllers.BaseController;
 import edu.cyclone.insider.models.InsiderUser;
 import edu.cyclone.insider.models.Room;
 import edu.cyclone.insider.models.RoomMembership;
+import edu.cyclone.insider.models.UserLevel;
 import edu.cyclone.insider.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,6 +61,7 @@ public class AdminController extends BaseController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
         InsiderUser userReq = user.get();
+        userReq.setUserLevel(UserLevel.PROFESSOR);
         userReq.setProfPending(Boolean.FALSE);
         usersRepository.save(userReq);
         return userReq;

@@ -122,6 +122,10 @@ public class InsiderUser extends BaseModel {
         return pending;
     }
 
+    public void setUserLevel(UserLevel userLevel) {
+        this.userLevel = userLevel;
+    }
+
     /**
      * gets the permission level a user has (i.e Admin,Professor,User)
      * @return the level of the user

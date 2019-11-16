@@ -86,8 +86,8 @@ public class UserController extends BaseController {
         newUser.setLastName(request.lastName);
         newUser.setPassword(passwordEncoder.encode(request.password));
         newUser.setUsername(request.username);
-        if(newUser.getProfPending()) {
-            userLevel = (UserLevel.USER);
+        if(request.isProfessor) {
+            newUser.setProfPending(true);
         }
         usersRepository.save(newUser);
 
