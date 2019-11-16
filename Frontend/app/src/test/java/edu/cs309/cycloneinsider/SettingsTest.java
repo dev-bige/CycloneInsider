@@ -359,4 +359,48 @@ public class SettingsTest {
 
     }
 
+    @Test
+    public void SendFeedbackExplicit1(){
+
+        FeedbackActivity feed = mock(FeedbackActivity.class);
+        String  text = "shit";
+        feed.checkEmail(text);
+        when(feed.checkEmail(text)).thenReturn(false);
+        assertEquals(feed.checkEmail(text),false);
+
+    }
+
+    @Test
+    public void SendFeedbackExplicit2(){
+
+        FeedbackActivity feed = mock(FeedbackActivity.class);
+        String  text = "hello this is a test";
+        feed.checkEmail(text);
+        when(feed.checkEmail(text)).thenReturn(true);
+        assertEquals(feed.checkEmail(text),true);
+
+    }
+
+    @Test
+    public void SendFeedbackExplicit3(){
+
+        FeedbackActivity feed = mock(FeedbackActivity.class);
+        String  text = "Your app is shit";
+        feed.checkEmail(text);
+        when(feed.checkEmail(text)).thenReturn(false);
+        assertEquals(feed.checkEmail(text),false);
+
+    }
+
+    @Test
+    public void SendFeedbackExplicit4(){
+
+        FeedbackActivity feed = mock(FeedbackActivity.class);
+        String  text = "This should return true";
+        feed.checkEmail(text);
+        when(feed.checkEmail(text)).thenReturn(true);
+        assertEquals(feed.checkEmail(text),true);
+
+    }
+
 }

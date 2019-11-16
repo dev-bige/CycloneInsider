@@ -121,7 +121,7 @@ public class FeedbackActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private boolean checkEmail(String text) {
+    public boolean checkEmail(String text) {
 
         String[] words = text.split(" ", 0);
         for (int i = 0; i < words.length; i++) {
@@ -168,6 +168,32 @@ public class FeedbackActivity extends AppCompatActivity {
         subject += "(User Feedback)";
 
         return subject;
+
+    }
+
+    public boolean check(String text){
+
+        if(text.length() == 0){
+            return false;
+        }
+
+        int spacesFlag = 0;
+
+        for (int i = 0; i < text.length(); i++) {
+
+            if (text.charAt(i) == ' ') {
+
+                spacesFlag++;
+
+            }
+
+        }
+
+        if(spacesFlag == text.length()){
+            return false;
+        }
+        return true;
+
 
     }
 
