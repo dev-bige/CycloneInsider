@@ -117,8 +117,21 @@ public class RoomController extends BaseController {
         return roomMembershipRepository.save(roomMembership);
     }
 
+    @RequestMapping(value = "{roomUuid}/leave", method = RequestMethod.DELETE)
+    public void leaveRoom(@PathVariable("roomUuid") UUID roomUuid) {
+        Optional<RoomMembership> membership = roomMembershipRepository.findMembership(getCurrentUser().getUuid(), roomUuid);
+        membership.ifPresent(roomMembership -> {
+            //The creator can't leave...
+            if (roomMembership.getRoomLevel() != RoomLevel.CREATOR) {
+                roomMembershipRepository.delete(roomMembership);
+            }
+        });
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    }
+
     /**
      * Create a room
+     *
      * @param model the room model
      * @return the room that was created
      */
@@ -143,6 +156,7 @@ public class RoomController extends BaseController {
 
     /**
      * Delete a room. Only the user that created the room can delete it
+     *
      * @param roomUuid The room uuid you want to delete
      */
     @RequestMapping(value = "{roomUuid}", method = RequestMethod.DELETE)
