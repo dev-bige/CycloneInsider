@@ -88,7 +88,7 @@ public class NotificationService extends DaggerService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "invites")
                 .setSmallIcon(R.drawable.ic_school_black_24dp)
                 .setContentTitle("New Invite")
-                .setContentText(message)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(message))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify((int) (Math.random() * 20), builder.build());

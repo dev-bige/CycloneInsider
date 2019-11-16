@@ -54,14 +54,14 @@ public class RoomMembership extends BaseModel {
      * gets the flag to see if the invite is pending still
      * @return pending- Boolean
      */
-    public Boolean getPending() {
+    public Boolean isPending() {
         return pending;
     }
     /**
      * sets the pending flag
      * @param pending- of type Boolean
      */
-    public void setPending(Boolean pending) {
+    public void setIsPending(Boolean pending) {
         this.pending = pending;
     }
     /**
