@@ -1,107 +1,79 @@
 package edu.cyclone.insider.controllers.user;
-import edu.cyclone.insider.models.UserLevel;
-import edu.cyclone.insider.controllers.BaseController;
+
 import edu.cyclone.insider.controllers.user.models.SignUpRequestModel;
 import edu.cyclone.insider.models.*;
-import edu.cyclone.insider.repos.*;
+import edu.cyclone.insider.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController()
 @RequestMapping("users")
-public class UserController extends BaseController {
-
-    private PasswordEncoder passwordEncoder;
-    private RoomMembershipRepository roomMembershipRepository;
-    private FavPostRepository favPostRepository;
-    private CommentsRepository commentsRepository;
-    private PostRepository postRepository;
-    private UserLevel userLevel;
+public class UserController {
+    private UserService userService;
+    private UserStateService userStateService;
+    private RoomMembershipService roomMembershipService;
+    private FavoritePostService favoritePostService;
+    private PostsService postsService;
+    private CommentsService commentsService;
 
     @Autowired
-    public UserController(UsersRepository usersRepository, PasswordEncoder passwordEncoder, RoomMembershipRepository roomMembershipRepository, FavPostRepository favPostRepository, CommentsRepository commentsRepository, PostRepository postRepository) {
-        super(usersRepository);
-        this.passwordEncoder = passwordEncoder;
-        this.roomMembershipRepository = roomMembershipRepository;
-        this.favPostRepository = favPostRepository;
-        this.commentsRepository = commentsRepository;
-        this.postRepository = postRepository;
+    public UserController(UserService userService,
+                          UserStateService userStateService,
+                          RoomMembershipService roomMembershipService,
+                          FavoritePostService favoritePostService,
+                          PostsService postsService,
+                          CommentsService commentsService) {
+        this.userService = userService;
+        this.userStateService = userStateService;
+        this.roomMembershipService = roomMembershipService;
+        this.favoritePostService = favoritePostService;
+        this.postsService = postsService;
+        this.commentsService = commentsService;
     }
 
     @RequestMapping(value = "memberships", method = RequestMethod.GET)
     public List<RoomMembership> getUserMemberships() {
-        return roomMembershipRepository.findUserMemberships(getCurrentUser().getUuid());
+        return roomMembershipService.getMemberships();
     }
 
     @RequestMapping(value = "memberships/pending", method = RequestMethod.GET)
     public List<RoomMembership> getPendingMemberships() {
-        return roomMembershipRepository.findPendingUserMemberships(getCurrentUser().getUuid());
+        return roomMembershipService.getPendingMemberships();
     }
 
     @RequestMapping(value = "current/favorite-posts", method = RequestMethod.GET)
     public List<FavPost> getFavPosts() {
-        return favPostRepository.findFavByUser(getCurrentUser().getUuid());
+        return favoritePostService.getFavPosts();
     }
 
     @RequestMapping(value = "current/users-comments", method = RequestMethod.GET)
     public List<Comment> getMyComments() {
-        return commentsRepository.findCommentsByUser(getCurrentUser().getUuid());
+        return commentsService.getCommentsByUser();
     }
 
     @RequestMapping(value = "current/users-posts", method = RequestMethod.GET)
     public List<Post> getMyPosts() {
-        return postRepository.findPostsByUser(getCurrentUser().getUuid());
+        return postsService.getPostsByUser();
     }
-
 
     @RequestMapping(value = "{username}/profile", method = RequestMethod.GET)
     public InsiderUser getUser(@PathVariable("username") String username) {
-        InsiderUser userByUsername = usersRepository.findUserByUsername(username);
-        if (userByUsername == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-        return userByUsername;
+        return userService.findByUsername(username);
     }
 
     @RequestMapping(value = "current", method = RequestMethod.GET)
     public InsiderUser current() {
-        return getCurrentUser();
+        return userStateService.getCurrentUser();
     }
 
     @RequestMapping(value = "sign-up", method = RequestMethod.POST)
-    public void signUp(@RequestBody SignUpRequestModel request) {
-        InsiderUser userByUsername = usersRepository.findUserByUsername(request.username);
-
-        if (userByUsername != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
-        }
-
-        InsiderUser newUser = new InsiderUser();
-        newUser.setFirstName(request.firstName);
-        newUser.setLastName(request.lastName);
-        newUser.setPassword(passwordEncoder.encode(request.password));
-        newUser.setUsername(request.username);
-        if(request.isProfessor) {
-            newUser.setProfPending(true);
-        }
-        usersRepository.save(newUser);
-
-
+    public InsiderUser signUp(@RequestBody SignUpRequestModel request) {
+        return userService.signUp(request);
     }
-
-
-
-
-
-
-
-
-    }
+}
 
 
 
