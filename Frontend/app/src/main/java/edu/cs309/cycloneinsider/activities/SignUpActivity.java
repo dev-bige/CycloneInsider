@@ -78,10 +78,7 @@ public class SignUpActivity extends InsiderActivity {
                 String lastName = lastNameText.getText().toString();
                 String userNameText = usernameText.getText().toString();
                 String password = passwordTextOne.getText().toString();
-                if (professorValidate) {
-                    //TODO send API post to pending professor
-                }
-                signUpViewModel.signUp(new SignUpRequestModel(firstName, lastName, userNameText, password));
+                signUpViewModel.signUp(new SignUpRequestModel(firstName, lastName, userNameText, password, professorValidate));
                 finish();
             }
         });
