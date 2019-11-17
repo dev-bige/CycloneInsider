@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,7 +35,7 @@ public class AdminController extends BaseController {
 
 
     //Will be adding more funct. for permissions
-    @RequestMapping(value = "{userUuid}/acceptAdminReq", method = RequestMethod.POST)
+    @RequestMapping(value = "users/{userUuid}/elevate-to-admin", method = RequestMethod.PUT)
     public InsiderUser setUserToAdmin(@RequestParam("roomUuid") UUID roomUuid, @PathVariable("userUuid") UUID userUuid) {
         Optional<RoomMembership> membership = roomMembershipRepository.findMembership(getCurrentUser().getUuid(), roomUuid);
         Optional<InsiderUser> user = usersRepository.findById(userUuid);
@@ -54,7 +55,7 @@ public class AdminController extends BaseController {
         return userReq;
     }
 
-    @RequestMapping(value = "{userUuid}/verifyProfessor", method = RequestMethod.POST)
+    @RequestMapping(value = "professors/{userUuid}/verify", method = RequestMethod.POST)
     public InsiderUser setUserToProfessor(@RequestParam("userUuid") UUID roomUuid, @PathVariable("userUuid") UUID userUuid) {
         Optional<InsiderUser> user = usersRepository.findById(userUuid);
         if (!user.isPresent()) {
@@ -69,11 +70,8 @@ public class AdminController extends BaseController {
     }
 
 
-    @RequestMapping(value = "pendingProfs", method = RequestMethod.GET)
-    public Optional<InsiderUser> getAllPendingProfs() {
-
+    @RequestMapping(value = "professors/pending", method = RequestMethod.GET)
+    public List<InsiderUser> getAllPendingProfs() {
         return usersRepository.getAllPendingProfs();
-
     }
-
 }
