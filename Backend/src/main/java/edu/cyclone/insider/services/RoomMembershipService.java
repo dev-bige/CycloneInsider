@@ -122,7 +122,9 @@ public class RoomMembershipService {
         if (membership.isPresent()) {
             RoomMembership roomMembership = membership.get();
             //If pending, we need to change it to not pending
-            if (roomMembership.isPending()) {
+            if (roomMembership.isPending() && roomMembership.getInvitedBy() != null) {
+                String message = String.format("%s has accepted their room invite", userStateService.getCurrentUser().getFullName());
+                NotificationController.broadcastNotificationToUUID(roomMembership.getInvitedBy().getUuid(), message);
                 roomMembership.setIsPending(false);
                 roomMembership = roomMembershipRepository.save(roomMembership);
             }
