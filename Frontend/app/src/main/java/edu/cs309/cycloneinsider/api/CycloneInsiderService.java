@@ -94,7 +94,7 @@ public interface CycloneInsiderService {
     @POST("/rooms/{roomUuid}/invite")
     Observable<Response<RoomMembershipModel>> invite(@Path("roomUuid") String roomUuid, @Query("userUuid") String userUuid);
 
-    @GET("/admin/pendingProfs")
+    @GET("/admin/professors/pending")
     Observable<Response<List<InsiderUserModel>>> getAllPendingProfs();
 
     @POST("/admin/{userUuid}/verifyProfessor")
