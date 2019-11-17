@@ -31,7 +31,7 @@ public class CommentsService {
 
     public Comment getCommentById(UUID commentId) {
         Optional<Comment> comment = commentsRepository.findById(commentId);
-        if(comment.isPresent()) {
+        if (comment.isPresent()) {
             return comment.get();
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);

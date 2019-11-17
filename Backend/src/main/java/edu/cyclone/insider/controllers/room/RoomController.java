@@ -4,19 +4,14 @@ import edu.cyclone.insider.controllers.post.models.PostCreateRequestModel;
 import edu.cyclone.insider.controllers.room.models.CreateRoomRequestModel;
 import edu.cyclone.insider.models.Post;
 import edu.cyclone.insider.models.Room;
-import edu.cyclone.insider.models.RoomLevel;
 import edu.cyclone.insider.models.RoomMembership;
 import edu.cyclone.insider.services.PostsService;
 import edu.cyclone.insider.services.RoomMembershipService;
 import edu.cyclone.insider.services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController

@@ -15,6 +15,7 @@ public class FavPost extends BaseModel {
 
     /**
      * gets the full name the user signed up with
+     *
      * @return user- user that fav the post
      */
     public InsiderUser getUser() {
@@ -23,6 +24,7 @@ public class FavPost extends BaseModel {
 
     /**
      * sets the user of the favorited post
+     *
      * @param user
      */
     public void setUser(InsiderUser user) {
@@ -32,6 +34,7 @@ public class FavPost extends BaseModel {
 
     /**
      * gets the post that was favorited by the user
+     *
      * @return post- the post that was favorited
      */
     public Post getPost() {
@@ -40,6 +43,7 @@ public class FavPost extends BaseModel {
 
     /**
      * sets the favorite post to the post
+     *
      * @param post
      */
     public void setPost(Post post) {

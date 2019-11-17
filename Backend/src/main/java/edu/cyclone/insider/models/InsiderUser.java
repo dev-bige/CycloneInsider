@@ -24,113 +24,137 @@ public class InsiderUser extends BaseModel {
 
     public InsiderUser() {
     }
+
     /**
-     *gets the username of the current user
+     * gets the username of the current user
+     *
      * @return username- of type String
      */
     public String getUsername() {
         return username;
     }
+
     /**
-     *sets the username to that of the current user
+     * sets the username to that of the current user
+     *
      * @param username - of Type String
      */
     public void setUsername(String username) {
         this.username = username;
     }
+
     /**
-     *gets the password of the user
+     * gets the password of the user
+     *
      * @return password -of type String
      */
     public String getPassword() {
         return password;
     }
+
     /**
-     *sets the password to that of the current password the user created
+     * sets the password to that of the current password the user created
+     *
      * @param password- of type String
      */
     public void setPassword(String password) {
         this.password = password;
     }
+
     /**
-     *gets the first name of the current user
+     * gets the first name of the current user
+     *
      * @return firstName -of String type
      */
     public String getFirstName() {
         return firstName;
     }
+
     /**
-     *sets the first name to that of the current user
+     * sets the first name to that of the current user
+     *
      * @param firstName
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+
     /**
-     *gets the last name of the current user
+     * gets the last name of the current user
+     *
      * @return lastName
      */
     public String getLastName() {
         return lastName;
     }
+
     /**
-     *sets the last name of the user to that of current user
+     * sets the last name of the user to that of current user
+     *
      * @param lastName
      */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    /**
-     *sets the userlevel to Admin (permissions)
-     * @param isAdmin
-     */
-    public void setAdmin(Boolean isAdmin) {
-        this.userLevel = UserLevel.ADMIN;
-    }
+
     /**
      * gets the full name the user signed up with
+     *
      * @return the full name of the user
      */
     public String getFullName() {
         return String.format("%s %s", getFirstName(), getLastName());
     }
+
     /**
-     *gets to see if current user is a Admin
+     * gets to see if current user is a Admin
+     *
      * @return Userlevel
      */
     public Boolean getAdmin() {
         return this.userLevel == UserLevel.ADMIN;
     }
+
     /**
-     *gets the current user level of the user and checks is they have Prof permissions
+     * sets the userlevel to Admin (permissions)
+     *
+     * @param isAdmin
+     */
+    public void setAdmin(Boolean isAdmin) {
+        this.userLevel = UserLevel.ADMIN;
+    }
+
+    /**
+     * gets the current user level of the user and checks is they have Prof permissions
+     *
      * @return userLevel
      */
     public Boolean getProfessor() {
         return this.userLevel == UserLevel.PROFESSOR;
     }
+
+    public Boolean getProfPending() {
+        return pending;
+    }
+
     /**
      * sets the user to pending when Box on front end is checked.
      */
 
     public void setProfPending(Boolean pending) {
-
-        this.pending=pending;
-    }
-
-    public Boolean getProfPending() {
-
-        return pending;
-    }
-
-    public void setUserLevel(UserLevel userLevel) {
-        this.userLevel = userLevel;
+        this.pending = pending;
     }
 
     /**
      * gets the permission level a user has (i.e Admin,Professor,User)
+     *
      * @return the level of the user
      */
     public UserLevel getUserLevel() {
         return userLevel;
+    }
+
+    public void setUserLevel(UserLevel userLevel) {
+        this.userLevel = userLevel;
     }
 }

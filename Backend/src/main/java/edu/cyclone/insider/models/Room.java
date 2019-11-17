@@ -18,8 +18,10 @@ public class Room extends BaseModel {
     public void setDescription(String description) {
         this.description = description;
     }
+
     /**
      * gets the name of the room that was created
+     *
      * @return the full name of the room
      */
     public String getName() {
@@ -33,6 +35,7 @@ public class Room extends BaseModel {
     public Boolean getPrivateRoom() {
         return privateRoom;
     }
+
     /**
      * sets a flag to indicate a room is private.
      */

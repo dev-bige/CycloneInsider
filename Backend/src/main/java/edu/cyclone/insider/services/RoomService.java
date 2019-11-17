@@ -70,7 +70,7 @@ public class RoomService {
 
     public void deleteRoom(UUID roomId) {
         Optional<RoomMembership> membership = roomMembershipRepository.findMembership(userStateService.getCurrentUser().getUuid(), roomId);
-        if(membership.isPresent() && membership.get().getRoomLevel() == RoomLevel.CREATOR) {
+        if (membership.isPresent() && membership.get().getRoomLevel() == RoomLevel.CREATOR) {
             roomRepository.deleteById(roomId);
             return;
         }

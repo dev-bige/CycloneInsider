@@ -3,7 +3,6 @@ package edu.cyclone.insider.controllers.notifications;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.OnClose;
-import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
@@ -22,6 +21,23 @@ public class NotificationController {
     private static Map<UUID, Session> userUuidSessionMap = new HashMap<>();
     private static Map<Session, UUID> sessionUUIDHashMap = new HashMap<>();
 
+    /**
+     * Send a message to a user
+     *
+     * @param uuid    the user uuid
+     * @param message the message
+     */
+    public static void broadcastNotificationToUUID(UUID uuid, String message) {
+        Session session = userUuidSessionMap.get(uuid);
+        if (session != null) {
+            try {
+                session.getBasicRemote().sendText(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @OnOpen
     public void onOpen(Session session, @PathParam("userUuid") String uuid) {
         userUuidSessionMap.put(UUID.fromString(uuid), session);
@@ -33,21 +49,5 @@ public class NotificationController {
         UUID uuid = sessionUUIDHashMap.get(session);
         sessionUUIDHashMap.remove(session);
         userUuidSessionMap.remove(uuid);
-    }
-
-    /**
-     * Send a message to a user
-     * @param uuid the user uuid
-     * @param message the message
-     */
-    public static void broadcastNotificationToUUID(UUID uuid, String message)  {
-        Session session = userUuidSessionMap.get(uuid);
-        if (session != null) {
-            try {
-                session.getBasicRemote().sendText(message);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
