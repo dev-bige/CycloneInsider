@@ -58,6 +58,9 @@ public interface CycloneInsiderService {
     @POST("rooms/{uuid}/join")
     Observable<Response<RoomMembershipModel>> joinRoom(@Path("uuid") String room_uuid);
 
+    @GET("rooms/{uuid}")
+    Observable<Response<RoomModel>> getRoom(@Path("uuid") String room_uuid);
+
     @POST("login")
     Observable<Response<Void>> login(@Body LoginRequestModel loginRequestModel);
 
@@ -91,9 +94,9 @@ public interface CycloneInsiderService {
     @POST("/rooms/{roomUuid}/invite")
     Observable<Response<RoomMembershipModel>> invite(@Path("roomUuid") String roomUuid, @Query("userUuid") String userUuid);
 
-    @GET("/users/memberships/pending-professors")
-    Observable<Response<List<InsiderUserModel>>> getPendingProfessorMemberships();
+    @GET("/admin/pendingProfs")
+    Observable<Response<List<InsiderUserModel>>> getAllPendingProfs();
 
-    @GET("/admin/{userUuid}/verifyProfessor")
+    @POST("/admin/{userUuid}/verifyProfessor")
     Observable<Response<InsiderUserModel>> setUserToProfessor();
 }

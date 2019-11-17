@@ -35,7 +35,7 @@ public class AdminProfessorValidateViewModel extends ViewModel {
     public void refresh() {
         Observable<Response<List<InsiderUserModel>>> observable = null;
 
-        observable = cycloneInsiderService.getPendingProfessorMemberships();
+        observable = cycloneInsiderService.getAllPendingProfs();
 
         observable.subscribe(professorResponse::postValue);
     }
