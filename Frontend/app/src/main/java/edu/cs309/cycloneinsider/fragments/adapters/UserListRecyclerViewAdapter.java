@@ -58,8 +58,7 @@ public class UserListRecyclerViewAdapter extends RecyclerView.Adapter<UserListRe
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.list_item_post_title);
-            username = itemView.findViewById(R.id.list_item_post_username);
+            title = itemView.findViewById(R.id.list_item_user_title);
         }
     }
 }

@@ -26,7 +26,6 @@ import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
 import edu.cs309.cycloneinsider.di.ViewModelFactory;
 import edu.cs309.cycloneinsider.fragments.adapters.UserListRecyclerViewAdapter;
 import edu.cs309.cycloneinsider.viewmodels.AdminProfessorValidateViewModel;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
 public class AdminProfessorValidateFragment extends Fragment {
@@ -35,7 +34,7 @@ public class AdminProfessorValidateFragment extends Fragment {
     ViewModelFactory viewModelFactory;
     AdminProfessorValidateViewModel viewModel;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private UserListRecyclerViewAdapter professorListRecyclerViewAdapter;
+    UserListRecyclerViewAdapter professorListRecyclerViewAdapter;
     private LinearLayoutManager layoutManager;
     private Disposable onClickSubscription;
 
@@ -48,7 +47,7 @@ public class AdminProfessorValidateFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_admin_validate, container, false);
+        return inflater.inflate(R.layout.fragment_user_list, container, false);
     }
 
     @Override
@@ -63,7 +62,6 @@ public class AdminProfessorValidateFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         viewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(AdminProfessorValidateViewModel.class);
         super.onViewCreated(view, savedInstanceState);
-
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(viewModel::refresh);
 
@@ -94,7 +92,7 @@ public class AdminProfessorValidateFragment extends Fragment {
                     .setTitle("Validate " + insiderUserModel.username + "?")
 
                     .setPositiveButton("Accept", (dialogInterface, i) -> {
-
+                        viewModel.setProfessor();
                     })
                     .setNegativeButton("Deny", ((dialogInterface, i) -> {
                         // deny professor by API request
