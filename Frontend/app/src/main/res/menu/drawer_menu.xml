@@ -45,6 +45,9 @@
             android:icon="@drawable/ic_edit_black_24dp"
             android:title="Create Room" />
         <item
+            android:id="@+id/nav_admin_tools"
+            android:title="Admin Tools"/>
+        <item
             android:id="@+id/settings"
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="Settings" />

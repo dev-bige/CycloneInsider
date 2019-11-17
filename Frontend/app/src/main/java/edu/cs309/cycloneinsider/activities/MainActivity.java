@@ -29,6 +29,7 @@ import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.Session;
 import edu.cs309.cycloneinsider.api.UserStateService;
 import edu.cs309.cycloneinsider.api.models.MembershipModel;
+import edu.cs309.cycloneinsider.fragments.AdminProfessorValidateFragment;
 import edu.cs309.cycloneinsider.fragments.FavoritePostFragment;
 import edu.cs309.cycloneinsider.fragments.JoinRoomFragment;
 import edu.cs309.cycloneinsider.fragments.MyPostListFragment;
@@ -116,6 +117,8 @@ public class MainActivity extends InsiderActivity {
         toolbar = findViewById(R.id.toolbar);
         navigationView = findViewById(R.id.nvView);
 
+
+
         setSupportActionBar(toolbar);
 
         drawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.drawer_open, R.string.drawer_close);
@@ -132,6 +135,9 @@ public class MainActivity extends InsiderActivity {
             ((TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_username)).setText(userResponse.getUsername());
             if (!userResponse.getAdmin() && !userResponse.getProfessor()) {
                 navigationView.getMenu().findItem(R.id.nav_create_room).setVisible(false);
+            }
+            else if (!userResponse.getAdmin()) {
+                navigationView.getMenu().findItem(R.id.nav_admin_tools).setVisible(false);
             }
         });
 
@@ -168,44 +174,49 @@ public class MainActivity extends InsiderActivity {
     public void selectDrawerItem(MenuItem menuItem) {
         unselectAllItems();
         Fragment fragment;
-        switch (menuItem.getItemId()) {
-            case R.id.nav_front_page:
-                fragment = PostListFragment.newInstance(null);
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-                break;
-            case R.id.settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-                mDrawer.closeDrawers();
-                return;
-            case R.id.nav_create_room:
-                startActivity(new Intent(this, CreateRoomActivity.class));
-                mDrawer.closeDrawers();
-                return;
-            case R.id.nav_fav_post:
-                fragment = new FavoritePostFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-                break;
-            case R.id.nav_join_room:
-                fragment = new JoinRoomFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-                break;
-            case R.id.nav_my_post:
-                fragment = new MyPostListFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-                break;
-            case R.id.nav_room_invitation:
-                fragment = new RoomInvitationFragment();
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
-                break;
-            default: {
-                MembershipModel selectedMembership = getSelectedMembership(menuItem);
-                if (selectedMembership == null) {
+
+            switch (menuItem.getItemId()) {
+                case R.id.nav_front_page:
+                    fragment = PostListFragment.newInstance(null);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+                    break;
+                case R.id.settings:
+                    startActivity(new Intent(this, SettingsActivity.class));
+                    mDrawer.closeDrawers();
                     return;
+                case R.id.nav_create_room:
+                    startActivity(new Intent(this, CreateRoomActivity.class));
+                    mDrawer.closeDrawers();
+                    return;
+                case R.id.nav_fav_post:
+                    fragment = new FavoritePostFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+                    break;
+                case R.id.nav_join_room:
+                    fragment = new JoinRoomFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+                    break;
+                case R.id.nav_my_post:
+                    fragment = new MyPostListFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+                    break;
+                case R.id.nav_room_invitation:
+                    fragment = new RoomInvitationFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+                    break;
+                case R.id.nav_admin_tools:
+                    fragment = new AdminProfessorValidateFragment();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+                    break;
+                default: {
+                    MembershipModel selectedMembership = getSelectedMembership(menuItem);
+                    if (selectedMembership == null) {
+                        return;
+                    }
+                    fragment = PostListFragment.newInstance(selectedMembership.room.uuid);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                 }
-                fragment = PostListFragment.newInstance(selectedMembership.room.uuid);
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
             }
-        }
 
         menuItem.setChecked(true);
         setTitle(menuItem.getTitle());

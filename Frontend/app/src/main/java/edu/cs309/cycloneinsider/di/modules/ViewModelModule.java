@@ -8,6 +8,7 @@ import dagger.Module;
 import dagger.multibindings.IntoMap;
 import edu.cs309.cycloneinsider.di.ViewModelFactory;
 import edu.cs309.cycloneinsider.di.ViewModelKey;
+import edu.cs309.cycloneinsider.viewmodels.AdminProfessorValidateViewModel;
 import edu.cs309.cycloneinsider.viewmodels.CreatePostViewModel;
 import edu.cs309.cycloneinsider.viewmodels.CreateRoomViewModel;
 import edu.cs309.cycloneinsider.viewmodels.FavoritePostViewModel;
@@ -29,6 +30,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(PostListViewModel.class)
     abstract ViewModel bindPostListViewModel(PostListViewModel postListViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AdminProfessorValidateViewModel.class)
+    abstract ViewModel bindAdminProfessorValidateViewModel(AdminProfessorValidateViewModel adminProfessorValidateViewModel);
 
     @Binds
     @IntoMap
