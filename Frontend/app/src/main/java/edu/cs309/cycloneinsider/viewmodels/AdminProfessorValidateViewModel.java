@@ -19,6 +19,7 @@ import retrofit2.Response;
 
 public class AdminProfessorValidateViewModel extends ViewModel {
     private final MutableLiveData<Response<List<InsiderUserModel>>> professorResponse = new MutableLiveData<>();
+    private final MutableLiveData<Response<InsiderUserModel>> userToProfessor = new MutableLiveData<>();
     private CycloneInsiderService cycloneInsiderService;
 
     @Inject
@@ -39,9 +40,14 @@ public class AdminProfessorValidateViewModel extends ViewModel {
         observable.subscribe(professorResponse::postValue);
     }
 
+    public void setProfessor() {
+        Observable<Response<InsiderUserModel>> observable = null;
+        observable = cycloneInsiderService.setUserToProfessor();
+        observable.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(userToProfessor::postValue);
+    }
+
     public LiveData<Response<List<InsiderUserModel>>> getProfessorListResponse() {
         return professorResponse;
     }
-
-
 }

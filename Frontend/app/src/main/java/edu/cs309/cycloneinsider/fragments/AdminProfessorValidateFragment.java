@@ -94,7 +94,7 @@ public class AdminProfessorValidateFragment extends Fragment {
                     .setTitle("Validate " + insiderUserModel.username + "?")
 
                     .setPositiveButton("Accept", (dialogInterface, i) -> {
-                        // validate professor by API request
+
                     })
                     .setNegativeButton("Deny", ((dialogInterface, i) -> {
                         // deny professor by API request

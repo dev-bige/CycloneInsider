@@ -18,9 +18,11 @@ import edu.cs309.cycloneinsider.api.models.SignUpRequestModel;
 import io.reactivex.Observable;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface CycloneInsiderService {
     @POST("posts/{uuid}/comments")
@@ -89,7 +91,9 @@ public interface CycloneInsiderService {
     @POST("/rooms/{roomUuid}/invite")
     Observable<Response<RoomMembershipModel>> invite(@Path("roomUuid") String roomUuid, @Query("userUuid") String userUuid);
 
-
     @GET("/users/memberships/pending-professors")
     Observable<Response<List<InsiderUserModel>>> getPendingProfessorMemberships();
+
+    @GET("/admin/{userUuid}/verifyProfessor")
+    Observable<Response<InsiderUserModel>> setUserToProfessor();
 }
