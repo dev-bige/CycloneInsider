@@ -86,7 +86,6 @@
         android:id="@+id/checkbox_prof"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onCheckboxClicked"
         android:text="@string/professor_valid_check" />
 
     <Button

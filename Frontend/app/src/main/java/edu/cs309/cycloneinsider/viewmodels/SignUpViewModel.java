@@ -54,7 +54,7 @@ public class SignUpViewModel extends ViewModel {
         service.signUp(signUpRequestResponse).map(SignUpResponseModel::success).subscribe(signUpResponse::postValue);
     }
 
-    public LiveData<SignUpResponseModel> signUp() {
+    public LiveData<SignUpResponseModel> getSignUpResponse() {
         return signUpResponse;
     }
 

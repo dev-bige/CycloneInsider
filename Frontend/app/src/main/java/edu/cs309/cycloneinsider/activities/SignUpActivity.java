@@ -37,6 +37,7 @@ public class SignUpActivity extends InsiderActivity {
     private boolean professorValidate;
     private EditText firstNameText, lastNameText, usernameText, passwordTextOne, passwordTextTwo;
     private TextView userError;
+    private CheckBox checkBoxProf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,45 +45,39 @@ public class SignUpActivity extends InsiderActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        signUpViewModel = ViewModelProviders.of(this, viewModelFactory).get(SignUpViewModel.class);
+
         firstNameText = findViewById(R.id.first_name);
         lastNameText = findViewById(R.id.last_name);
         usernameText = findViewById(R.id.username);
         passwordTextOne = findViewById(R.id.password);
         passwordTextTwo = findViewById(R.id.password_valid);
         userError = findViewById(R.id.user_error);
+        checkBoxProf = findViewById(R.id.checkbox_prof);
         userError.setVisibility(View.GONE);
-
-        CheckBox prof = findViewById(R.id.checkbox_prof);
-        prof.setOnClickListener(this::onCheckboxClicked);
 
         ImageButton backButton = findViewById(R.id.back_to_login);
         backButton.setOnClickListener(view -> finish());
         findViewById(R.id.sign_in_new_user).setOnClickListener(this::onSignUpClicked);
-    }
 
-
-    public void onCheckboxClicked(View view) {
-        professorValidate = ((CheckBox) view).isChecked();
-    }
-
-    public void onSignUpClicked(View view) {
-
-        signUpViewModel = ViewModelProviders.of(this, viewModelFactory).get(SignUpViewModel.class);
-
-        signUpViewModel.signUp().observe(this, signUpResponseModel -> {
+        signUpViewModel.getSignUpResponse().observe(this, signUpResponseModel -> {
             if (signUpResponseModel.isError()) {
                 userError.setVisibility(View.VISIBLE);
                 userError.setText(signUpResponseModel.getStringError());
             } else {
-                String firstName = firstNameText.getText().toString();
-                String lastName = lastNameText.getText().toString();
-                String userNameText = usernameText.getText().toString();
-                String password = passwordTextOne.getText().toString();
-                signUpViewModel.signUp(new SignUpRequestModel(firstName, lastName, userNameText, password));
+
                 finish();
             }
         });
+    }
 
+    public void onSignUpClicked(View view) {
+        String firstName = firstNameText.getText().toString();
+        String lastName = lastNameText.getText().toString();
+        String userNameText = usernameText.getText().toString();
+        String password = passwordTextOne.getText().toString();
+        boolean isProfessor = checkBoxProf.isChecked();
+        signUpViewModel.signUp(new SignUpRequestModel(firstName, lastName, userNameText, password, isProfessor));
     }
 
     public Observable<Response<Void>> signUp(CycloneInsiderService service, SignUpRequestModel model) {
