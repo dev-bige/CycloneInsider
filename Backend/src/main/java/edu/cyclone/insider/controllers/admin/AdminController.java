@@ -68,4 +68,12 @@ public class AdminController extends BaseController {
 
     }
 
+
+    @RequestMapping(value = "pendingProfs", method = RequestMethod.GET)
+    public Optional<InsiderUser> getAllPendingProfs() {
+
+        return usersRepository.getAllPendingProfs();
+
+    }
+
 }
