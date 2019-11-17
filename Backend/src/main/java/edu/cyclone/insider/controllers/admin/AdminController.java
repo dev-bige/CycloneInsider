@@ -34,7 +34,7 @@ public class AdminController extends BaseController {
 
 
     //Will be adding more funct. for permissions
-    @RequestMapping(value = "{userUuid}/acceptAdminReq", method = RequestMethod.GET)
+    @RequestMapping(value = "{userUuid}/acceptAdminReq", method = RequestMethod.POST)
     public InsiderUser setUserToAdmin(@RequestParam("roomUuid") UUID roomUuid, @PathVariable("userUuid") UUID userUuid) {
         Optional<RoomMembership> membership = roomMembershipRepository.findMembership(getCurrentUser().getUuid(), roomUuid);
         Optional<InsiderUser> user = usersRepository.findById(userUuid);
@@ -54,7 +54,7 @@ public class AdminController extends BaseController {
         return userReq;
     }
 
-    @RequestMapping(value = "{userUuid}/verifyProfessor", method = RequestMethod.GET)
+    @RequestMapping(value = "{userUuid}/verifyProfessor", method = RequestMethod.POST)
     public InsiderUser setUserToProfessor(@RequestParam("userUuid") UUID roomUuid, @PathVariable("userUuid") UUID userUuid) {
         Optional<InsiderUser> user = usersRepository.findById(userUuid);
         if (!user.isPresent()) {
