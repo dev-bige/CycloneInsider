@@ -2,18 +2,14 @@ package edu.cyclone.insider.services;
 
 import edu.cyclone.insider.models.FavPost;
 import edu.cyclone.insider.models.Post;
-import edu.cyclone.insider.models.RoomMembership;
 import edu.cyclone.insider.repos.FavPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class FavoritePostService {

@@ -56,6 +56,17 @@ public class PermissionServiceTest {
     }
 
 
+    @Test
+    public void testForAdmin() {
+        assertTrue(user.getProfPending());
+        assertFalse(user.getProfessor());
+        user.setUserLevel(UserLevel.PROFESSOR);
+        assertTrue(user.getProfessor());
+        assertFalse(user.getAdmin());
+
+    }
+
+
 
 
 
