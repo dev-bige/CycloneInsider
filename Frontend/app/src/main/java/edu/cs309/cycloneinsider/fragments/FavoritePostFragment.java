@@ -36,7 +36,8 @@ public class FavoritePostFragment extends Fragment {
     private String userUUID;
     private Disposable favPostSub, favPostClicks;
     private LinearLayoutManager layoutManager;
-    private PostListRecyclerViewAdapter postListRecyclerViewAdapter;
+    @Inject
+    PostListRecyclerViewAdapter postListRecyclerViewAdapter;
     private TextView room, post;
     private SwipeRefreshLayout swipeRefreshLayout;
     private FavoritePostViewModel favoritePostViewModel;
@@ -79,7 +80,6 @@ public class FavoritePostFragment extends Fragment {
         post = view.findViewById(R.id.list_item_post_title);
         room = view.findViewById(R.id.list_item_room_title);
 
-        postListRecyclerViewAdapter = new PostListRecyclerViewAdapter();
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(postListRecyclerViewAdapter);

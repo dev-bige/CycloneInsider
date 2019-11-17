@@ -10,7 +10,6 @@ import edu.cs309.cycloneinsider.fragments.PostListFragment;
 import edu.cs309.cycloneinsider.fragments.RoomInvitationFragment;
 import edu.cs309.cycloneinsider.viewmodels.JoinRoomViewModel;
 
-
 @Module
 public abstract class MainActivityBindingModule {
     @ContributesAndroidInjector

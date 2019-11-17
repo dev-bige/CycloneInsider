@@ -9,17 +9,108 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.HashMap;
+import java.util.Scanner;
+
 import edu.cs309.cycloneinsider.R;
 import io.reactivex.disposables.Disposable;
 
 public class FeedbackActivity extends AppCompatActivity {
 
     private Disposable subscribe;
+    private HashMap<String, Integer> dict = new HashMap<>();
 
-    @Override
+    private void ExplicitWordMap() {
+        //String of all the swear words we are using
+        String swearWordList = "anal\n" +
+                "anus\n" +
+                "arse\n" +
+                "ass\n" +
+                "ballsack\n" +
+                "balls\n" +
+                "bastard\n" +
+                "bitch\n" +
+                "biatch\n" +
+                "bloody\n" +
+                "blowjob\n" +
+                "bollock\n" +
+                "bollok\n" +
+                "boner\n" +
+                "boob\n" +
+                "bugger\n" +
+                "bum\n" +
+                "butt\n" +
+                "buttplug\n" +
+                "clitoris\n" +
+                "cock\n" +
+                "coon\n" +
+                "crap\n" +
+                "cunt\n" +
+                "damn\n" +
+                "dick\n" +
+                "dildo\n" +
+                "dyke\n" +
+                "fag\n" +
+                "feck\n" +
+                "fellate\n" +
+                "fellatio\n" +
+                "felching\n" +
+                "fuck\n" +
+                "fudgepacker\n" +
+                "flange\n" +
+                "Goddamn\n" +
+                "God damn\n" +
+                "hell\n" +
+                "homo\n" +
+                "jerk\n" +
+                "jizz\n" +
+                "knobend\n" +
+                "knob end\n" +
+                "labia\n" +
+                "lmao\n" +
+                "lmfao\n" +
+                "muff\n" +
+                "nigger\n" +
+                "nigga\n" +
+                "omg\n" +
+                "penis\n" +
+                "piss\n" +
+                "poop\n" +
+                "prick\n" +
+                "pube\n" +
+                "pussy\n" +
+                "queer\n" +
+                "scrotum\n" +
+                "sex\n" +
+                "shit\n" +
+                "sh1t\n" +
+                "slut\n" +
+                "smegma\n" +
+                "spunk\n" +
+                "tit\n" +
+                "tosser\n" +
+                "turd\n" +
+                "twat\n" +
+                "vagina\n" +
+                "wank\n" +
+                "whore\n" +
+                "wtf";
+
+        //puts all of the swear words into a HashMap
+        Scanner scan = new Scanner(swearWordList);
+        while (scan.hasNextLine()) {
+
+            String word = scan.nextLine();
+            dict.put(word, 1);
+
+        }
+    }
+
+        @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
+        ExplicitWordMap(); //initializes the explicit words in the Map
     }
 
     @Override
@@ -30,27 +121,67 @@ public class FeedbackActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    /**
-     * Method returns a boolean value if the string of text contains an explicit word
-     *
-     * @param text String of words to be checked for explicit word
-     * @return boolean value of if the text contains an explicit word or not
-     */
-    public boolean check(String text) {
+    public boolean checkEmail(String text) {
 
-        String[] texts = text.split(" ", 0);
+        String[] words = text.split(" ", 0);
+        for (int i = 0; i < words.length; i++) {
 
-        if (texts.length == 0) {
+            if (dict.containsKey(words[i])) {
 
+                return false;
+
+            }
+
+        }
+        return true;
+
+
+    }
+
+    public String CheckSubject(boolean val1, boolean val2, boolean val3, boolean val4){
+
+        String subject = "";
+        if (val1) {
+
+            subject += "Technical: ";
+
+        }
+
+        if (val2) {
+
+            subject += "Improve: ";
+
+        }
+
+        if (val3) {
+
+            subject += "Feature: ";
+
+        }
+
+        if (val4) {
+
+            subject += "Other: ";
+
+        }
+
+        subject += "(User Feedback)";
+
+        return subject;
+
+    }
+
+    public boolean check(String text){
+
+        if(text.length() == 0){
             return false;
-
         }
 
         int spacesFlag = 0;
 
-        for (int i = 0; i < texts.length; i++) {
+        for (int i = 0; i < text.length(); i++) {
 
-            if (texts[i] == " ") {
+            if (text.charAt(i) == ' ') {
 
                 spacesFlag++;
 
@@ -58,7 +189,11 @@ public class FeedbackActivity extends AppCompatActivity {
 
         }
 
-        return spacesFlag != texts.length;
+        if(spacesFlag == text.length()){
+            return false;
+        }
+        return true;
+
 
     }
 
@@ -100,6 +235,12 @@ public class FeedbackActivity extends AppCompatActivity {
             hidden.setVisibility(View.VISIBLE);
             return;
 
+        }
+
+        if(!checkEmail(emailString)){
+            hidden.setText("Email content cannot contain explicit words");
+            hidden.setVisibility(View.VISIBLE);
+            return;
         }
 
         //Sends email

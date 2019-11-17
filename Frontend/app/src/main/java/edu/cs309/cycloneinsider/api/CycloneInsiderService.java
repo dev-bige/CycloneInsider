@@ -74,11 +74,21 @@ public interface CycloneInsiderService {
     @POST("/rooms/{uuid}/posts")
     Observable<Response<PostModel>> createRoomPost(@Path("uuid") String room_uuid, @Body PostCreateRequestModel body);
 
+    @POST("/posts/{postUuid}/favorite")
+    Observable<Response<FavoritePostModel>> favoritePost(@Path("postUuid") String post_uuid);
+
+    @DELETE("/posts/{postUuid}/favorite")
+    Observable<Response<Void>> removeFavoritePost(@Path("postUuid") String post_uuid);
+
     @GET("/users/{username}/profile")
     Observable<Response<InsiderUserModel>> findUser(@Path("username") String username);
 
     @GET("/users/memberships/pending")
     Observable<Response<List<RoomMembershipModel>>> getPendingMemberships();
+
+    @POST("/rooms/{roomUuid}/invite")
+    Observable<Response<RoomMembershipModel>> invite(@Path("roomUuid") String roomUuid, @Query("userUuid") String userUuid);
+
 
     @GET("/users/memberships/pending-professors")
     Observable<Response<List<InsiderUserModel>>> getPendingProfessorMemberships();

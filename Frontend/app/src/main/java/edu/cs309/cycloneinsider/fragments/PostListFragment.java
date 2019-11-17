@@ -39,7 +39,9 @@ public class PostListFragment extends Fragment {
     ViewModelFactory viewModelFactory;
     private String roomUUID;
     private LinearLayoutManager layoutManager;
-    private PostListRecyclerViewAdapter mAdapter;
+
+    @Inject
+    PostListRecyclerViewAdapter mAdapter;
     private Disposable postClicks;
     private SwipeRefreshLayout swipeRefreshLayout;
     private PostListViewModel viewModel;
@@ -57,8 +59,6 @@ public class PostListFragment extends Fragment {
         AndroidSupportInjection.inject(this);
         super.onCreate(savedInstanceState);
         roomUUID = getArguments().getString(ROOM_UUID);
-
-        setHasOptionsMenu(roomUUID != null);
     }
 
     @Nullable
@@ -85,7 +85,7 @@ public class PostListFragment extends Fragment {
         if (item.getItemId() == R.id.menu_post_list_invite) {
             Intent intent = new Intent(getActivity(), InviteActivity.class);
             intent.putExtra("ROOM_UUID", roomUUID);
-            startActivity(intent);
+            this.getActivity().startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -104,7 +104,6 @@ public class PostListFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
-        mAdapter = new PostListRecyclerViewAdapter();
         recyclerView.setAdapter(mAdapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
@@ -131,6 +130,8 @@ public class PostListFragment extends Fragment {
             }
             swipeRefreshLayout.setRefreshing(false);
         });
+        viewModel.getCanCreateInvite().observe(this, this::setHasOptionsMenu);
+
         viewModel.refresh();
     }
 }
