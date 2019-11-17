@@ -15,4 +15,8 @@ public interface UsersRepository extends JpaRepository<InsiderUser, UUID> {
     @Query(value = "SELECT * from users u where u.username = :username", nativeQuery = true)
     InsiderUser findUserByUsernameNotNull(@Param("username") String username);
 
+    @Query(value = "SELECT * FROM users u where u.pending = TRUE", nativeQuery = true)
+    Optional<InsiderUser> getAllPendingProfs();
+
+
 }
