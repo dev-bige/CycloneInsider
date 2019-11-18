@@ -42,6 +42,9 @@ public class InviteViewModel extends ViewModel {
      */
     @SuppressLint("CheckResult")
     public String findUser(String username) {
+        if (Strings.isNullOrEmpty(username)) {
+            return null;
+        }
         if (this.userStateService != null && this.userStateService
                 .getUser()
                 .getUsername()
@@ -49,7 +52,7 @@ public class InviteViewModel extends ViewModel {
                 .equals(username.toLowerCase())) {
             return "You cannot invite yourself!";
         }
-        this.cycloneInsiderService.findUser(username).delay(250, TimeUnit.MILLISECONDS).subscribe(findUserResponse::postValue);
+        this.cycloneInsiderService.findUser(username).subscribe(findUserResponse::postValue);
         return null;
     }
 

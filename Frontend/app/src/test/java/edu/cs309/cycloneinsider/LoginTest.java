@@ -10,16 +10,11 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.MockitoRule;
 
-import edu.cs309.cycloneinsider.activities.LoginActivity;
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.UserStateService;
 import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
 import edu.cs309.cycloneinsider.viewmodels.LoginViewModel;
-import edu.cs309.cycloneinsider.viewmodels.responsemodels.LoginResponseModel;
 import io.reactivex.Observable;
-import okhttp3.MediaType;
-import okhttp3.ResponseBody;
-import okio.ByteString;
 import retrofit2.Response;
 
 import static org.junit.Assert.assertEquals;
@@ -61,7 +56,7 @@ public class LoginTest {
     public void noBoth() {
         CycloneInsiderService service = mock(CycloneInsiderService.class);
         UserStateService userStateService = mock(UserStateService.class);
-        LoginViewModel loginViewModel = new LoginViewModel(service,userStateService);
+        LoginViewModel loginViewModel = new LoginViewModel(service, userStateService);
         loginViewModel.login(new LoginRequestModel("", ""));
         assertTrue(loginViewModel.getLoginResponse().getValue().isError());
         assertEquals(loginViewModel.getLoginResponse().getValue().getStringError(), R.string.login_no_id_password);
