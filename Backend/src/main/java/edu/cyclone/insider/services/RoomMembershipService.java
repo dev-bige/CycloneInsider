@@ -109,6 +109,8 @@ public class RoomMembershipService {
             roomMembership.setRoomLevel(RoomLevel.USER);
             roomMembership.setInvitedBy(userStateService.getCurrentUser());
             roomMembership.setIsPending(true);
+            roomMembership = roomMembershipRepository.save(roomMembership);
+            return roomMembership;
         }
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
     }
