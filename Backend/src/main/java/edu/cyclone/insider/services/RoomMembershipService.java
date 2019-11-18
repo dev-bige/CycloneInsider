@@ -109,6 +109,7 @@ public class RoomMembershipService {
             roomMembership.setRoomLevel(RoomLevel.USER);
             roomMembership.setInvitedBy(userStateService.getCurrentUser());
             roomMembership.setIsPending(true);
+            roomMembership.setRoom(room);
             roomMembership = roomMembershipRepository.save(roomMembership);
             return roomMembership;
         }

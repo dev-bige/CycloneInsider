@@ -1,6 +1,5 @@
 stages:
 - build_backend
-- build_android
 - deploy_backend
 
 build_backend:
@@ -17,20 +16,6 @@ build_backend:
     artifacts:
         paths:
             - ./Backend/build/libs/*.jar
-        expire_in: 1 week
-    only:
-        - master
-
-build_android:
-    stage: build_android
-    image: jangrewe/gitlab-ci-android
-    script:
-    - cd ./Frontend
-    - chmod +x ./gradlew
-    - ./gradlew assembleDebug
-    artifacts:
-        paths:
-        - ./Frontend/app/build/outputs/apk/debug/app-debug.apk
         expire_in: 1 week
     only:
         - master
