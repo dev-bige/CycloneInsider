@@ -54,7 +54,7 @@ public class RoomMembershipService {
     }
 
     public Optional<RoomMembership> getMembershipOptional(UUID roomUuid) {
-        return getMembershipOptional(userStateService.getCurrentUser().getUuid(), roomUuid);
+        return getMembershipOptional(roomUuid, userStateService.getCurrentUser().getUuid());
     }
 
     public Optional<RoomMembership> getMembershipOptional(UUID roomUuid, UUID userUuid) {
@@ -62,7 +62,7 @@ public class RoomMembershipService {
     }
 
     public RoomMembership getMembership(UUID roomUuid) {
-        return getMembership(userStateService.getCurrentUser().getUuid(), roomUuid);
+        return getMembership(roomUuid, userStateService.getCurrentUser().getUuid());
     }
 
     public RoomMembership getMembership(UUID roomUuid, UUID userUuid) {
