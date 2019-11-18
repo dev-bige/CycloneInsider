@@ -37,7 +37,7 @@ public interface CycloneInsiderService {
     @GET("users/current")
     Observable<Response<InsiderUserModel>> currentUser();
 
-    @GET("rooms/all")
+    @GET("rooms/public")
     Observable<Response<List<RoomModel>>> getAllRooms();
 
     @GET("posts/front-page")
