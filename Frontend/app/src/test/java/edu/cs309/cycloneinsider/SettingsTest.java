@@ -14,7 +14,9 @@ import edu.cs309.cycloneinsider.activities.FeedbackOptionsActivity;
 import edu.cs309.cycloneinsider.activities.NewPasswordActivity;
 import edu.cs309.cycloneinsider.activities.SettingsActivity;
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
+import edu.cs309.cycloneinsider.api.UserStateService;
 import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
+import edu.cs309.cycloneinsider.viewmodels.LoginViewModel;
 import io.reactivex.Observable;
 import retrofit2.Response;
 
@@ -28,8 +30,10 @@ public class SettingsTest {
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
+
     @Test
     public void checkExplicitFilter1() {
+
 
         CreatePostActivity post = mock(CreatePostActivity.class);
         String text = "Hello, what is you name? shit";

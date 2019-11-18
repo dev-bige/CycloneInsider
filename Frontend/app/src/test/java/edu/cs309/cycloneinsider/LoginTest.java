@@ -12,6 +12,7 @@ import org.mockito.junit.MockitoRule;
 
 import edu.cs309.cycloneinsider.activities.LoginActivity;
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
+import edu.cs309.cycloneinsider.api.UserStateService;
 import edu.cs309.cycloneinsider.api.models.LoginRequestModel;
 import edu.cs309.cycloneinsider.viewmodels.LoginViewModel;
 import edu.cs309.cycloneinsider.viewmodels.responsemodels.LoginResponseModel;
@@ -39,7 +40,8 @@ public class LoginTest {
     @Test
     public void noPassword() {
         CycloneInsiderService service = mock(CycloneInsiderService.class);
-        LoginViewModel loginViewModel = new LoginViewModel(service);
+        UserStateService userStateService = mock(UserStateService.class);
+        LoginViewModel loginViewModel = new LoginViewModel(service, userStateService);
         loginViewModel.login(new LoginRequestModel("admin001", ""));
         assertTrue(loginViewModel.getLoginResponse().getValue().isError());
         assertEquals(loginViewModel.getLoginResponse().getValue().getStringError(), R.string.login_no_password);
@@ -48,7 +50,8 @@ public class LoginTest {
     @Test
     public void noNetId() {
         CycloneInsiderService service = mock(CycloneInsiderService.class);
-        LoginViewModel loginViewModel = new LoginViewModel(service);
+        UserStateService userStateService = mock(UserStateService.class);
+        LoginViewModel loginViewModel = new LoginViewModel(service, userStateService);
         loginViewModel.login(new LoginRequestModel("", "x"));
         assertTrue(loginViewModel.getLoginResponse().getValue().isError());
         assertEquals(loginViewModel.getLoginResponse().getValue().getStringError(), R.string.login_no_id);
@@ -57,7 +60,8 @@ public class LoginTest {
     @Test
     public void noBoth() {
         CycloneInsiderService service = mock(CycloneInsiderService.class);
-        LoginViewModel loginViewModel = new LoginViewModel(service);
+        UserStateService userStateService = mock(UserStateService.class);
+        LoginViewModel loginViewModel = new LoginViewModel(service,userStateService);
         loginViewModel.login(new LoginRequestModel("", ""));
         assertTrue(loginViewModel.getLoginResponse().getValue().isError());
         assertEquals(loginViewModel.getLoginResponse().getValue().getStringError(), R.string.login_no_id_password);
@@ -66,10 +70,11 @@ public class LoginTest {
     @Test
     public void successLogin() {
         CycloneInsiderService service = mock(CycloneInsiderService.class);
+        UserStateService userStateService = mock(UserStateService.class);
         Response<Void> success = Response.success(null);
         LoginRequestModel loginRequestModel = new LoginRequestModel("admin001", "admin001");
         when(service.login(loginRequestModel)).thenReturn(Observable.just(success));
-        LoginViewModel loginViewModel = new LoginViewModel(service);
+        LoginViewModel loginViewModel = new LoginViewModel(service, userStateService);
         loginViewModel.login(loginRequestModel);
         assertFalse(loginViewModel.getLoginResponse().getValue().isError());
         assertEquals(loginViewModel.getLoginResponse().getValue().getRawResponse(), success);

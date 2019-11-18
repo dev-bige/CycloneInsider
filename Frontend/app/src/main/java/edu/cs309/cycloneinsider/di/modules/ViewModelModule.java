@@ -16,6 +16,7 @@ import edu.cs309.cycloneinsider.viewmodels.InviteViewModel;
 import edu.cs309.cycloneinsider.viewmodels.JoinRoomViewModel;
 import edu.cs309.cycloneinsider.viewmodels.LoginViewModel;
 import edu.cs309.cycloneinsider.viewmodels.MyPostListViewModel;
+import edu.cs309.cycloneinsider.viewmodels.NewPasswordViewModel;
 import edu.cs309.cycloneinsider.viewmodels.PostDetailViewModel;
 import edu.cs309.cycloneinsider.viewmodels.PostListViewModel;
 import edu.cs309.cycloneinsider.viewmodels.RoomInvitationViewModel;
@@ -61,10 +62,10 @@ abstract class ViewModelModule {
     @ViewModelKey(PostDetailViewModel.class)
     abstract ViewModel bindPostDetailViewModel(PostDetailViewModel postListViewModel);
 
-//    @Binds
-//    @IntoMap
-//    @ViewModelKey(NewPasswordViewModel.class)
-//    abstract ViewModel bindNewPasswordViewModel(NewPasswordViewModel newPasswordViewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(NewPasswordViewModel.class)
+    abstract ViewModel bindNewPasswordViewModel(NewPasswordViewModel newPasswordViewModel);
 
     @Binds
     @IntoMap
