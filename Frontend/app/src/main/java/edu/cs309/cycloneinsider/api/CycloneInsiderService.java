@@ -97,6 +97,6 @@ public interface CycloneInsiderService {
     @GET("/admin/professors/pending")
     Observable<Response<List<InsiderUserModel>>> getAllPendingProfs();
 
-    @POST("/admin/{userUuid}/verifyProfessor")
-    Observable<Response<InsiderUserModel>> setUserToProfessor();
+    @POST("/admin/professors/{userUuid}/verify")
+    Observable<Response<InsiderUserModel>> setUserToProfessor(@Path("userUuid") String user_uuid);
 }

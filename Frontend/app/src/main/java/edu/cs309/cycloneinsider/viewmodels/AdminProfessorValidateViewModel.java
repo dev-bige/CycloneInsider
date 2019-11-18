@@ -40,9 +40,9 @@ public class AdminProfessorValidateViewModel extends ViewModel {
         observable.subscribe(professorResponse::postValue);
     }
 
-    public void setProfessor() {
+    public void setProfessor(String user_uuid) {
         Observable<Response<InsiderUserModel>> observable = null;
-        observable = cycloneInsiderService.setUserToProfessor();
+        observable = cycloneInsiderService.setUserToProfessor(user_uuid);
         observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribe(userToProfessor::postValue);
     }
