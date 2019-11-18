@@ -66,7 +66,7 @@ public class MyPostListFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        myPostListViewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(MyPostListViewModel.class);
+        myPostListViewModel = ViewModelProviders.of(this, viewModelFactory).get(MyPostListViewModel.class);
         super.onViewCreated(view, savedInstanceState);
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(myPostListViewModel::refresh);

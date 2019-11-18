@@ -58,6 +58,7 @@ public class PostListViewModel extends ViewModel {
 
     private void hasInviteAccess() {
         if (Strings.isNullOrEmpty(roomUUID)) {
+            canCreateInvite.postValue(false);
             return;
         }
 

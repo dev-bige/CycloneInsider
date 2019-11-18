@@ -31,6 +31,7 @@ public class RoomInvitationViewModel extends ViewModel {
         super.onCleared();
     }
 
+
     public void refresh() {
         Observable<Response<List<RoomMembershipModel>>> observable = null;
 
@@ -57,4 +58,7 @@ public class RoomInvitationViewModel extends ViewModel {
         return pendingInvites;
     }
 
+    public LiveData<Response<RoomMembershipModel>> getJoinRoomMembership() {
+        return joinRoomMembership;
+    }
 }

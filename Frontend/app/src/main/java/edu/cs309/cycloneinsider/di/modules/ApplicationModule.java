@@ -15,6 +15,7 @@ import edu.cs309.cycloneinsider.api.UserStateService;
 import edu.cs309.cycloneinsider.fragments.adapters.PostListRecyclerViewAdapter;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -33,6 +34,9 @@ public abstract class ApplicationModule {
     @Provides
     static OkHttpClient provideOkHttpClient(Session session) {
         OkHttpClient.Builder okhttpClientBuilder = new OkHttpClient.Builder();
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.level(HttpLoggingInterceptor.Level.BODY);
+        okhttpClientBuilder.addInterceptor(interceptor);
         okhttpClientBuilder.addInterceptor(chain -> {
             if (session.isLoggedIn()) {
                 Request request = chain.request().newBuilder().addHeader("Authorization", session.getToken()).build();

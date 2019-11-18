@@ -68,7 +68,7 @@ public class FavoritePostFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        favoritePostViewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(FavoritePostViewModel.class);
+        favoritePostViewModel = ViewModelProviders.of(this, viewModelFactory).get(FavoritePostViewModel.class);
         super.onViewCreated(view, savedInstanceState);
         view.findViewById(R.id.new_post_button).setVisibility(View.GONE);
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);

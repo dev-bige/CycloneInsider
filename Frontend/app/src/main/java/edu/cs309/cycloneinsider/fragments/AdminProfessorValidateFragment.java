@@ -60,7 +60,7 @@ public class AdminProfessorValidateFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        viewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(AdminProfessorValidateViewModel.class);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(AdminProfessorValidateViewModel.class);
         super.onViewCreated(view, savedInstanceState);
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(viewModel::refresh);

@@ -63,7 +63,7 @@ public class RoomInvitationFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        roomInvitationViewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(RoomInvitationViewModel.class);
+        roomInvitationViewModel = ViewModelProviders.of(this, viewModelFactory).get(RoomInvitationViewModel.class);
         super.onViewCreated(view, savedInstanceState);
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(roomInvitationViewModel::refresh);
@@ -86,6 +86,14 @@ public class RoomInvitationFragment extends Fragment {
                 roomListRecyclerViewAdapter.updateList(roomModelList);
             }
             swipeRefreshLayout.setRefreshing(false);
+        });
+
+        roomInvitationViewModel.getJoinRoomMembership().observe(this, roomMembershipModelResponse -> {
+            ((MainActivity) getActivity()).loadRooms(() -> {
+                if (roomMembershipModelResponse.isSuccessful()) {
+                    ((MainActivity) getActivity()).selectRoom(roomMembershipModelResponse.body().getRoom().getUuid());
+                }
+            });
         });
 
         onClickSubscription = roomListRecyclerViewAdapter.getItemClicks().subscribe(roomModel -> {

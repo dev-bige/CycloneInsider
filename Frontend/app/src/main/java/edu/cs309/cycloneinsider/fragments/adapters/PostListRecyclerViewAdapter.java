@@ -79,7 +79,9 @@ public class PostListRecyclerViewAdapter extends RecyclerView.Adapter<PostListRe
                 }, () -> this.userStateService.refreshFavorites());
             } else {
                 this.cycloneInsiderService.favoritePost(post.getUuid()).subscribe(favoritePostModelResponse -> {
+                    Log.d(TAG, favoritePostModelResponse.toString());
                 }, error -> {
+                    Log.e(TAG, "onBindViewHolder: ", error);
                 }, () -> this.userStateService.refreshFavorites());
             }
 

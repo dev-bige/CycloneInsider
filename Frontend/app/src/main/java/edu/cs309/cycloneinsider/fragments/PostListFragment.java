@@ -92,7 +92,7 @@ public class PostListFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        viewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(PostListViewModel.class);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(PostListViewModel.class);
         viewModel.setRoomUUID(roomUUID);
         super.onViewCreated(view, savedInstanceState);
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
