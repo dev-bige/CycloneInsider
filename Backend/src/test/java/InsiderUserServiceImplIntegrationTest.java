@@ -26,8 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.matches;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 public class InsiderUserServiceImplIntegrationTest {
@@ -51,20 +50,22 @@ public class InsiderUserServiceImplIntegrationTest {
 
     /*test for making sure room name post title and comment get set correctly*/
     @Test
-    public void whenValidName_thenUserShouldBeFound() {
-        Post post= new Post();
+    public void commentTesting() {
+        Post post = new Post();
         CommentCreateRequestModel comment1 = new CommentCreateRequestModel();
-        CreateRoomRequestModel room1=new CreateRoomRequestModel();
-        PostCreateRequestModel post1=new PostCreateRequestModel();
-        post1.title="TestPost";
-        room1.name="TestRoom";
-        room1.description="room for testing";
-        room1.privateRoom=false;
-        comment1.comment="Test";
-        commentsService.createComment(comment1,post.getUuid());
-        assertEquals("Test",comment1.comment);
-        assertEquals("TestRoom",room1.name);
-        assertEquals("TestPost",post1.title);
+        CreateRoomRequestModel room1 = new CreateRoomRequestModel();
+        PostCreateRequestModel post1 = new PostCreateRequestModel();
+        post1.title = "TestPost";
+        room1.name = "TestRoom";
+        room1.description = "room for testing";
+        room1.privateRoom = false;
+        comment1.comment = "Test";
+        Comment comment = new Comment();
+        when(commentsService.createComment(comment1, post.getUuid())).thenReturn(comment);
+        assertEquals("Test", comment1.comment);
+        assertEquals("TestRoom", room1.name);
+        assertEquals("TestPost", post1.title);
+        assertEquals(comment, commentsService.createComment(comment1, post.getUuid()));
     }
 
 
