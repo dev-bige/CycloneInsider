@@ -49,7 +49,7 @@ public class InsiderUserServiceImplIntegrationTest {
     @MockBean
     private UsersRepository usersRepository;
 
-/*test for making sure room name post title and comment get set correctly*/
+    /*test for making sure room name post title and comment get set correctly*/
     @Test
     public void whenValidName_thenUserShouldBeFound() {
         Post post= new Post();
@@ -62,12 +62,12 @@ public class InsiderUserServiceImplIntegrationTest {
         room1.privateRoom=false;
         comment1.comment="Test";
         commentsService.createComment(comment1,post.getUuid());
-     assertEquals("Test",comment1.comment);
-     assertEquals("TestRoom",room1.name);
-     assertEquals("TestPost",post1.title);
-        }
-
-
+        assertEquals("Test",comment1.comment);
+        assertEquals("TestRoom",room1.name);
+        assertEquals("TestPost",post1.title);
     }
+
+
+}
 
 

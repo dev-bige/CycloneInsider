@@ -35,14 +35,19 @@ public class AdminController {
     //Will be adding more funct. for permissions
     @RequestMapping(value = "users/{userUuid}/elevate-to-admin", method = RequestMethod.PUT)
     public InsiderUser setUserToAdmin(@PathVariable("userUuid") UUID userUuid) {
+        if (userStateService.hasAdminPrivileges()){
         return adminService.elevateUserToAdmin(userUuid);
+    }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
     }
 
     @RequestMapping(value = "professors/{userUuid}/verify", method = RequestMethod.POST)
     public InsiderUser setUserToProfessor(@PathVariable("userUuid") UUID userUuid) {
-        return adminService.validateProfessor(userUuid);
+        if (userStateService.hasAdminPrivileges()) {
+            return adminService.validateProfessor(userUuid);
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
     }
-
 
     @RequestMapping(value = "professors/pending", method = RequestMethod.GET)
     public List<InsiderUser> getAllPendingProfs() {
