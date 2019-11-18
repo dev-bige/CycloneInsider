@@ -31,6 +31,7 @@ public class CreateRoomActivity extends InsiderActivity implements View.OnClickL
             CreateRoomRequestModel createRoomRequestModel = new CreateRoomRequestModel();
             createRoomRequestModel.setName(title.getText().toString());
             createRoomRequestModel.setDescription(description.getText().toString());
+            createRoomRequestModel.setPrivateRoom(isPrivate);
             viewModel.createRoom(createRoomRequestModel);
         }
     }
