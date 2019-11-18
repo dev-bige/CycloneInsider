@@ -45,7 +45,9 @@ public class FavoritePostService {
 
         Post post = postsService.getPostById(postId);
         //Throws exception if we aren't part of this room
-        roomMembershipService.getMembership(post.getRoom().getUuid());
+        if(post.getRoom() != null) {
+            roomMembershipService.getMembership(post.getRoom().getUuid());
+        }
 
 
         FavPost favPost = new FavPost();
