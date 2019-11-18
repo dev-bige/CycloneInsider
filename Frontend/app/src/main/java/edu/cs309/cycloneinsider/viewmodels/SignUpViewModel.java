@@ -44,7 +44,11 @@ public class SignUpViewModel extends ViewModel {
         } else if (signUpRequestResponse.lastName.length() == 0) {
             signUpResponse.setValue(SignUpResponseModel.error(R.string.error_name_length));
             return;
-        } else if (!validPassword(signUpRequestResponse.password)) {
+        } else if (signUpRequestResponse.username.length() == 0) {
+            signUpResponse.setValue(SignUpResponseModel.error(R.string.error_username_length));
+            return;
+        }
+        else if (!validPassword(signUpRequestResponse.password)) {
             signUpResponse.setValue(SignUpResponseModel.error(R.string.error_invalid_password));
             return;
         } else if (signUpRequestResponse.password.length() == 0) {

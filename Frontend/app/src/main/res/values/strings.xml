@@ -15,6 +15,7 @@
     <string name="error_name_length">You must enter a name!</string>
     <string name="error_invalid_password">You must enter a password with at least one capital letter, 8 or more characters, and must contain at least one number</string>
     <string name="error_password_length">You must enter a password!</string>
+    <string name="error_username_length">You must enter a username!</string>
 
     <string name="app_name">Cyclone Insider</string>
     <string name="login_no_id_password">You must enter your Net ID and Password</string>
