@@ -11,11 +11,14 @@ import java.util.UUID;
 
 public interface RoomMembershipRepository extends JpaRepository<RoomMembership, UUID> {
     @Query(value = "SELECT * from room_membership r where r.user_uuid = :user_uuid AND r.pending = FALSE", nativeQuery = true)
-    List<RoomMembership> findUserMemberships(@Param("user_uuid") UUID uuid);
+    List<RoomMembership> getUserMemberships(@Param("user_uuid") UUID uuid);
 
     @Query(value = "SELECT * from room_membership r where r.user_uuid = :user_uuid AND r.pending = TRUE", nativeQuery = true)
-    List<RoomMembership> findPendingUserMemberships(@Param("user_uuid") UUID uuid);
+    List<RoomMembership> getPendingUserMemberships(@Param("user_uuid") UUID uuid);
 
     @Query(value = "SELECT * from room_membership r where r.user_uuid = :user_uuid and r.room_uuid = :room_uuid", nativeQuery = true)
-    Optional<RoomMembership> findMembership(@Param("user_uuid") UUID user_uuid, @Param("room_uuid") UUID room_uuid);
+    Optional<RoomMembership> getMembership(@Param("user_uuid") UUID user_uuid, @Param("room_uuid") UUID room_uuid);
+
+    @Query(value = "SELECT * from room_membership r where r.room_uuid = :room_uuid", nativeQuery = true)
+    List<RoomMembership> getMembersInRoom(@Param("room_uuid") UUID room_uuid);
 }

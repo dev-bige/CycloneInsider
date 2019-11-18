@@ -44,32 +44,32 @@ public class RoomService {
     }
 
     public List<Room> getPublicRooms() {
-        return roomRepository.publicRooms();
+        return roomRepository.getPublicRooms();
     }
 
     public Room createRoom(CreateRoomRequestModel model) {
-        if (!userStateService.hasAdminPrivileges() || !userStateService.hasProfessorPrivileges()) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        if (userStateService.hasAdminPrivileges() || userStateService.hasProfessorPrivileges()) {
+            Room room = new Room();
+            room.setName(model.name);
+            room.setCreator(userStateService.getCurrentUser());
+            room.setPrivateRoom(model.privateRoom);
+            room.setDescription(model.description);
+            room = roomRepository.save(room);
+
+            RoomMembership roomMembership = new RoomMembership();
+            roomMembership.setRoom(room);
+            roomMembership.setUser(userStateService.getCurrentUser());
+            roomMembership.setIsPending(false);
+            roomMembership.setRoomLevel(RoomLevel.CREATOR);
+            roomMembership = roomMembershipRepository.save(roomMembership);
+            return room;
         }
 
-        Room room = new Room();
-        room.setName(model.name);
-        room.setCreator(userStateService.getCurrentUser());
-        room.setPrivateRoom(model.privateRoom);
-        room.setDescription(model.description);
-        room = roomRepository.save(room);
-
-        RoomMembership roomMembership = new RoomMembership();
-        roomMembership.setRoom(room);
-        roomMembership.setUser(userStateService.getCurrentUser());
-        roomMembership.setIsPending(false);
-        roomMembership.setRoomLevel(RoomLevel.CREATOR);
-        roomMembership = roomMembershipRepository.save(roomMembership);
-        return room;
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
     }
 
     public void deleteRoom(UUID roomId) {
-        Optional<RoomMembership> membership = roomMembershipRepository.findMembership(userStateService.getCurrentUser().getUuid(), roomId);
+        Optional<RoomMembership> membership = roomMembershipRepository.getMembership(userStateService.getCurrentUser().getUuid(), roomId);
         if (membership.isPresent() && membership.get().getRoomLevel() == RoomLevel.CREATOR) {
             roomRepository.deleteById(roomId);
             return;

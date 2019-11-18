@@ -79,7 +79,7 @@ public class PostController {
      * @param request  the update model
      * @return the post that was modified
      */
-    @RequestMapping(value = "{postUuid}/editPost", method = RequestMethod.PUT)
+    @RequestMapping(value = "{postUuid}", method = RequestMethod.PUT)
     public Post edit_Post(@PathVariable("postUuid") UUID postUuid, @RequestBody PostCreateRequestModel request) {
         return postsService.editPost(postUuid, request);
     }

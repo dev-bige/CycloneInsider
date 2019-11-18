@@ -16,5 +16,5 @@ public interface PostRepository extends JpaRepository<Post, UUID> {
     List<Post> getPostsByRoom(@Param("room_uuid") UUID room_uuid);
 
     @Query(value = "SELECT * from post p where p.user_uuid = :user_uuid  order by p.date DESC", nativeQuery = true)
-    List<Post> findPostsByUser(@Param("user_uuid") UUID user_uuid);
+    List<Post> getPostsByUser(@Param("user_uuid") UUID user_uuid);
 }

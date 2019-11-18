@@ -61,7 +61,7 @@ public class PostRepositoryTest {
 
     @Test
     public void testByUser() {
-        assertFalse(postRepository.findPostsByUser(user.getUuid()).isEmpty());
+        assertFalse(postRepository.getPostsByUser(user.getUuid()).isEmpty());
     }
 
     @Test

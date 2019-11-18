@@ -34,18 +34,18 @@ public class FavoritePostService {
     }
 
     public List<FavPost> getFavPosts(UUID userId) {
-        return favPostRepository.findFavByUser(userId);
+        return favPostRepository.getFavoritesByUser(userId);
     }
 
     public FavPost favoritePost(UUID postId) {
-        Optional<FavPost> maybeFavPost = this.favPostRepository.findFavPost(userStateService.getCurrentUser().getUuid(), postId);
+        Optional<FavPost> maybeFavPost = this.favPostRepository.getFavoritePost(userStateService.getCurrentUser().getUuid(), postId);
         if (maybeFavPost.isPresent()) {
             return maybeFavPost.get();
         }
 
         Post post = postsService.getPostById(postId);
         //Throws exception if we aren't part of this room
-        if(post.getRoom() != null) {
+        if (post.getRoom() != null) {
             roomMembershipService.getMembership(post.getRoom().getUuid());
         }
 
@@ -59,7 +59,7 @@ public class FavoritePostService {
     }
 
     public void deleteFavoritePost(UUID postId) {
-        Optional<FavPost> maybeFavPost = this.favPostRepository.findFavPost(userStateService.getCurrentUser().getUuid(), postId);
+        Optional<FavPost> maybeFavPost = this.favPostRepository.getFavoritePost(userStateService.getCurrentUser().getUuid(), postId);
         maybeFavPost.ifPresent(favPost -> favPostRepository.delete(favPost));
     }
 }

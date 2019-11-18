@@ -39,7 +39,7 @@ public class PostsService {
     }
 
     public List<Post> getPostsByUser(UUID userUuid) {
-        return postRepository.findPostsByUser(userUuid);
+        return postRepository.getPostsByUser(userUuid);
     }
 
     public List<Post> getPostsByRoom(UUID roomId) {
@@ -91,10 +91,18 @@ public class PostsService {
 
     public void deletePost(UUID postUuid) {
         Post post = getPostById(postUuid);
-        if (!post.getUser().getUuid().toString().equals(userStateService.getCurrentUser().getUuid().toString())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+
+        //Can delete a post if you are admin, creator of the room, or moderator of the room
+        boolean canDelete = userStateService.hasAdminPrivileges() || post.getUser().getUuid().equals(userStateService.getCurrentUser().getUuid());
+        if (post.getRoom() != null) {
+            canDelete = canDelete || roomMembershipService.hasCreatorPrivileges(post.getRoom().getUuid()) || roomMembershipService.hasModeratorPrivileges(post.getRoom().getUuid());
         }
-        postRepository.delete(post);
+
+        if (canDelete) {
+            postRepository.delete(post);
+            return;
+        }
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
     }
 
     public List<Post> getFrontPagePosts() {

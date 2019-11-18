@@ -46,6 +46,11 @@ public class RoomController {
         return roomService.getByUUID(roomUuid);
     }
 
+    @RequestMapping(value = "{roomUuid}/members", method = RequestMethod.GET)
+    public List<RoomMembership> getMembersInRoom(@PathVariable("roomUuid") UUID roomUuid) {
+        return roomMembershipService.getMembersInRoom(roomUuid);
+    }
+
     @RequestMapping(value = "{roomUuid}/posts", method = RequestMethod.POST)
     public Post postToRoom(@PathVariable("roomUuid") UUID roomUuid, @RequestBody PostCreateRequestModel request) {
         return postsService.createPost(request, roomUuid);

@@ -43,7 +43,7 @@ public class CommentsService {
     }
 
     public List<Comment> getCommentsByUser(UUID userId) {
-        return commentsRepository.findCommentsByUser(userId);
+        return commentsRepository.getCommentsByUser(userId);
     }
 
     public List<Comment> getCommentsForPost(UUID postId) {

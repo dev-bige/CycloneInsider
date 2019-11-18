@@ -14,5 +14,5 @@ public interface CommentsRepository extends JpaRepository<Comment, UUID> {
 
 
     @Query(value = "SELECT * from comments c where c.user_uuid = :user_uuid order by c.date DESC", nativeQuery = true)
-    List<Comment> findCommentsByUser(@Param("user_uuid") UUID user_uuid);
+    List<Comment> getCommentsByUser(@Param("user_uuid") UUID user_uuid);
 }

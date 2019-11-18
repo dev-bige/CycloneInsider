@@ -11,5 +11,5 @@ import java.util.UUID;
 @Repository
 public interface RoomRepository extends JpaRepository<Room, UUID> {
     @Query(value = "SELECT * FROM room r where r.private_room = FALSE", nativeQuery = true)
-    List<Room> publicRooms();
+    List<Room> getPublicRooms();
 }

@@ -33,7 +33,7 @@ public class UserService {
     }
 
     public InsiderUser findByUsername(String username) {
-        Optional<InsiderUser> userByUsername = usersRepository.findUserByUsername(username);
+        Optional<InsiderUser> userByUsername = usersRepository.getUserByUsername(username);
         if (userByUsername.isPresent()) {
             return userByUsername.get();
         }
@@ -41,7 +41,7 @@ public class UserService {
     }
 
     public InsiderUser signUp(SignUpRequestModel request) {
-        Optional<InsiderUser> userByUsername = usersRepository.findUserByUsername(request.username);
+        Optional<InsiderUser> userByUsername = usersRepository.getUserByUsername(request.username);
         if (userByUsername.isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exists");
         }

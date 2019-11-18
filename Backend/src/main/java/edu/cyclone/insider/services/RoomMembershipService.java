@@ -42,7 +42,7 @@ public class RoomMembershipService {
     }
 
     public List<RoomMembership> getMemberships(UUID userId) {
-        return roomMembershipRepository.findUserMemberships(userId);
+        return roomMembershipRepository.getUserMemberships(userId);
     }
 
     public List<RoomMembership> getPendingMemberships() {
@@ -50,7 +50,7 @@ public class RoomMembershipService {
     }
 
     public List<RoomMembership> getPendingMemberships(UUID userId) {
-        return roomMembershipRepository.findPendingUserMemberships(userId);
+        return roomMembershipRepository.getPendingUserMemberships(userId);
     }
 
     public Optional<RoomMembership> getMembershipOptional(UUID roomUuid) {
@@ -58,7 +58,7 @@ public class RoomMembershipService {
     }
 
     public Optional<RoomMembership> getMembershipOptional(UUID roomUuid, UUID userUuid) {
-        return roomMembershipRepository.findMembership(userUuid, roomUuid);
+        return roomMembershipRepository.getMembership(userUuid, roomUuid);
     }
 
     public RoomMembership getMembership(UUID roomUuid) {
@@ -66,7 +66,7 @@ public class RoomMembershipService {
     }
 
     public RoomMembership getMembership(UUID roomUuid, UUID userUuid) {
-        Optional<RoomMembership> membership = roomMembershipRepository.findMembership(userUuid, roomUuid);
+        Optional<RoomMembership> membership = roomMembershipRepository.getMembership(userUuid, roomUuid);
         if (membership.isPresent()) {
             return membership.get();
         }
@@ -168,5 +168,9 @@ public class RoomMembershipService {
         }
 
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+    }
+
+    public List<RoomMembership> getMembersInRoom(UUID roomUuid) {
+        return roomMembershipRepository.getMembersInRoom(roomUuid);
     }
 }

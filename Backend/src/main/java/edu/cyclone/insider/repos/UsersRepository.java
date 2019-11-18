@@ -11,13 +11,11 @@ import java.util.UUID;
 
 public interface UsersRepository extends JpaRepository<InsiderUser, UUID> {
     @Query(value = "SELECT * from users u where u.username = :username", nativeQuery = true)
-    Optional<InsiderUser> findUserByUsername(@Param("username") String username);
+    Optional<InsiderUser> getUserByUsername(@Param("username") String username);
 
     @Query(value = "SELECT * from users u where u.username = :username", nativeQuery = true)
-    InsiderUser findUserByUsernameNotNull(@Param("username") String username);
+    InsiderUser getUserByUsernameNotNull(@Param("username") String username);
 
     @Query(value = "SELECT * FROM users u where u.pending = TRUE", nativeQuery = true)
     List<InsiderUser> getAllPendingProfs();
-
-
 }
