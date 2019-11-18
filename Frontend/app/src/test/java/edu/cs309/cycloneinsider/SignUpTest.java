@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SignUpTest {
-/*    @Rule
+    @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Test
@@ -52,5 +52,5 @@ public class SignUpTest {
         Response<Void> activityResponse = signUpActivity.signUp(service, signUpRequestModel).blockingFirst();
 
         assertEquals(signUpRequestModelResponse, activityResponse);
-    }*/
+    }
 }
