@@ -7,6 +7,7 @@ import edu.cs309.cycloneinsider.activities.CreateRoomActivity;
 import edu.cs309.cycloneinsider.activities.InviteActivity;
 import edu.cs309.cycloneinsider.activities.LoginActivity;
 import edu.cs309.cycloneinsider.activities.MainActivity;
+import edu.cs309.cycloneinsider.activities.NewPasswordActivity;
 import edu.cs309.cycloneinsider.activities.PostDetailActivity;
 import edu.cs309.cycloneinsider.activities.SettingsActivity;
 import edu.cs309.cycloneinsider.activities.SignUpActivity;
@@ -31,8 +32,8 @@ public abstract class ActivityBindingModule {
     @ContributesAndroidInjector
     abstract CreateRoomActivity bindCreateRoomActivity();
 
-//    @ContributesAndroidInjector
-//    abstract NewPasswordActivity bindNewPasswordActivity();
+    @ContributesAndroidInjector
+    abstract NewPasswordActivity bindNewPasswordActivity();
 
     @ContributesAndroidInjector
     abstract SettingsActivity bindSettingsActivity();

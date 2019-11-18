@@ -14,4 +14,7 @@ public class SignUpRequestModel {
         this.password = password;
         this.isProfessor = isProfessor;
     }
+
+    public SignUpRequestModel() {
+    }
 }
