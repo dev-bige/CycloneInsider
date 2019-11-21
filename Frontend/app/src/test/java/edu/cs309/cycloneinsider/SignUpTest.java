@@ -92,4 +92,12 @@ public class SignUpTest {
         assertEquals(signUpViewModel.getSignUpResponse().getValue().getStringError(), R.string.error_username_length);
     }
 
+    @Test
+    public void incorrectPassword() {
+        CycloneInsiderService service = mock(CycloneInsiderService.class);
+        SignUpViewModel signUpViewModel = new SignUpViewModel(service);
+        SignUpRequestModel signUpRequestModel = new SignUpRequestModel("Ethan", "Evans", "edevans", "pass", false);
+        signUpViewModel.signUp(signUpRequestModel);
+        assertTrue(signUpViewModel.getSignUpResponse().getValue().isError());
+    }
 }
