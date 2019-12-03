@@ -37,7 +37,7 @@ public class UserListRecyclerViewAdapter extends RecyclerView.Adapter<UserListRe
     public void onBindViewHolder(@NonNull UserListRecyclerViewAdapter.ViewHolder holder, int position) {
         final InsiderUserModel user = userList.get(position);
         holder.title.setText(String.format("%s %s", user.firstName, user.lastName));
-//        holder.username.setText(user.username);
+        holder.username.setText(user.username);
 
         holder.itemView.setOnClickListener(view -> onClickSubject.onNext(user));
     }
@@ -54,10 +54,12 @@ public class UserListRecyclerViewAdapter extends RecyclerView.Adapter<UserListRe
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title;
+        TextView username;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.list_item_user_title);
+            username = itemView.findViewById(R.id.list_item_user_username);
         }
     }
 }

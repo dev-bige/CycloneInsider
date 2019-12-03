@@ -38,6 +38,9 @@ import edu.cs309.cycloneinsider.fragments.RoomInvitationFragment;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
 
+/**
+ * Activity that is launched every time a user logs in or when already logged in user launches the application
+ */
 public class MainActivity extends InsiderActivity {
     private static final String TAG = "MainActivity";
     @Inject
