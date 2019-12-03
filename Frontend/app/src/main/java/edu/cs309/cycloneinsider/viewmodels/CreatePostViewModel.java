@@ -15,6 +15,9 @@ import edu.cs309.cycloneinsider.api.models.PostModel;
 import io.reactivex.Observable;
 import retrofit2.Response;
 
+/**
+ * View model for creating a room
+ */
 public class CreatePostViewModel extends ViewModel {
     private static final String TAG = "CreatePostViewModel";
     MutableLiveData<Response<PostModel>> createPostModelResponse = new MutableLiveData<>();
@@ -25,6 +28,11 @@ public class CreatePostViewModel extends ViewModel {
         this.cycloneInsiderService = cycloneInsiderService;
     }
 
+    /**
+     * Create the post to the server
+     * @param postCreateRequestModel the post create request model
+     * @param room_uuid if null, post to front page
+     */
     public void createPost(PostCreateRequestModel postCreateRequestModel, String room_uuid) {
         Observable<Response<PostModel>> observable;
         if (Strings.isNullOrEmpty(room_uuid)) {

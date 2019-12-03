@@ -13,6 +13,9 @@ import edu.cs309.cycloneinsider.api.models.RoomMembershipModel;
 import edu.cs309.cycloneinsider.api.models.RoomModel;
 import retrofit2.Response;
 
+/**
+ * Join room View model
+ */
 public class JoinRoomViewModel extends ViewModel {
     private CycloneInsiderService cycloneInsiderService;
     private MutableLiveData<Response<List<RoomModel>>> roomModelResponse = new MutableLiveData<>();
@@ -23,11 +26,18 @@ public class JoinRoomViewModel extends ViewModel {
         this.cycloneInsiderService = cycloneInsiderService;
     }
 
+    /**
+     * Refresh list of rooms
+     */
     public void refresh() {
         cycloneInsiderService.getAllRooms().subscribe(roomModelResponse::postValue);
     }
 
 
+    /**
+     * Join a room based on the uuid
+     * @param uuid the uuid of the room
+     */
     public void joinRoom(String uuid) {
         cycloneInsiderService.joinRoom(uuid).subscribe(roomMembershipResponse::postValue);
     }
