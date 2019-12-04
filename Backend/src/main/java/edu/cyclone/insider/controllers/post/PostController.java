@@ -95,6 +95,10 @@ public class PostController {
         return favoritePostService.favoritePost(postUuid);
     }
 
+    /**
+     * Delete a favorite post
+     * @param postUuid the post you want to delete
+     */
     @RequestMapping(value = "{postUuid}/favorite", method = RequestMethod.DELETE)
     public void deleteFavoritePost(@PathVariable("postUuid") UUID postUuid) {
         favoritePostService.deleteFavoritePost(postUuid);

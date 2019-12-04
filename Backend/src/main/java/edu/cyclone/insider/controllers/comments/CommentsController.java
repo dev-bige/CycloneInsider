@@ -34,14 +34,18 @@ public class CommentsController {
      * Create a comment for a post
      *
      * @param postUuid the post uuid that you want to comment to
-     * @param request  the comment body model
+     * @return  request  the comment body model
      */
     @RequestMapping(value = "", method = RequestMethod.POST)
     private Comment commentToPost(@PathVariable("postUuid") UUID postUuid, @RequestBody CommentCreateRequestModel request) {
         return commentsService.createComment(request, postUuid);
     }
 
-
+    /**
+     * edit a comment that user created on post
+     * @param commentUuid
+     * @return updated comment
+     */
     @RequestMapping(value = "{commentUuid}", method = RequestMethod.PUT)
     public Comment edit_Comment(@PathVariable("commentUuid") UUID commentUuid, @RequestBody CommentCreateRequestModel request) {
         return commentsService.editComment(commentUuid, request);
