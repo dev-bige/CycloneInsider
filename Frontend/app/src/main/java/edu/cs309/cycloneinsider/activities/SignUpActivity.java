@@ -71,6 +71,11 @@ public class SignUpActivity extends InsiderActivity {
         });
     }
 
+    /**
+     * When the sign button is pressed the information is processed and sends the SignUpRequestModel to
+     * the user
+     * @param view Passes the current view
+     */
     public void onSignUpClicked(View view) {
         String firstName = firstNameText.getText().toString();
         String lastName = lastNameText.getText().toString();

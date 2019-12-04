@@ -16,7 +16,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Predicate;
 import retrofit2.Response;
 
-
+/**
+ * View model for the fragment for an admin to validate a professor
+ */
 public class AdminProfessorValidateViewModel extends ViewModel {
     private final MutableLiveData<Response<List<InsiderUserModel>>> professorResponse = new MutableLiveData<>();
     private final MutableLiveData<Response<InsiderUserModel>> userToProfessor = new MutableLiveData<>();
@@ -40,6 +42,10 @@ public class AdminProfessorValidateViewModel extends ViewModel {
         observable.subscribe(professorResponse::postValue);
     }
 
+    /**
+     * Method used to take a users uuid and set them to be a professor
+     * @param user_uuid UUID of user being set to a professor
+     */
     public void setProfessor(String user_uuid) {
         Observable<Response<InsiderUserModel>> observable = null;
         observable = cycloneInsiderService.setUserToProfessor(user_uuid);

@@ -32,6 +32,9 @@ public class RoomInvitationViewModel extends ViewModel {
     }
 
 
+    /**
+     * Retrieves a list of private rooms that the current user has been invited too
+     */
     public void refresh() {
         Observable<Response<List<RoomMembershipModel>>> observable = null;
 

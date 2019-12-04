@@ -30,6 +30,10 @@ public class SignUpTest {
     @Rule
     public TestRule rule = new InstantTaskExecutorRule();
 
+
+    /**
+     * Mocks a successful sign by a user passing in the correct credentials
+     */
     @Test
     public void successfulSignUp() {
         CycloneInsiderService service = mock(CycloneInsiderService.class);
@@ -42,6 +46,10 @@ public class SignUpTest {
         assertEquals(signUpViewModel.getSignUpResponse().getValue().getRawResponse(), success);
     }
 
+    /**
+     * Showing what happens when a invalid first name is entered and being sure that the right
+     * error is being displayed
+     */
     @Test
     public void incorrectFirstName() {
         CycloneInsiderService service = mock(CycloneInsiderService.class);
@@ -52,6 +60,10 @@ public class SignUpTest {
         assertEquals(signUpViewModel.getSignUpResponse().getValue().getStringError(), R.string.error_sign_up_only_one_name);
     }
 
+    /**
+     * Showing what happens when a first name is not entered and being sure that the right
+     * error is being displayed
+     */
     @Test
     public void errorFirstNameLength() {
         CycloneInsiderService service = mock(CycloneInsiderService.class);
@@ -62,6 +74,10 @@ public class SignUpTest {
         assertEquals(signUpViewModel.getSignUpResponse().getValue().getStringError(), R.string.error_name_length);
     }
 
+    /**
+     * Showing what happens when a invalid last name is entered and being sure that the right
+     * error is being displayed
+     */
     @Test
     public void incorrectLastName() {
         CycloneInsiderService service = mock(CycloneInsiderService.class);
@@ -72,6 +88,10 @@ public class SignUpTest {
         assertEquals(signUpViewModel.getSignUpResponse().getValue().getStringError(), R.string.error_sign_up_only_one_name);
     }
 
+    /**
+     * Showing what happens when a last name is not entered and being sure that the right
+     * error is being displayed
+     */
     @Test
     public void errorLastNameLength() {
         CycloneInsiderService service = mock(CycloneInsiderService.class);
@@ -82,6 +102,10 @@ public class SignUpTest {
         assertEquals(signUpViewModel.getSignUpResponse().getValue().getStringError(), R.string.error_name_length);
     }
 
+    /**
+     * Showing what happens when a username is not entered and being sure that the right
+     * error is being displayed
+     */
     @Test
     public void errorUserNameLength() {
         CycloneInsiderService service = mock(CycloneInsiderService.class);
@@ -92,6 +116,10 @@ public class SignUpTest {
         assertEquals(signUpViewModel.getSignUpResponse().getValue().getStringError(), R.string.error_username_length);
     }
 
+    /**
+     * Showing what happens when an incorrect password is entered and being sure that the right
+     * error is being displayed
+     */
     @Test
     public void incorrectPassword() {
         CycloneInsiderService service = mock(CycloneInsiderService.class);
