@@ -23,6 +23,9 @@ public class SettingsTest {
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
 
+    /**
+     * 1st test for Explicit Filter
+     */
     @Test
     public void checkExplicitFilter1() {
 
@@ -35,6 +38,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 2nd test for Explicit Filter
+     */
     @Test
     public void checkExplicitFilter2() {
 
@@ -46,6 +52,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 3rd test for Explicit Filter
+     */
     @Test
     public void checkExplicitFiler3() {
 
@@ -57,6 +66,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 1st test for sendFeedback
+     */
     @Test
     public void sendFeedback1() {
 
@@ -69,6 +81,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 2nd test for sendFeedback
+     */
     @Test
     public void sendFeedback2() {
 
@@ -81,6 +96,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 3rd test for sendFeedback
+     */
     @Test
     public void sendFeedback3() {
 
@@ -93,6 +111,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 1st test for changing new password
+     */
     @Test
     public void newPassword1() {
 
@@ -106,6 +127,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 2nd test for changing new password
+     */
     @Test
     public void newPassword2() {
 
@@ -119,6 +143,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 3rd test for changing new password
+     */
     @Test
     public void newPassword3() {
 
@@ -132,6 +159,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 4th test for changing new password
+     */
     @Test
     public void newPassword4() {
 
@@ -145,6 +175,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 5th test for changing new password
+     */
     @Test
     public void newPassword5() {
 
@@ -158,6 +191,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 1st test for testing FeedbackOptions
+     */
     @Test
     public void FeedbackOptions1() {
 
@@ -172,6 +208,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 2nd test for testing FeedbackOptions
+     */
     @Test
     public void FeedbackOptions2() {
 
@@ -186,6 +225,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 2nd test for testing FeedbackOptions
+     */
     @Test
     public void FeedbackOptions3() {
 
@@ -200,6 +242,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 4th test for testing FeedbackOptions
+     */
     @Test
     public void FeedbackOptions4() {
 
@@ -214,6 +259,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 5th test for testing FeedbackOptions
+     */
     @Test
     public void FeedbackOptions5() {
 
@@ -228,6 +276,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 6th test for testing FeedbackOptions
+     */
     @Test
     public void FeedbackOptions6() {
 
@@ -242,6 +293,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 7th test for testing FeedbackOptions
+     */
     @Test
     public void FeedbackOptions7() {
 
@@ -255,7 +309,9 @@ public class SettingsTest {
         assertEquals(feed.Check(value1, value2, value3, value4), true);
 
     }
-
+    /**
+     * 1st test for testing AdditionalFeedbackOptions
+     */
     @Test
     public void AdditionalFeedbackOptions1() {
 
@@ -270,6 +326,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 2nd test for testing AdditionalFeedbackOptions
+     */
     @Test
     public void AdditionalFeedbackOptions2() {
 
@@ -284,6 +343,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 3rd test for testing AdditionalFeedbackOptions
+     */
     @Test
     public void AdditionalFeedbackOptions3() {
 
@@ -298,6 +360,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 4th test for testing AdditionalFeedbackOptions
+     */
     @Test
     public void AdditionalFeedbackOptions4() {
 
@@ -312,7 +377,9 @@ public class SettingsTest {
 
     }
 
-
+    /**
+     * 5th test for testing AdditionalFeedbackOptions
+     */
     @Test
     public void AdditionalFeedbackOptions5() {
 
@@ -327,6 +394,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 6th test for testing AdditionalFeedbackOptions
+     */
     @Test
     public void AdditionalFeedbackOptions6() {
 
@@ -341,6 +411,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 7th test for testing AdditionalFeedbackOptions
+     */
     @Test
     public void AdditionalFeedbackOptions7() {
 
@@ -355,6 +428,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 1st test for testing SendFeedbackExplicit
+     */
     @Test
     public void SendFeedbackExplicit1() {
 
@@ -366,6 +442,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 2nd test for testing SendFeedbackExplicit
+     */
     @Test
     public void SendFeedbackExplicit2() {
 
@@ -377,6 +456,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 3rd test for testing SendFeedbackExplicit
+     */
     @Test
     public void SendFeedbackExplicit3() {
 
@@ -388,6 +470,9 @@ public class SettingsTest {
 
     }
 
+    /**
+     * 4th test for testing SendFeedbackExplicit
+     */
     @Test
     public void SendFeedbackExplicit4() {
 

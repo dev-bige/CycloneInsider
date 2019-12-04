@@ -20,6 +20,9 @@ public class FeedbackActivity extends AppCompatActivity {
     private Disposable subscribe;
     private HashMap<String, Integer> dict = new HashMap<>();
 
+    /**
+     * Method contains the list of all explicit words to check for
+     */
     private void ExplicitWordMap() {
         //String of all the swear words we are using
         String swearWordList = "anal\n" +
@@ -121,6 +124,11 @@ public class FeedbackActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    /**
+     * Method checks the email for explicit words
+     * @param text email String
+     * @return true if email contains no explicit words otherwise, false
+     */
     public boolean checkEmail(String text) {
 
         String[] words = text.split(" ", 0);
@@ -138,6 +146,14 @@ public class FeedbackActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Method concatenates what the subject heading will be for the sendFeedback email
+     * @param val1 true if "Technical" should be in the Subject otherwise, null
+     * @param val2 true if "Improve" should be in the Subject otherwise, null
+     * @param val3 true if "Features" should be in the Subject otherwise, null
+     * @param val4 true if "Other" should be in the Subject oherwise, null
+     * @return what the Subject heading should be in the email
+     */
     public String CheckSubject(boolean val1, boolean val2, boolean val3, boolean val4){
 
         String subject = "";
