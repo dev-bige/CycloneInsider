@@ -30,7 +30,12 @@ public class RoomController {
         this.postsService = postsService;
     }
 
-
+    /**
+     * Join a room
+     *
+     * @param room_uuid
+     * @return room that was joined
+     */
     @RequestMapping(value = "{uuid}/join", method = RequestMethod.POST)
     public RoomMembership joinRoom(@PathVariable("uuid") UUID room_uuid) {
         return roomMembershipService.joinRoom(room_uuid);
@@ -41,32 +46,68 @@ public class RoomController {
         return roomService.getPublicRooms();
     }
 
+    /**
+     * get a room
+     *
+     * @param roomUuid
+     * @return the room was specified with param
+     */
     @RequestMapping(value = "{roomUuid}", method = RequestMethod.GET)
     public Room getRoom(@PathVariable("roomUuid") UUID roomUuid) {
         return roomService.getByUUID(roomUuid);
     }
 
+    /**
+     * get all members to a room
+     *
+     * @param roomUuid
+     * @return list of members in the room
+     */
     @RequestMapping(value = "{roomUuid}/members", method = RequestMethod.GET)
     public List<RoomMembership> getMembersInRoom(@PathVariable("roomUuid") UUID roomUuid) {
         return roomMembershipService.getMembersInRoom(roomUuid);
     }
 
+    /**
+     * Post to a room
+     *
+     * @param roomUuid
+     * @return a generated post
+     */
     @RequestMapping(value = "{roomUuid}/posts", method = RequestMethod.POST)
     public Post postToRoom(@PathVariable("roomUuid") UUID roomUuid, @RequestBody PostCreateRequestModel request) {
         return postsService.createPost(request, roomUuid);
     }
 
+    /**
+     * get the posts in a room
+     *
+     * @param roomUuid
+     * @return all posts in a specified room
+     */
     @RequestMapping(value = "{roomUuid}/posts", method = RequestMethod.GET)
     public List<Post> getRoomPosts(@PathVariable("roomUuid") UUID roomUuid) {
         roomService.getByUUID(roomUuid);
         return postsService.getPostsByRoom(roomUuid);
     }
 
+    /**
+     * Invite user to a room
+     *
+     * @param roomUuid
+     * @param userId
+     * @return a invite sent to user blank for room blank
+     */
     @RequestMapping(value = "{roomUuid}/invite", method = RequestMethod.POST)
     public RoomMembership invite(@RequestParam("userUuid") UUID userId, @PathVariable("roomUuid") UUID roomUuid) {
         return roomMembershipService.invite(roomUuid, userId);
     }
 
+    /**
+     * lets user leave a room
+     *
+     * @param roomUuid updates roomembership service without user that left
+     */
     @RequestMapping(value = "{roomUuid}/leave", method = RequestMethod.DELETE)
     public void leaveRoom(@PathVariable("roomUuid") UUID roomUuid) {
         roomMembershipService.deleteMembership(roomUuid);
