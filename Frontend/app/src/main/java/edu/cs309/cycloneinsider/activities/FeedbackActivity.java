@@ -6,12 +6,9 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.HashMap;
 import java.util.Scanner;
-
 import edu.cs309.cycloneinsider.R;
 import io.reactivex.disposables.Disposable;
 
@@ -102,10 +99,8 @@ public class FeedbackActivity extends AppCompatActivity {
         //puts all of the swear words into a HashMap
         Scanner scan = new Scanner(swearWordList);
         while (scan.hasNextLine()) {
-
             String word = scan.nextLine();
             dict.put(word, 1);
-
         }
     }
 
@@ -133,17 +128,11 @@ public class FeedbackActivity extends AppCompatActivity {
 
         String[] words = text.split(" ", 0);
         for (int i = 0; i < words.length; i++) {
-
             if (dict.containsKey(words[i])) {
-
                 return false;
-
             }
-
         }
         return true;
-
-
     }
 
     /**
@@ -158,33 +147,19 @@ public class FeedbackActivity extends AppCompatActivity {
 
         String subject = "";
         if (val1) {
-
             subject += "Technical: ";
-
         }
-
         if (val2) {
-
             subject += "Improve: ";
-
         }
-
         if (val3) {
-
             subject += "Feature: ";
-
         }
-
         if (val4) {
-
             subject += "Other: ";
-
         }
-
         subject += "(User Feedback)";
-
         return subject;
-
     }
 
     public boolean check(String text){
@@ -192,25 +167,16 @@ public class FeedbackActivity extends AppCompatActivity {
         if(text.length() == 0){
             return false;
         }
-
         int spacesFlag = 0;
-
         for (int i = 0; i < text.length(); i++) {
-
             if (text.charAt(i) == ' ') {
-
                 spacesFlag++;
-
             }
-
         }
-
         if(spacesFlag == text.length()){
             return false;
         }
         return true;
-
-
     }
 
     /**
@@ -224,89 +190,53 @@ public class FeedbackActivity extends AppCompatActivity {
         String emailString = email.getText().toString(); //gets the email in String form
         TextView hidden = findViewById(R.id.hidden_feedback_text);
         hidden.setVisibility(View.INVISIBLE);
-
         if (emailString.length() == 0) {
-
             hidden.setText("Cannot leave Feedback box empty");
             hidden.setVisibility(View.VISIBLE);
             return;
-
         }
-
         int spacesFlag = 0;
-
         for (int i = 0; i < emailString.length(); i++) {
-
             if (emailString.charAt(i) == ' ') {
-
                 spacesFlag++;
-
             }
-
         }
-
         if (spacesFlag == emailString.length()) {
-
             hidden.setText("Cannot just have spaces in Feedback box");
             hidden.setVisibility(View.VISIBLE);
             return;
-
         }
-
         if(!checkEmail(emailString)){
             hidden.setText("Email content cannot contain explicit words");
             hidden.setVisibility(View.VISIBLE);
             return;
         }
-
         //Sends email
-
         View inflatedView = getLayoutInflater().inflate(R.layout.activity_feedback_options, null);
-
         CheckBox tech = inflatedView.findViewById(R.id.technical_problem);
         CheckBox improve = inflatedView.findViewById(R.id.improvement);
         CheckBox feature = inflatedView.findViewById(R.id.feature);
         CheckBox other = inflatedView.findViewById(R.id.other);
-
-       /* boolean isCheckedTech = tech.isChecked();
-        boolean isCheckedImprove = improve.isChecked();
-        boolean isCheckedFeature = feature.isChecked();
-        boolean isCheckedOther = other.isChecked();*/
-
         Bundle extras = getIntent().getExtras();
         boolean isCheckedTech = extras.getBoolean("CHECK_TECH");
         boolean isCheckedImprove = extras.getBoolean("CHECK_IMPROVE");
         boolean isCheckedFeature = extras.getBoolean("CHECK_FEATURE");
         boolean isCheckedOther = extras.getBoolean("CHECK_OTHER");
-
         String Subject = "";
-
         if (isCheckedTech) {
-
             Subject += "Technical: ";
-
         }
-
         if (isCheckedImprove) {
-
             Subject += "Improve: ";
-
         }
-
         if (isCheckedFeature) {
-
             Subject += "Feature: ";
-
         }
-
         if (isCheckedOther) {
-
             Subject += "Other: ";
-
         }
 
         Subject += "(User Feedback)";
-
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"cycloneinsider@gmail.com"});
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, Subject);
