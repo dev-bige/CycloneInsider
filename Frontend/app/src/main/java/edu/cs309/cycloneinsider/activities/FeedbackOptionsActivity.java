@@ -32,14 +32,6 @@ public class FeedbackOptionsActivity extends AppCompatActivity {
 
     }
 
- /*   @Override
-    protected void onDestroy() {
-        if (subscribe != null && !subscribe.isDisposed()) {
-            subscribe.dispose();
-        }
-        super.onDestroy();
-    }*/
-
     /**
      * Method sends the checkbox values to the FeedbackActivity when the button Proceed is clicked
      *
@@ -51,16 +43,12 @@ public class FeedbackOptionsActivity extends AppCompatActivity {
         CheckBox improve = findViewById(R.id.improvement);
         CheckBox feature = findViewById(R.id.feature);
         CheckBox other = findViewById(R.id.other);
-
         boolean isCheckedTech = tech.isChecked();
         boolean isCheckedImprove = improve.isChecked();
         boolean isCheckedFeature = feature.isChecked();
         boolean isCheckedOther = other.isChecked();
-
         hidden.setVisibility(View.INVISIBLE);
-
         if (Check(isCheckedTech, isCheckedImprove, isCheckedFeature, isCheckedOther)) {
-
             Intent emailIntent = new Intent(FeedbackOptionsActivity.this, FeedbackActivity.class);
             Bundle extras = new Bundle();
             extras.putBoolean("CHECK_TECH", isCheckedTech);
@@ -69,18 +57,12 @@ public class FeedbackOptionsActivity extends AppCompatActivity {
             extras.putBoolean("CHECK_OTHER", isCheckedOther);
             emailIntent.putExtras(extras);
             startActivity(emailIntent);
-            //      return;
-
         } else {
-
             hidden.setText("Must check at least one box!");
             hidden.setTextColor(Color.parseColor("#FF0000"));
             hidden.setVisibility(View.VISIBLE);
             return;
-
         }
-
-
     }
 
     /**
@@ -94,14 +76,8 @@ public class FeedbackOptionsActivity extends AppCompatActivity {
     public boolean Check(boolean value1, boolean value2, boolean value3, boolean value4) {
 
         if(value1 || value2 || value3 || value4) {
-
             return true;
         }
-
         return false;
-
     }
-
-
-
 }
