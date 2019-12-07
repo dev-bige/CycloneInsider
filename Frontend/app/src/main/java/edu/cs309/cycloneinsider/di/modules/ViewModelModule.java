@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 import dagger.Binds;
 import dagger.Module;
 import dagger.multibindings.IntoMap;
+import edu.cs309.cycloneinsider.activities.EditPostActivity;
 import edu.cs309.cycloneinsider.di.ViewModelFactory;
 import edu.cs309.cycloneinsider.di.ViewModelKey;
 import edu.cs309.cycloneinsider.viewmodels.AdminProfessorValidateViewModel;

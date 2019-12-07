@@ -1,7 +1,10 @@
 package edu.cs309.cycloneinsider.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -25,8 +28,11 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.activities.adapters.CommentsListAdapter;
+import edu.cs309.cycloneinsider.api.CycloneInsiderService;
+import edu.cs309.cycloneinsider.api.UserStateService;
 import edu.cs309.cycloneinsider.api.models.CommentModel;
 import edu.cs309.cycloneinsider.api.models.CreateCommentRequestModel;
+import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
 import edu.cs309.cycloneinsider.api.models.PostModel;
 import edu.cs309.cycloneinsider.di.ViewModelFactory;
 import edu.cs309.cycloneinsider.viewmodels.PostDetailViewModel;
@@ -36,11 +42,14 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
     @Inject
     ViewModelFactory viewModelFactory;
     private LinearLayoutManager layoutManager;
+    private InsiderUserModel user;
     private CommentsListAdapter mAdapter;
     private TextView content, username;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
     private PostDetailViewModel viewModel;
+    private PostModel postResponse;
+    private boolean canEditOrDelete;
 
     @SuppressLint("CheckResult")
     @Override
@@ -63,6 +72,7 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
         }
     }
 
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
@@ -119,14 +129,57 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
                 viewModel.refresh();
             }
         });
+
+
+        viewModel.getCanEditorDelete().observe(this, postResponse -> {
+            if (postResponse) {
+                this.canEditOrDelete = postResponse;
+                this.invalidateOptionsMenu();
+            }
+        });
+
+        viewModel.hasEditOrDelete();
         viewModel.refresh();
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if(this.canEditOrDelete) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_post_options, menu);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
         }
+
+        if (item.getItemId() == R.id.menu_post_edit) {
+            Intent intent = new Intent(this, EditPostActivity.class);
+            intent.putExtra("POST_UUID_CREATE", getIntent().getStringExtra("POST_UUID"));
+            intent.putExtra("ROOM_UUID_CREATE", getIntent().getStringExtra("ROOM_UUID"));
+            startActivity(intent);
+        }
+
+        else if (item.getItemId() == R.id.menu_post_delete) {
+            new MaterialAlertDialogBuilder(this)
+                    .setTitle("Delete this post?")
+
+                    .setPositiveButton("Delete", (dialogInterface, i) -> {
+
+                    })
+                    .setNegativeButton("Cancel", (dialogInterface, i) -> {
+
+                    })
+                    .create()
+                    .show();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 }

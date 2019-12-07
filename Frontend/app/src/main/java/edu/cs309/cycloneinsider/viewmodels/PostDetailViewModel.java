@@ -1,5 +1,6 @@
 package edu.cs309.cycloneinsider.viewmodels;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -8,8 +9,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
+import edu.cs309.cycloneinsider.api.UserStateService;
 import edu.cs309.cycloneinsider.api.models.CommentModel;
 import edu.cs309.cycloneinsider.api.models.CreateCommentRequestModel;
+import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
 import edu.cs309.cycloneinsider.api.models.PostModel;
 import retrofit2.Response;
 
@@ -19,15 +22,17 @@ import retrofit2.Response;
  */
 public class PostDetailViewModel extends ViewModel {
     private CycloneInsiderService cycloneInsiderService;
+    private UserStateService userStateService;
     private MutableLiveData<Response<Void>> createCommentsResponse = new MutableLiveData<>();
     private MutableLiveData<Response<List<CommentModel>>> commentsResponse = new MutableLiveData<>();
     private MutableLiveData<Response<PostModel>> postDetailResposne = new MutableLiveData<>();
+    private MutableLiveData<Boolean> canEditOrDelete = new MutableLiveData<>(false);
     private String postUUID;
 
-
     @Inject
-    public PostDetailViewModel(CycloneInsiderService cycloneInsiderService) {
+    public PostDetailViewModel(CycloneInsiderService cycloneInsiderService, UserStateService userStateService ) {
         this.cycloneInsiderService = cycloneInsiderService;
+        this.userStateService = userStateService;
     }
 
     /**
@@ -48,6 +53,16 @@ public class PostDetailViewModel extends ViewModel {
         cycloneInsiderService.getPost(postUUID).subscribe(postDetailResposne::postValue);
     }
 
+    public void hasEditOrDelete() {
+        this.cycloneInsiderService.getPost(postUUID)
+                .filter(Response::isSuccessful)
+                .map(Response::body)
+                .map(PostModel::getUser)
+                .map(InsiderUserModel::getUuid)
+                .map(uuid -> uuid.equals(userStateService.getUser().getUuid()))
+                .subscribe(canEditOrDelete::postValue);
+    }
+
     public void setPostUUID(String postUUID) {
         this.postUUID = postUUID;
     }
@@ -62,5 +77,9 @@ public class PostDetailViewModel extends ViewModel {
 
     public MutableLiveData<Response<PostModel>> getPostDetailResponse() {
         return postDetailResposne;
+    }
+
+    public LiveData<Boolean> getCanEditorDelete() {
+        return canEditOrDelete;
     }
 }
