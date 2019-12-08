@@ -101,6 +101,9 @@ public interface CycloneInsiderService {
     @POST("/admin/professors/{userUuid}/verify")
     Observable<Response<InsiderUserModel>> setUserToProfessor(@Path("userUuid") String user_uuid);
 
+    @PUT("/posts/{postUuid}/comments/{commentUuid}")
+    Observable<CommentModel> updateComment(@Path("postUuid") String postUuid, @Path("commentUuid") String commentUuid, @Body CreateCommentRequestModel createCommentRequestModel);
+
     @DELETE("/posts/{postUuid}")
     Observable<Response<PostModel>> deletePost(@Path("userUuid") String user_uuid);
 

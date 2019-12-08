@@ -41,9 +41,10 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
     private static final String TAG = "PostDetailActivity";
     @Inject
     ViewModelFactory viewModelFactory;
+    @Inject
+    CommentsListAdapter mAdapter;
     private LinearLayoutManager layoutManager;
     private InsiderUserModel user;
-    private CommentsListAdapter mAdapter;
     private TextView content, username;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -81,6 +82,22 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
 
         viewModel.setPostUUID(getIntent().getStringExtra("POST_UUID"));
 
+        mAdapter.getOnEditCommentClicked().subscribe(commentModel -> {
+            AlertDialog alertDialog = new MaterialAlertDialogBuilder(this)
+                    .setTitle("Comment")
+                    .setView(R.layout.dialog_comment_post)
+                    .setPositiveButton("Comment", (dialogInterface, i) -> {
+                        String comment = ((EditText) ((AlertDialog) dialogInterface).findViewById(R.id.comment_edit_text)).getText().toString();
+                        commentModel.setComment(comment);
+                        viewModel.updateComment(commentModel);
+                    })
+                    .setNegativeButton("Cancel", (dialogInterface, i) -> {
+                    })
+                    .create();
+            alertDialog.show();
+            ((EditText) alertDialog.findViewById(R.id.comment_edit_text)).setText(commentModel.getComment());
+        });
+
         setContentView(R.layout.activity_post_detail);
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(viewModel::refresh);
@@ -102,7 +119,6 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new CommentsListAdapter();
         recyclerView.setAdapter(mAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 layoutManager.getOrientation());
@@ -129,7 +145,6 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
                 viewModel.refresh();
             }
         });
-
 
         viewModel.getCanEditorDelete().observe(this, postResponse -> {
             if (postResponse) {
