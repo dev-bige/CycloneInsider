@@ -309,6 +309,7 @@ public class SettingsTest {
         assertEquals(feed.Check(value1, value2, value3, value4), true);
 
     }
+
     /**
      * 1st test for testing AdditionalFeedbackOptions
      */
@@ -481,6 +482,150 @@ public class SettingsTest {
         feed.checkEmail(text);
         when(feed.checkEmail(text)).thenReturn(true);
         assertEquals(feed.checkEmail(text), true);
+
+    }
+
+    /**
+     * 6th test for changing new password
+     */
+    @Test
+    public void newPassword6() {
+
+        NewPasswordActivity pass = mock(NewPasswordActivity.class);
+        String oldPass = "x";
+        String newPass = "hunter2";
+        String newPass2 = "hunter2";
+        pass.checkPassword(oldPass, newPass, newPass2);
+        when(pass.checkPassword(oldPass, newPass, newPass2)).thenReturn(true);
+        assertEquals(pass.checkPassword(oldPass, newPass, newPass2), true);
+
+    }
+
+    /**
+     * 7th test for changing new password
+     */
+    @Test
+    public void newPassword7() {
+
+        NewPasswordActivity pass = mock(NewPasswordActivity.class);
+        String oldPass = "shortPassword";
+        String newPass = "longPassword";
+        String newPass2 = "longPassword";
+        pass.checkPassword(oldPass, newPass, newPass2);
+        when(pass.checkPassword(oldPass, newPass, newPass2)).thenReturn(true);
+        assertEquals(pass.checkPassword(oldPass, newPass, newPass2), true);
+
+    }
+
+    /**
+     * 8th test for changing new password
+     */
+    @Test
+    public void newPassword8() {
+
+        NewPasswordActivity pass = mock(NewPasswordActivity.class);
+        String oldPass = "anohrShortPassword";
+        String newPass = "hunter2";
+        String newPass2 = "hunter1";
+        pass.checkPassword(oldPass, newPass, newPass2);
+        when(pass.checkPassword(oldPass, newPass, newPass2)).thenReturn(false);
+        assertEquals(pass.checkPassword(oldPass, newPass, newPass2), false);
+
+    }
+
+    /**
+     * 4th test for Explicit Filter
+     */
+    @Test
+    public void checkExplicitFiler4() {
+
+        CreatePostActivity post = mock(CreatePostActivity.class);
+        String text = "Hello, this is a test and should return true";
+        post.checkFilter(text);
+        when(post.checkFilter(text)).thenReturn(true);
+        assertEquals(post.checkFilter(text), true);
+
+    }
+
+    /**
+     * 5th test for Explicit Filter
+     */
+    @Test
+    public void checkExplicitFiler5() {
+
+        CreatePostActivity post = mock(CreatePostActivity.class);
+        String text = "fuck";
+        post.checkFilter(text);
+        when(post.checkFilter(text)).thenReturn(false);
+        assertEquals(post.checkFilter(text), false);
+
+    }
+
+    /**
+     * 8th test for testing FeedbackOptions
+     */
+    @Test
+    public void FeedbackOptions8() {
+
+        FeedbackOptionsActivity feed = mock(FeedbackOptionsActivity.class);
+        boolean value1 = true;
+        boolean value2 = true;
+        boolean value3 = false;
+        boolean value4 = true;
+        feed.Check(value1, value2, value3, value4);
+        when(feed.Check(value1, value2, value3, value4)).thenReturn(true);
+        assertEquals(feed.Check(value1, value2, value3, value4), true);
+
+    }
+
+    /**
+     * 8th test for testing AdditionalFeedbackOptions
+     */
+    @Test
+    public void AdditionalFeedbackOptions8() {
+
+        FeedbackActivity feed = mock(FeedbackActivity.class);
+        boolean value1 = true;
+        boolean value2 = true;
+        boolean value3 = false;
+        boolean value4 = true;
+        feed.CheckSubject(value1, value2, value3, value4);
+        when(feed.CheckSubject(value1, value2, value3, value4)).thenReturn("Technical: Improve: Other: (User Feedback)");
+        assertEquals(feed.CheckSubject(value1, value2, value3, value4), "Technical: Improve: Other: (User Feedback)");
+
+    }
+
+    /**
+     * 9th test for testing AdditionalFeedbackOptions
+     */
+    @Test
+    public void AdditionalFeedbackOptions9() {
+
+        FeedbackActivity feed = mock(FeedbackActivity.class);
+        boolean value1 = true;
+        boolean value2 = false;
+        boolean value3 = true;
+        boolean value4 = true;
+        feed.CheckSubject(value1, value2, value3, value4);
+        when(feed.CheckSubject(value1, value2, value3, value4)).thenReturn("Technical: Feature: Other: (User Feedback)");
+        assertEquals(feed.CheckSubject(value1, value2, value3, value4), "Technical: Feature: Other: (User Feedback)");
+
+    }
+
+    /**
+     * 10th test for testing AdditionalFeedbackOptions
+     */
+    @Test
+    public void AdditionalFeedbackOptions10() {
+
+        FeedbackActivity feed = mock(FeedbackActivity.class);
+        boolean value1 = false;
+        boolean value2 = true;
+        boolean value3 = true;
+        boolean value4 = true;
+        feed.CheckSubject(value1, value2, value3, value4);
+        when(feed.CheckSubject(value1, value2, value3, value4)).thenReturn("Improve: Feature: Other: (User Feedback)");
+        assertEquals(feed.CheckSubject(value1, value2, value3, value4), "Improve: Feature: Other: (User Feedback)");
 
     }
 
