@@ -2,27 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:minHeight="64dp"
     android:layout_height="wrap_content"
-    android:paddingBottom="16dp"
-    android:orientation="vertical"
-    android:paddingLeft="16dp">
+    android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/list_item_comment_username"
-        android:layout_width="match_parent"
-        android:layout_height="28dp"
-        android:gravity="bottom"
-        tools:text="Overline"
-        android:textAllCaps="true"
-        android:textSize="12sp" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingBottom="16dp"
+        android:layout_weight="2"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/list_item_comment_username"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:gravity="bottom"
+            tools:text="Overline"
+            android:textAllCaps="true"
+            android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/list_item_comment_content"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:gravity="bottom"
-        tools:text="Two line item"
-        android:textColor="?colorOnSurface"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/list_item_comment_content"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:gravity="bottom"
+            tools:text="Two line item"
+            android:textColor="?colorOnSurface"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/list_item_comment_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_gravity="center_vertical"
+        app:srcCompat="@drawable/ic_mode_edit_black_24dp"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+
 </LinearLayout>

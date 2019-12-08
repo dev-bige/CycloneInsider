@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import edu.cs309.cycloneinsider.SessionImpl;
+import edu.cs309.cycloneinsider.activities.adapters.CommentsListAdapter;
 import edu.cs309.cycloneinsider.api.AuthorizationInterceptor;
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.Session;
@@ -69,5 +70,10 @@ public abstract class ApplicationModule {
     @Provides
     static PostListRecyclerViewAdapter providePostListRecyclerViewAdapter(UserStateService userStateService, CycloneInsiderService cycloneInsiderService) {
         return new PostListRecyclerViewAdapter(userStateService, cycloneInsiderService);
+    }
+
+    @Provides
+    static CommentsListAdapter provideCommentsListAdapter(UserStateService userStateService) {
+        return new CommentsListAdapter(userStateService);
     }
 }

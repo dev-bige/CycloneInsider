@@ -48,6 +48,13 @@ public class PostDetailViewModel extends ViewModel {
         cycloneInsiderService.getPost(postUUID).subscribe(postDetailResposne::postValue);
     }
 
+    public void updateComment(CommentModel comment) {
+        cycloneInsiderService.updateComment(
+                comment.getPost().getUuid(),
+                comment.getUuid(),
+                new CreateCommentRequestModel(comment.getComment())).subscribe(commentModel -> this.refresh());
+    }
+
     public void setPostUUID(String postUUID) {
         this.postUUID = postUUID;
     }

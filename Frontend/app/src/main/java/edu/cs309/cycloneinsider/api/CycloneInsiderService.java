@@ -21,6 +21,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -99,4 +100,7 @@ public interface CycloneInsiderService {
 
     @POST("/admin/professors/{userUuid}/verify")
     Observable<Response<InsiderUserModel>> setUserToProfessor(@Path("userUuid") String user_uuid);
+
+    @PUT("/posts/{postUuid}/comments/{commentUuid}")
+    Observable<CommentModel> updateComment(@Path("postUuid") String postUuid, @Path("commentUuid") String commentUuid, @Body CreateCommentRequestModel createCommentRequestModel);
 }
