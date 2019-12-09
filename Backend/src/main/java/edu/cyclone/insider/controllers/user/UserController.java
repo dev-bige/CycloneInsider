@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController()
 @RequestMapping("users")
@@ -97,6 +98,15 @@ public class UserController {
     @RequestMapping(value = "sign-up", method = RequestMethod.POST)
     public InsiderUser signUp(@RequestBody SignUpRequestModel request) {
         return userService.signUp(request);
+    }
+
+    @RequestMapping(value = "all", method = RequestMethod.GET)
+    public List<InsiderUser> getAllUsers(@RequestParam(value = "roomId", required = false) UUID roomId) {
+        if(roomId != null) {
+            return roomMembershipService.findAllUsersInRoom(roomId);
+        } else {
+            return userService.getAllUsers();
+        }
     }
 }
 

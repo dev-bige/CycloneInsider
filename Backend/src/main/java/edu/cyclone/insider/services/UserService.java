@@ -65,4 +65,9 @@ public class UserService {
     public List<InsiderUser> getPendingProfessors() {
         return usersRepository.getAllPendingProfs();
     }
+
+    public List<InsiderUser> getAllUsers() {
+        return usersRepository.findAll();
+    }
+
 }

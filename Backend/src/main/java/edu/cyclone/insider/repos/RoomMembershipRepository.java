@@ -21,4 +21,5 @@ public interface RoomMembershipRepository extends JpaRepository<RoomMembership, 
 
     @Query(value = "SELECT * from room_membership r where r.room_uuid = :room_uuid", nativeQuery = true)
     List<RoomMembership> getMembersInRoom(@Param("room_uuid") UUID room_uuid);
+
 }

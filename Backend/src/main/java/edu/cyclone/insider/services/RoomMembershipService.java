@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class RoomMembershipService {
@@ -183,5 +184,12 @@ public class RoomMembershipService {
 
     public List<RoomMembership> getMembersInRoom(UUID roomUuid) {
         return roomMembershipRepository.getMembersInRoom(roomUuid);
+    }
+
+    public List<InsiderUser> findAllUsersInRoom(UUID roomId) {
+        return roomMembershipRepository.getMembersInRoom(roomId)
+                .stream()
+                .map(RoomMembership::getUser)
+                .collect(Collectors.toList());
     }
 }

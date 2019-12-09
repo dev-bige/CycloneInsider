@@ -1,15 +1,15 @@
 package edu.cyclone.insider.controllers.admin;
 
 import edu.cyclone.insider.models.InsiderUser;
-import edu.cyclone.insider.models.RoomMembership;
-import edu.cyclone.insider.services.*;
+import edu.cyclone.insider.services.AdminService;
+import edu.cyclone.insider.services.RoomMembershipService;
+import edu.cyclone.insider.services.UserService;
+import edu.cyclone.insider.services.UserStateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.UUID;
@@ -59,21 +59,15 @@ public class AdminController {
      */
     @RequestMapping(value = "professors/pending", method = RequestMethod.GET)
     public List<InsiderUser> getAllPendingProfs() {
-
         return userService.getPendingProfessors();
-
-
     }
 
 
     @RequestMapping(value = "{userUuid}/{roomUuid}/kick", method = RequestMethod.DELETE)
     public void kickUser(@PathVariable("userUuid") UUID userUuid,@PathVariable("roomUuid") UUID room_uuid) {
         roomMembershipService.banUserFromRoom(userUuid,room_uuid);
-
-
-        }
-
     }
+}
 
 
 
