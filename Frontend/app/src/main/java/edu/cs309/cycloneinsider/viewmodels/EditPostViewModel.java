@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.models.PostCreateRequestModel;
 import edu.cs309.cycloneinsider.api.models.PostModel;
-import io.reactivex.Observable;
 import retrofit2.Response;
 
 public class EditPostViewModel extends ViewModel {
@@ -31,11 +30,8 @@ public class EditPostViewModel extends ViewModel {
     }
 
 
-
-    public void getPost(String post_uuid) {
-        Observable<Response<PostModel>> observable;
-        observable = this.cycloneInsiderService.getPost(post_uuid);
-        observable.subscribe(this.returnPost::postValue);
+    public void refresh() {
+        this.cycloneInsiderService.getPost(post_uuid).subscribe(this.returnPost::postValue);
     }
 
     public MutableLiveData<Response<PostModel>> getEditPostModelResponse() {

@@ -68,6 +68,12 @@ public class PostListFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        this.viewModel.refresh();
+    }
+
+    @Override
     public void onDestroy() {
         if (postClicks != null && !postClicks.isDisposed()) {
             postClicks.dispose();

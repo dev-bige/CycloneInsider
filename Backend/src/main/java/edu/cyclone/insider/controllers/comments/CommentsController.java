@@ -47,7 +47,19 @@ public class CommentsController {
      * @return updated comment
      */
     @RequestMapping(value = "{commentUuid}", method = RequestMethod.PUT)
-    public Comment edit_Comment(@PathVariable("commentUuid") UUID commentUuid, @RequestBody CommentCreateRequestModel request) {
+    public Comment editComment(@PathVariable("commentUuid") UUID commentUuid, @RequestBody CommentCreateRequestModel request) {
         return commentsService.editComment(commentUuid, request);
     }
+
+    /**
+     * delete a comment that user created on post
+     * @param commentUuid
+     * @return updated comment
+     */
+    @RequestMapping(value = "{commentUuid}", method = RequestMethod.DELETE)
+    public void deleteComment(@PathVariable("commentUuid") UUID commentUuid) {
+        commentsService.deleteComment(commentUuid);
+    }
+
+
 }
