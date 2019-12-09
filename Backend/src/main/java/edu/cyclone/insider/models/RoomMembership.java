@@ -20,8 +20,6 @@ public class RoomMembership extends BaseModel {
 
     private Boolean pending;
 
-    private Boolean banned = false;
-
     public RoomMembership() {
     }
 
@@ -70,11 +68,6 @@ public class RoomMembership extends BaseModel {
         return pending;
     }
 
-
-    public Boolean isBanned() {
-        return banned;
-    }
-
     /**
      * sets the pending flag
      *
@@ -84,10 +77,6 @@ public class RoomMembership extends BaseModel {
         this.pending = pending;
     }
 
-
-    public void setIsBanned(Boolean banned) {
-        this.banned = banned;
-    }
 
     /**
      * gets who sent out the invite to the room

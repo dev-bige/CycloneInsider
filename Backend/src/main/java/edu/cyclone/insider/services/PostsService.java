@@ -80,8 +80,7 @@ public class PostsService {
         }
         Post editPost = post.get();
         editPost.setContent(request.content);
-
-
+        editPost.setTitle(request.title);
         editPost.setDate(new Date());
 
         editPost = postRepository.save(editPost);
