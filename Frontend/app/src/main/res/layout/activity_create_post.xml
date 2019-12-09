@@ -61,12 +61,40 @@
             android:textColor="#ff0000"
             android:visibility="invisible" />
 
+        <CheckBox
+            android:id="@+id/switch1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Allow Explicit Comments?" />
+
+        <CheckBox
+            android:id="@+id/switchBold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="Bold"
+            android:text="BOLD" />
+
+        <CheckBox
+            android:id="@+id/switchItalicize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="Italicize"
+            android:text="ITALICIZE" />
+
+        <CheckBox
+            android:id="@+id/switchItalicizeBold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="ItalicizeAndBold"
+            android:text="ITALICIZE AND BOLD" />
+
+
         <Button
             android:id="@+id/post_button"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_gravity="end"
-            android:onClick="createPost"
+            android:onClick="PostThread"
             android:text="Post" />
 
 
