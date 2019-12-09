@@ -1,7 +1,6 @@
 package edu.cs309.cycloneinsider.activities;
 
 import android.os.Bundle;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,17 +23,6 @@ public class EditPostActivity extends InsiderActivity {
     EditText title;
     EditText content;
 
-    public void PostThread(View view) {
-        String postTitle = title.getText().toString();
-        String postContent = content.getText().toString();
-
-        PostCreateRequestModel postCreateRequestModel = new PostCreateRequestModel();
-        postCreateRequestModel.title = postTitle;
-        postCreateRequestModel.content = postContent;
-
-        editPostViewModel.updatePost(postCreateRequestModel);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +39,9 @@ public class EditPostActivity extends InsiderActivity {
             editPostViewModel.updatePost(new PostCreateRequestModel(getPostContent(), null, getPostTitle()));
         });
 
-        Bundle roomBundle = getIntent().getExtras();
         Bundle postCreateRequestModelBundle = getIntent().getExtras();
 
         String post_uuid = postCreateRequestModelBundle.getString("POST_UUID");
-        String room_uuid = roomBundle.getString("ROOM_UUID");
 
         editPostViewModel.setPostUUID(post_uuid);
         editPostViewModel.getReturnPost().observe(this, postModelResponse -> {
@@ -69,8 +55,6 @@ public class EditPostActivity extends InsiderActivity {
                 finish();
             }
         });
-
-
         editPostViewModel.refresh();
     }
 
