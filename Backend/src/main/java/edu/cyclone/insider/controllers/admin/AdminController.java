@@ -1,9 +1,8 @@
 package edu.cyclone.insider.controllers.admin;
 
 import edu.cyclone.insider.models.InsiderUser;
-import edu.cyclone.insider.services.AdminService;
-import edu.cyclone.insider.services.UserService;
-import edu.cyclone.insider.services.UserStateService;
+import edu.cyclone.insider.models.RoomMembership;
+import edu.cyclone.insider.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +20,7 @@ public class AdminController {
     private UserService userService;
     private AdminService adminService;
     private UserStateService userStateService;
+    private RoomMembershipService roomMembershipService;
 
     @Autowired
     public AdminController(UserService userService,
@@ -29,6 +29,7 @@ public class AdminController {
         this.userService = userService;
         this.adminService = adminService;
         this.userStateService = userStateService;
+        this.roomMembershipService= roomMembershipService;
     }
 
     /**
@@ -63,4 +64,16 @@ public class AdminController {
 
 
     }
-}
+
+
+    @RequestMapping(value = "{userUuid}/{roomUuid}/kick", method = RequestMethod.DELETE)
+    public void kickUser(@PathVariable("userUuid") UUID userUuid,@PathVariable("roomUuid") UUID room_uuid) {
+        roomMembershipService.banUserFromRoom(userUuid,room_uuid);
+
+
+        }
+
+    }
+
+
+

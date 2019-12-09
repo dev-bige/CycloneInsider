@@ -125,7 +125,7 @@ public class RoomMembershipService {
         if (membership.isPresent()) {
             RoomMembership roomMembership = membership.get();
             //If pending, we need to change it to not pending
-            if (roomMembership.isPending() && roomMembership.getInvitedBy() != null) {
+            if (roomMembership.isPending() && roomMembership.getInvitedBy() != null && roomMembership.isBanned() == false) {
                 String message = String.format("%s has accepted their room invite", userStateService.getCurrentUser().getFullName());
                 NotificationController.broadcastNotificationToUUID(roomMembership.getInvitedBy().getUuid(), message);
                 roomMembership.setIsPending(false);
@@ -150,6 +150,14 @@ public class RoomMembershipService {
     public void deleteMembership(UUID roomUuid) {
         deleteMembership(roomUuid, userStateService.getCurrentUser().getUuid());
     }
+
+
+    public void banUserFromRoom(UUID userUuid, UUID roomUuid) {
+        RoomMembership membership = getMembership(userUuid, roomUuid);
+        roomMembershipRepository.delete(membership);
+        membership.setIsBanned(true);
+    }
+
 
     public void deleteMembership(UUID roomId, UUID userId) {
         Room room = roomService.getByUUID(roomId);
