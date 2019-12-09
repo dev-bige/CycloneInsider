@@ -38,6 +38,7 @@ public class RoomController {
      */
     @RequestMapping(value = "{uuid}/join", method = RequestMethod.POST)
     public RoomMembership joinRoom(@PathVariable("uuid") UUID room_uuid) {
+
         return roomMembershipService.joinRoom(room_uuid);
     }
 
