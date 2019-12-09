@@ -97,4 +97,10 @@ public class PostDetailViewModel extends ViewModel {
     public boolean isUserAdmin() {
         return userStateService.isAdmin();
     }
+
+    public void deleteComment(CommentModel commentModel) {
+        this.cycloneInsiderService.deleteComment(commentModel.getUuid()).subscribe(response -> {
+            this.refresh();
+        });
+    }
 }
