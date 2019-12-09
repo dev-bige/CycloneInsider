@@ -47,5 +47,4 @@ public class CreatePostViewModel extends ViewModel {
         return createPostModelResponse;
     }
 
-
 }

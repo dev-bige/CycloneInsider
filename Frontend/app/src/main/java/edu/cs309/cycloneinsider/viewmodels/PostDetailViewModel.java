@@ -1,7 +1,6 @@
 package edu.cs309.cycloneinsider.viewmodels;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -11,10 +10,8 @@ import javax.inject.Inject;
 
 import edu.cs309.cycloneinsider.api.CycloneInsiderService;
 import edu.cs309.cycloneinsider.api.UserStateService;
-import edu.cs309.cycloneinsider.api.UserStateService;
 import edu.cs309.cycloneinsider.api.models.CommentModel;
 import edu.cs309.cycloneinsider.api.models.CreateCommentRequestModel;
-import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
 import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
 import edu.cs309.cycloneinsider.api.models.PostModel;
 import retrofit2.Response;
@@ -71,6 +68,10 @@ public class PostDetailViewModel extends ViewModel {
                 comment.getPost().getUuid(),
                 comment.getUuid(),
                 new CreateCommentRequestModel(comment.getComment())).subscribe(commentModel -> this.refresh());
+    }
+
+    public void deletePost(String postUUID) {
+        cycloneInsiderService.deletePost(postUUID).subscribe();
     }
 
     public void setPostUUID(String postUUID) {

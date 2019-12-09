@@ -28,8 +28,6 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.activities.adapters.CommentsListAdapter;
-import edu.cs309.cycloneinsider.api.CycloneInsiderService;
-import edu.cs309.cycloneinsider.api.UserStateService;
 import edu.cs309.cycloneinsider.api.models.CommentModel;
 import edu.cs309.cycloneinsider.api.models.CreateCommentRequestModel;
 import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
@@ -176,8 +174,8 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
 
         if (item.getItemId() == R.id.menu_post_edit) {
             Intent intent = new Intent(this, EditPostActivity.class);
-            intent.putExtra("POST_UUID_CREATE", getIntent().getStringExtra("POST_UUID"));
-            intent.putExtra("ROOM_UUID_CREATE", getIntent().getStringExtra("ROOM_UUID"));
+            intent.putExtra("POST_UUID", getIntent().getStringExtra("POST_UUID"));
+            intent.putExtra("ROOM_UUID", getIntent().getStringExtra("ROOM_UUID"));
             startActivity(intent);
         }
 
@@ -186,7 +184,15 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
                     .setTitle("Delete this post?")
 
                     .setPositiveButton("Delete", (dialogInterface, i) -> {
+                        viewModel.deletePost(getIntent().getStringExtra("POST_UUID"));
+                        if (getIntent().getStringExtra("ROOM_UUID") != null) {
 
+
+                        }
+                        else {
+                            Intent intent = new Intent(this, MainActivity.class);
+                            startActivity(intent);
+                        }
                     })
                     .setNegativeButton("Cancel", (dialogInterface, i) -> {
 

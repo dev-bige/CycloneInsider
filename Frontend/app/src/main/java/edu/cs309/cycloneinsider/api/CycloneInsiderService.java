@@ -105,8 +105,8 @@ public interface CycloneInsiderService {
     Observable<CommentModel> updateComment(@Path("postUuid") String postUuid, @Path("commentUuid") String commentUuid, @Body CreateCommentRequestModel createCommentRequestModel);
 
     @DELETE("/posts/{postUuid}")
-    Observable<Response<PostModel>> deletePost(@Path("userUuid") String user_uuid);
+    Observable<Response<PostModel>> deletePost(@Path("post_uuid") String post_uuid);
 
     @PUT("/posts/{postUuid}")
-    Observable<Response<PostModel>> editPost(@Path("userUuid") String user_uuid);
+    Observable<Response<PostModel>> editPost(@Path("post_uuid") String post_uuid);
 }

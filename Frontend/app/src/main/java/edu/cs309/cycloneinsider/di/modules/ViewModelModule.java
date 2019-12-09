@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModelProvider;
 import dagger.Binds;
 import dagger.Module;
 import dagger.multibindings.IntoMap;
-import edu.cs309.cycloneinsider.activities.EditPostActivity;
 import edu.cs309.cycloneinsider.di.ViewModelFactory;
 import edu.cs309.cycloneinsider.di.ViewModelKey;
 import edu.cs309.cycloneinsider.viewmodels.AdminProfessorValidateViewModel;
 import edu.cs309.cycloneinsider.viewmodels.CreatePostViewModel;
 import edu.cs309.cycloneinsider.viewmodels.CreateRoomViewModel;
+import edu.cs309.cycloneinsider.viewmodels.EditPostViewModel;
 import edu.cs309.cycloneinsider.viewmodels.FavoritePostViewModel;
 import edu.cs309.cycloneinsider.viewmodels.InviteViewModel;
 import edu.cs309.cycloneinsider.viewmodels.JoinRoomViewModel;
@@ -92,6 +92,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CreatePostViewModel.class)
     abstract ViewModel bindCreatePostViewModel(CreatePostViewModel createPostViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(EditPostViewModel.class)
+    abstract ViewModel bindEditPostViewModel(EditPostViewModel editPostViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);
