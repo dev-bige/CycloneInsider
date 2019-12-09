@@ -91,7 +91,9 @@ public class RoomInvitationFragment extends Fragment {
         roomInvitationViewModel.getJoinRoomMembership().observe(this, roomMembershipModelResponse -> {
             ((MainActivity) getActivity()).loadRooms(() -> {
                 if (roomMembershipModelResponse.isSuccessful()) {
-                    ((MainActivity) getActivity()).selectRoom(roomMembershipModelResponse.body().getRoom().getUuid());
+                    ((MainActivity) getActivity()).loadRooms(() -> {
+                        ((MainActivity) getActivity()).selectRoom(roomMembershipModelResponse.body().getRoom().getUuid());
+                    });
                 }
             });
         });
