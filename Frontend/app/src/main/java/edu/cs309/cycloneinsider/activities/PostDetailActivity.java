@@ -184,14 +184,15 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
                     .setTitle("Delete this post?")
 
                     .setPositiveButton("Delete", (dialogInterface, i) -> {
-                        viewModel.deletePost(getIntent().getStringExtra("POST_UUID"));
                         if (getIntent().getStringExtra("ROOM_UUID") != null) {
                             // TODO open respected room
                         }
                         else {
                             Intent intent = new Intent(this, MainActivity.class);
                             startActivity(intent);
+                            finish();
                         }
+                        viewModel.deletePost(getIntent().getStringExtra("POST_UUID"));
                     })
                     .setNegativeButton("Cancel", (dialogInterface, i) -> {
 
@@ -202,4 +203,5 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
 
         return super.onOptionsItemSelected(item);
     }
+
 }
