@@ -1,93 +1,74 @@
+import edu.cyclone.insider.controllers.comments.models.CommentCreateRequestModel;
+import edu.cyclone.insider.controllers.post.models.PostCreateRequestModel;
+import edu.cyclone.insider.controllers.room.RoomController;
+import edu.cyclone.insider.controllers.room.models.CreateRoomRequestModel;
+import edu.cyclone.insider.models.Comment;
 import edu.cyclone.insider.models.InsiderUser;
 import edu.cyclone.insider.models.Post;
 import edu.cyclone.insider.models.Room;
 import edu.cyclone.insider.repos.PostRepository;
-import edu.cyclone.insider.repos.RoomRepository;
 import edu.cyclone.insider.repos.UsersRepository;
-import org.junit.Assert;
+import edu.cyclone.insider.services.*;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.matches;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
+@RunWith(SpringRunner.class)
 public class PostTest {
+
+    private CommentCreateRequestModel commentCreateRequestModel;
+    private PostCreateRequestModel postCreateRequestModel;
+
     @TestConfiguration
-    static class PostTesting {
+    static class InsiderUserServiceImplTestContextConfiguration {
 
         @Bean
-        public Post post() {
-            return new Post();
-        }
-        @Bean
-        public Room room() {
-            return new Room();
+        public InsiderUser insiderUser() {
+            return new InsiderUser();
         }
     }
 
-    @Autowired
-    private Post post;
-    private Room room;
-    private InsiderUser Jim;
-
-
+    @Mock
+    RoomService roomService = mock(RoomService.class);
+    PostsService postsService = mock(PostsService.class);
     @MockBean
-    private PostRepository postRepository;
-    private RoomRepository roomRepository;
     private UsersRepository usersRepository;
+    private PostRepository postRepository;
 
-    @Before
-    public void setUp() {
-        InsiderUser Jim = new InsiderUser();
-        Room room1 = new Room();
-        room1.setDescription("This is a test room");
-        room1.setName("TestRoom");
-        Post post1 = new Post();
-        post1.setRoom(room1);
-        post1.setTitle("TestTitle");
-
-
-
-    }
-
+    /*test for making sure room name post title and comment get set correctly*/
     @Test
-    public void test_room_setup() {
-        Room room1 = new Room();
+    public void commentTesting() {
 
-        InsiderUser Jim = new InsiderUser();
-        Jim.setUsername("JimmyBoy");
+        CreateRoomRequestModel room1 = new CreateRoomRequestModel();
+        PostCreateRequestModel post1 = new PostCreateRequestModel();
+        post1.content = "hello this is a test";
+        Room room = new Room();
+        Post post = new Post();
+        post.setContent("meeeeppp");
+        post1.title = "testTitle";
+        when(postsService.createPost(post1, room.getUuid())).thenReturn(post);
+        when(postsService.editPost(post.getUuid(), post1)).thenReturn(post);
 
-        room1.setDescription("This is a test room");
-        room1.setName("TestRoom");
-        UUID uuid = room1.getUuid();
-        Post post1 = new Post();
-        post1.setUser(Jim);
-        post1.setRoom(room1);
-        post1.setTitle("TestTitle");
-        String title = "TestTitle";
 
-        UUID postuuid = post1.getUuid();
-
-        assertThat(post1.getTitle())
-                .isEqualTo(title);
-
-        assertThat(post1.getRoom())
-                .isEqualTo(room1);
-
-        assertThat(room1.getUuid())
-                .isEqualTo(uuid);
-        assertThat(post1.getUuid())
-                .isEqualTo(postuuid);
-        Assert.assertEquals("TestRoom", post1.getRoom().getName());
-        System.out.println(post1.getRoom().getName());
-        Assert.assertEquals("JimmyBoy", post1.getUser().getUsername());
     }
+
 
 }
+
+
