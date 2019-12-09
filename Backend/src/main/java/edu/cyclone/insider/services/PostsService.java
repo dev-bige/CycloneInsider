@@ -1,8 +1,10 @@
 package edu.cyclone.insider.services;
 
 import edu.cyclone.insider.controllers.post.models.PostCreateRequestModel;
+import edu.cyclone.insider.models.FavPost;
 import edu.cyclone.insider.models.Post;
 import edu.cyclone.insider.models.Room;
+import edu.cyclone.insider.repos.FavPostRepository;
 import edu.cyclone.insider.repos.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,16 +23,19 @@ public class PostsService {
     private UserStateService userStateService;
     private PostRepository postRepository;
     private RoomService roomService;
+    private FavPostRepository favPostRepository;
     private RoomMembershipService roomMembershipService;
 
     @Autowired
     public PostsService(UserStateService userStateService,
                         PostRepository postRepository,
                         RoomService roomService,
+                        FavPostRepository favPostRepository,
                         RoomMembershipService roomMembershipService) {
         this.userStateService = userStateService;
         this.postRepository = postRepository;
         this.roomService = roomService;
+        this.favPostRepository = favPostRepository;
         this.roomMembershipService = roomMembershipService;
     }
 
@@ -99,8 +104,12 @@ public class PostsService {
 
         if (canDelete) {
             postRepository.delete(post);
+            List<FavPost> favorites = favPostRepository.getFavorites(post.getUuid());
+            favPostRepository.deleteAll(favorites);
             return;
         }
+
+
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
     }
 
