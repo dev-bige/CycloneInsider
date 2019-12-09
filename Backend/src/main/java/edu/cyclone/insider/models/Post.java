@@ -29,6 +29,12 @@ public class Post extends BaseModel {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
+    @OneToMany(orphanRemoval = true, mappedBy = "post", cascade = CascadeType.ALL)
+    private List<FavPost> favPosts;
+
+    @OneToMany(orphanRemoval = true, mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Comment> comments;
+
     public Post() {
     }
 

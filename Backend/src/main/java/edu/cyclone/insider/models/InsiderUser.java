@@ -3,6 +3,7 @@ package edu.cyclone.insider.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -21,6 +22,18 @@ public class InsiderUser extends BaseModel {
     @Enumerated(EnumType.ORDINAL)
     @Column
     private UserLevel userLevel = UserLevel.USER;
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
+    List<Comment> comments;
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
+    List<FavPost> favPosts;
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
+    List<Post> posts;
+    @OneToMany(mappedBy = "creator", orphanRemoval = true, cascade = CascadeType.ALL)
+    List<Room> rooms;
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
+    List<RoomMembership> roomMemberships;
+
 
     public InsiderUser() {
     }

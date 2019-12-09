@@ -1,7 +1,10 @@
 package edu.cyclone.insider.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 public class Room extends BaseModel {
@@ -10,6 +13,9 @@ public class Room extends BaseModel {
     private Boolean privateRoom;
     @ManyToOne
     private InsiderUser creator;
+
+    @OneToMany(mappedBy = "room", orphanRemoval = true, cascade = CascadeType.ALL)
+    List<RoomMembership> roomMembershipList;
 
     public String getDescription() {
         return description;
