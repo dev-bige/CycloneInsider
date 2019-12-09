@@ -158,7 +158,7 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(this.canEditOrDelete) {
+        if(this.canEditOrDelete || viewModel.isUserAdmin()) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.menu_post_options, menu);
         }
@@ -186,8 +186,7 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
                     .setPositiveButton("Delete", (dialogInterface, i) -> {
                         viewModel.deletePost(getIntent().getStringExtra("POST_UUID"));
                         if (getIntent().getStringExtra("ROOM_UUID") != null) {
-
-
+                            // TODO open respected room
                         }
                         else {
                             Intent intent = new Intent(this, MainActivity.class);

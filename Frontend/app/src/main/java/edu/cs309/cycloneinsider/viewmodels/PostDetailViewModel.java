@@ -93,4 +93,8 @@ public class PostDetailViewModel extends ViewModel {
     public LiveData<Boolean> getCanEditorDelete() {
         return canEditOrDelete;
     }
+
+    public boolean isUserAdmin() {
+        return userStateService.isAdmin();
+    }
 }
