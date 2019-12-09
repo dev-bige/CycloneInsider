@@ -62,9 +62,10 @@ public class PostTest {
         Post post = new Post();
         post.setContent("meeeeppp");
         post1.title = "testTitle";
+        post.setContent("edit me");
         when(postsService.createPost(post1, room.getUuid())).thenReturn(post);
         when(postsService.editPost(post.getUuid(), post1)).thenReturn(post);
-
+        assertEquals(post,postsService.editPost(post.getUuid(),post1));
 
     }
 

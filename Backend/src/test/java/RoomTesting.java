@@ -50,7 +50,7 @@ public class RoomTesting {
 
     /*test for making sure room name post title and comment get set correctly*/
     @Test
-    public void commentTesting() {
+    public void roomTest() {
 
         CreateRoomRequestModel room1 = new CreateRoomRequestModel();
 
@@ -60,6 +60,7 @@ public class RoomTesting {
         roomService.createRoom(room1);
         Room room = new Room();
         when(roomService.createRoom(room1)).thenReturn(room);
+        when(roomService.getByUUID(room.getUuid())).thenReturn(room);
 
 
     }
