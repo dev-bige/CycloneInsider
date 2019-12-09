@@ -111,5 +111,8 @@ public interface CycloneInsiderService {
     Observable<Response<PostModel>> editPost(@Path("postUuid") String post_uuid, @Body PostCreateRequestModel postCreateRequestModel);
 
     @DELETE("/posts/{postUuid}/comments/{commentUuid}")
-    Observable<Response<Void>>deleteComment(@Path("commentUuid") String commentUUId);
+    Observable<Response<Void>> deleteComment(@Path("commentUuid") String commentUUId);
+
+    @GET("/users/all")
+    Observable<Response<List<InsiderUserModel>>> findUsers(@Query("roomId") String roomId);
 }

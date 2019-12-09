@@ -35,6 +35,7 @@ import edu.cs309.cycloneinsider.fragments.JoinRoomFragment;
 import edu.cs309.cycloneinsider.fragments.MyPostListFragment;
 import edu.cs309.cycloneinsider.fragments.PostListFragment;
 import edu.cs309.cycloneinsider.fragments.RoomInvitationFragment;
+import edu.cs309.cycloneinsider.fragments.UsersFragment;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
 
@@ -211,6 +212,10 @@ public class MainActivity extends InsiderActivity {
                 break;
             case R.id.nav_admin_tools:
                 fragment = new AdminProfessorValidateFragment();
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+                break;
+            case R.id.nav_user_list:
+                fragment = new UsersFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
                 break;
             default: {

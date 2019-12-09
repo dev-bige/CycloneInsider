@@ -18,9 +18,9 @@
                         android:icon="@drawable/ic_content_paste_black_24dp"
                         android:title="My Posts" />
                     <item
-                        android:icon="@drawable/ic_mail_black_24dp"
                         android:id="@+id/nav_room_invitation"
-                        android:title="Room Invites"/>
+                        android:icon="@drawable/ic_mail_black_24dp"
+                        android:title="Room Invites" />
                 </group>
 
             </menu>
@@ -38,6 +38,10 @@
         android:id="@+id/group_item_3"
         android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_user_list"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="Users" />
+        <item
             android:id="@+id/nav_join_room"
             android:icon="@drawable/ic_add_circle_outline_black_24dp"
             android:title="Join Room" />
@@ -46,9 +50,9 @@
             android:icon="@drawable/ic_edit_black_24dp"
             android:title="Create Room" />
         <item
-            android:icon="@drawable/ic_build_black_24dp"
             android:id="@+id/nav_admin_tools"
-            android:title="Admin Tools"/>
+            android:icon="@drawable/ic_build_black_24dp"
+            android:title="Admin Tools" />
         <item
             android:id="@+id/settings"
             android:icon="@drawable/ic_settings_black_24dp"

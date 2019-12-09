@@ -8,6 +8,7 @@ import edu.cs309.cycloneinsider.fragments.JoinRoomFragment;
 import edu.cs309.cycloneinsider.fragments.MyPostListFragment;
 import edu.cs309.cycloneinsider.fragments.PostListFragment;
 import edu.cs309.cycloneinsider.fragments.RoomInvitationFragment;
+import edu.cs309.cycloneinsider.fragments.UsersFragment;
 import edu.cs309.cycloneinsider.viewmodels.JoinRoomViewModel;
 
 @Module
@@ -29,4 +30,7 @@ public abstract class MainActivityBindingModule {
 
     @ContributesAndroidInjector
     abstract AdminProfessorValidateFragment provideAdminProfessorValidateFragment();
+
+    @ContributesAndroidInjector
+    abstract UsersFragment provideUsersFragment();
 }
