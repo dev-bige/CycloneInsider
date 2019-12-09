@@ -37,14 +37,14 @@ public class PostListFragment extends Fragment {
     public static final String ROOM_UUID = "ROOM_UUID";
     @Inject
     ViewModelFactory viewModelFactory;
-    private String roomUUID;
-    private LinearLayoutManager layoutManager;
-
     @Inject
     PostListRecyclerViewAdapter mAdapter;
+    private String roomUUID;
+    private LinearLayoutManager layoutManager;
     private Disposable postClicks;
     private SwipeRefreshLayout swipeRefreshLayout;
     private PostListViewModel viewModel;
+    private Boolean canCreateInvite;
 
     public static PostListFragment newInstance(String roomUuid) {
         PostListFragment postListFragment = new PostListFragment();
@@ -83,7 +83,12 @@ public class PostListFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_post_list, menu);
+        if (canCreateInvite) {
+            inflater.inflate(R.menu.menu_post_list, menu);
+        }
+        if(roomUUID != null) {
+            inflater.inflate(R.menu.post_list_menu, menu);
+        }
     }
 
     @Override
@@ -93,11 +98,20 @@ public class PostListFragment extends Fragment {
             intent.putExtra("ROOM_UUID", roomUUID);
             this.getActivity().startActivity(intent);
         }
+
+        if(item.getItemId() == R.id.post_list_menu_users) {
+            Fragment fragment = new UsersFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("ROOM_ID", roomUUID);
+            fragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).setCustomAnimations(R.anim.nav_default_pop_enter_anim, R.anim.nav_default_pop_exit_anim).replace(R.id.container, fragment).commit();
+        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(PostListViewModel.class);
         viewModel.setRoomUUID(roomUUID);
         super.onViewCreated(view, savedInstanceState);
@@ -136,7 +150,10 @@ public class PostListFragment extends Fragment {
             }
             swipeRefreshLayout.setRefreshing(false);
         });
-        viewModel.getCanCreateInvite().observe(this, this::setHasOptionsMenu);
+        viewModel.getCanCreateInvite().observe(this, canCreateInvite -> {
+            getActivity().invalidateOptionsMenu();
+            this.canCreateInvite = canCreateInvite;
+        });
 
         viewModel.refresh();
     }
