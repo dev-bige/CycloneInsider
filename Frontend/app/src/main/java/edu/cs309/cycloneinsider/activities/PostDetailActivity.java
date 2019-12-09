@@ -57,7 +57,7 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
             AlertDialog alertDialog = null;
 
             alertDialog = new MaterialAlertDialogBuilder(this)
-                    .setTitle("Comment")
+                    .setTitle("New Comment")
                     .setView(R.layout.dialog_comment_post)
                     .setPositiveButton("Comment", (dialogInterface, i) -> {
                         String comment = ((EditText) ((AlertDialog) dialogInterface).findViewById(R.id.comment_edit_text)).getText().toString();
@@ -82,7 +82,7 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
 
         mAdapter.getOnEditCommentClicked().subscribe(commentModel -> {
             AlertDialog alertDialog = new MaterialAlertDialogBuilder(this)
-                    .setTitle("Comment")
+                    .setTitle("Edit Comment")
                     .setView(R.layout.dialog_comment_post)
                     .setPositiveButton("Comment", (dialogInterface, i) -> {
                         String comment = ((EditText) ((AlertDialog) dialogInterface).findViewById(R.id.comment_edit_text)).getText().toString();
@@ -165,6 +165,11 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.viewModel.refresh();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

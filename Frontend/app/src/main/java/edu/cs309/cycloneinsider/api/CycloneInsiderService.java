@@ -108,5 +108,5 @@ public interface CycloneInsiderService {
     Observable<Response<PostModel>> deletePost(@Path("postUuid") String post_uuid);
 
     @PUT("/posts/{postUuid}")
-    Observable<Response<PostModel>> editPost(@Path("postUuid") String post_uuid, @Path("postUuid") PostCreateRequestModel postCreateRequestModel);
+    Observable<Response<PostModel>> editPost(@Path("postUuid") String post_uuid, @Body PostCreateRequestModel postCreateRequestModel);
 }

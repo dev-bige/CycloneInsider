@@ -1,6 +1,5 @@
 package edu.cs309.cycloneinsider.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -48,29 +47,38 @@ public class EditPostActivity extends InsiderActivity {
         title = findViewById(R.id.post_title);
         content = findViewById(R.id.poster_comment);
 
+        findViewById(R.id.post_button).setOnClickListener(view -> {
+            editPostViewModel.updatePost(new PostCreateRequestModel(getPostContent(), null, getPostTitle()));
+        });
 
         Bundle roomBundle = getIntent().getExtras();
-        Bundle postCreateRequestModelBundle  = getIntent().getExtras();
+        Bundle postCreateRequestModelBundle = getIntent().getExtras();
 
         String post_uuid = postCreateRequestModelBundle.getString("POST_UUID");
         String room_uuid = roomBundle.getString("ROOM_UUID");
 
-        editPostViewModel.getPost(post_uuid);
-
+        editPostViewModel.setPostUUID(post_uuid);
         editPostViewModel.getReturnPost().observe(this, postModelResponse -> {
             PostModel post = postModelResponse.body();
             title.setText(post.getTitle(), TextView.BufferType.EDITABLE);
             content.setText(post.getContent(), TextView.BufferType.EDITABLE);
             editPostViewModel.setPostUUID(post.getUuid());
         });
-
         editPostViewModel.getEditPostModelResponse().observe(this, editPostResponse -> {
             if (editPostResponse.isSuccessful()) {
-                Intent intent = new Intent(this, PostDetailActivity.class);
-                intent.putExtra("POST_UUID", editPostResponse.body().getUuid());
-                startActivity(intent);
                 finish();
             }
         });
+
+
+        editPostViewModel.refresh();
+    }
+
+    public String getPostContent() {
+        return content.getText().toString();
+    }
+
+    public String getPostTitle() {
+        return title.getText().toString();
     }
 }
