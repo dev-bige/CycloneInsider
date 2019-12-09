@@ -1,62 +1,70 @@
+import edu.cyclone.insider.controllers.comments.models.CommentCreateRequestModel;
+import edu.cyclone.insider.controllers.post.models.PostCreateRequestModel;
+import edu.cyclone.insider.controllers.room.RoomController;
+import edu.cyclone.insider.controllers.room.models.CreateRoomRequestModel;
+import edu.cyclone.insider.models.Comment;
+import edu.cyclone.insider.models.InsiderUser;
+import edu.cyclone.insider.models.Post;
 import edu.cyclone.insider.models.Room;
-import edu.cyclone.insider.repos.RoomRepository;
+import edu.cyclone.insider.repos.UsersRepository;
+import edu.cyclone.insider.services.*;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.UUID;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.matches;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
+@RunWith(SpringRunner.class)
 public class RoomTesting {
+
+    private CommentCreateRequestModel commentCreateRequestModel;
+
     @TestConfiguration
-    static class RoomConfiguration {
+    static class InsiderUserServiceImplTestContextConfiguration {
 
         @Bean
-        public Room room() {
-            return new Room();
+        public InsiderUser insiderUser() {
+            return new InsiderUser();
         }
     }
 
-    @Autowired
-    private Room room;
-
+    @Mock
+    RoomService roomService = mock(RoomService.class);
 
     @MockBean
-    private RoomRepository roomRepository;
+    private UsersRepository usersRepository;
 
-    @Before
-    public void setUp() {
-        Room room1 = new Room();
-        room1.setDescription("This is a test room");
-        room1.setName("TestRoom");
-
-
-
-    }
-
+    /*test for making sure room name post title and comment get set correctly*/
     @Test
-    public void test_room_setup() {
-        Room room1 = new Room();
-        String name = "TestRoom";
-        String description = "This is a test room";
-        room1.setDescription("This is a test room");
-        room1.setName("TestRoom");
-        UUID uuid = room1.getUuid();
+    public void commentTesting() {
+
+        CreateRoomRequestModel room1 = new CreateRoomRequestModel();
+
+        room1.name = "TestRoom";
+        room1.description = "room for testing";
+        room1.privateRoom = true;
+        roomService.createRoom(room1);
+        Room room = new Room();
+        when(roomService.createRoom(room1)).thenReturn(room);
 
 
-        assertThat(room1.getName())
-                .isEqualTo(name);
-
-        assertThat(room1.getDescription())
-                .isEqualTo(description);
-
-
-        assertThat(room1.getUuid())
-                .isEqualTo(uuid);
     }
+
+
 }
+
+
