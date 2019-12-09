@@ -72,4 +72,10 @@ public class CommentsService {
         return comment;
     }
 
+    public void deleteComment(UUID commentUuid) {
+        Comment commentById = getCommentById(commentUuid);
+        if (commentById.getUser().getUuid().equals(userStateService.getCurrentUser().getUuid())) {
+            commentsRepository.delete(commentById);
+        }
+    }
 }

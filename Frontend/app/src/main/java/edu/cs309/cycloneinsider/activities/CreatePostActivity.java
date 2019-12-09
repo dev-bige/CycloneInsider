@@ -26,7 +26,6 @@ public class CreatePostActivity extends InsiderActivity {
     private CreatePostViewModel createPostViewModel;
 
     public void createPost(View view) {
-
         EditText postTitle = findViewById(R.id.post_title); //finds the post title by ID
         EditText initialText = findViewById(R.id.poster_comment); //finds the initial comment from poster by ID
         String title = postTitle.getText().toString(); //title of thread as a string

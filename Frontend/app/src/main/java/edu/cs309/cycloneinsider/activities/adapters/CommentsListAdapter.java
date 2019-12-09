@@ -25,6 +25,7 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
     private UserStateService userStateService;
 
     private Subject<CommentModel> onEditCommentClicked = PublishSubject.create();
+    private Subject<CommentModel> onDeleteCommentClicked = PublishSubject.create();
 
     public CommentsListAdapter(UserStateService userStateService) {
         this.userStateService = userStateService;
@@ -39,10 +40,13 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
     public void onBindViewHolder(@NonNull CommentsListAdapter.ViewHolder holder, int position) {
         CommentModel comment = comments.get(position);
         if (comment.getUser().getUuid().equals(userStateService.getUser().getUuid())) {
-            holder.favorite.setVisibility(View.VISIBLE);
-            holder.favorite.setOnClickListener(view -> onEditCommentClicked.onNext(comment));
+            holder.edit.setVisibility(View.VISIBLE);
+            holder.delete.setVisibility(View.VISIBLE);
+            holder.edit.setOnClickListener(view -> onEditCommentClicked.onNext(comment));
+            holder.delete.setOnClickListener(view -> onDeleteCommentClicked.onNext(comment));
         } else {
-            holder.favorite.setVisibility(View.GONE);
+            holder.edit.setVisibility(View.GONE);
+            holder.delete.setVisibility(View.GONE);
         }
         holder.content.setText(comment.getComment());
         holder.username.setText(comment.getUser().getUsername());
@@ -65,15 +69,20 @@ public class CommentsListAdapter extends RecyclerView.Adapter<CommentsListAdapte
         return onEditCommentClicked.hide();
     }
 
+    public Observable<CommentModel> getOnDeleteCommentClicked() {
+        return onDeleteCommentClicked.hide();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageButton favorite;
+        ImageButton edit, delete;
         TextView username, content;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             username = itemView.findViewById(R.id.list_item_comment_username);
             content = itemView.findViewById(R.id.list_item_comment_content);
-            favorite = itemView.findViewById(R.id.list_item_comment_edit);
+            edit = itemView.findViewById(R.id.list_item_comment_edit);
+            delete = itemView.findViewById(R.id.list_item_comment_delete);
         }
     }
 }

@@ -96,6 +96,18 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
             ((EditText) alertDialog.findViewById(R.id.comment_edit_text)).setText(commentModel.getComment());
         });
 
+        mAdapter.getOnDeleteCommentClicked().subscribe(commentModel -> {
+            AlertDialog alertDialog = new MaterialAlertDialogBuilder(this).setTitle("Are you sure you want to delete this comment?")
+                    .setPositiveButton("Yes", (dialogInterface, i) -> {
+                        viewModel.deleteComment(commentModel);
+                    })
+                    .setNegativeButton("No", (dialogInterface, i) -> {
+
+                    })
+                    .create();
+            alertDialog.show();
+        });
+
         setContentView(R.layout.activity_post_detail);
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(viewModel::refresh);
@@ -189,15 +201,8 @@ public class PostDetailActivity extends InsiderActivity implements View.OnClickL
                     .setTitle("Delete this post?")
 
                     .setPositiveButton("Delete", (dialogInterface, i) -> {
-                        if (getIntent().getStringExtra("ROOM_UUID") != null) {
-                            // TODO open respected room
-                        }
-                        else {
-                            Intent intent = new Intent(this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
                         viewModel.deletePost(getIntent().getStringExtra("POST_UUID"));
+                        finish();
                     })
                     .setNegativeButton("Cancel", (dialogInterface, i) -> {
 
