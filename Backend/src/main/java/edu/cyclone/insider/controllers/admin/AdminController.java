@@ -63,9 +63,14 @@ public class AdminController {
     }
 
 
-    @RequestMapping(value = "{userUuid}/{roomUuid}/kick", method = RequestMethod.DELETE)
+    @RequestMapping(value = "rooms/{roomUuid}/users/{userUuid}", method = RequestMethod.DELETE)
     public void kickUser(@PathVariable("userUuid") UUID userUuid,@PathVariable("roomUuid") UUID room_uuid) {
         roomMembershipService.banUserFromRoom(userUuid,room_uuid);
+    }
+
+    @RequestMapping(value = "users/{userUuid}", method = RequestMethod.DELETE)
+    public void banUser(@PathVariable("userUuid") UUID userUuid) {
+        adminService.deleteUser(userUuid);
     }
 }
 

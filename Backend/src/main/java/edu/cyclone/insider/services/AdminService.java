@@ -42,4 +42,13 @@ public class AdminService {
         }
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
     }
+
+    public void deleteUser(UUID userUuid) {
+        if (this.userStateService.hasAdminPrivileges()) {
+            userService.deleteUser(userUuid);
+            return;
+        }
+
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+    }
 }

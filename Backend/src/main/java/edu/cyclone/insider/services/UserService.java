@@ -70,4 +70,8 @@ public class UserService {
         return usersRepository.findAll();
     }
 
+    public void deleteUser(UUID userUuid) {
+        InsiderUser byUUID = getByUUID(userUuid);
+        usersRepository.delete(byUUID);
+    }
 }
