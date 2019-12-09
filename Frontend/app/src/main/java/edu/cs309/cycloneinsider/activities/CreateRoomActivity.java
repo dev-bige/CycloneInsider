@@ -26,7 +26,6 @@ public class CreateRoomActivity extends InsiderActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.create_room_button) {
-            //TODO add when private rooms are merged
             boolean isPrivate = group.getCheckedRadioButtonId() == R.id.private_room;
             CreateRoomRequestModel createRoomRequestModel = new CreateRoomRequestModel();
             createRoomRequestModel.setName(title.getText().toString());
