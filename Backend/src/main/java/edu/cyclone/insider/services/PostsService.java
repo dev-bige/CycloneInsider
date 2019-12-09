@@ -103,8 +103,6 @@ public class PostsService {
         }
 
         if (canDelete) {
-            List<FavPost> favorites = favPostRepository.getFavorites(post.getUuid());
-            favPostRepository.deleteAll(favorites);
             postRepository.delete(post);
             return;
         }
