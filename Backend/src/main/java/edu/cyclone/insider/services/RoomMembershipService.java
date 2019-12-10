@@ -176,6 +176,7 @@ public class RoomMembershipService {
 
         if (canDelete) {
             roomMembershipRepository.delete(membership);
+            return;
         }
 
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
