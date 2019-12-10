@@ -8,6 +8,7 @@ public class InsiderUserModel {
     public Boolean admin;
     public String fullName;
     public Boolean professor;
+    public String userLevel;
 
     public String getFirstName() {
         return firstName;

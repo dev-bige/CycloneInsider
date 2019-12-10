@@ -49,7 +49,7 @@ public class UserListViewModel extends ViewModel {
             }
         }
 
-        return this.userStateService.isAdmin() && !(user.getAdmin() || user.getProfessor());
+        return this.userStateService.isAdmin();
     }
 
     public void setRoomId(String roomId) {

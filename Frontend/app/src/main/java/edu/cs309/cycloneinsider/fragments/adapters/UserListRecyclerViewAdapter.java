@@ -47,7 +47,7 @@ public class UserListRecyclerViewAdapter extends RecyclerView.Adapter<UserListRe
     public void onBindViewHolder(@NonNull UserListRecyclerViewAdapter.ViewHolder holder, int position) {
         final InsiderUserModel user = userList.get(position);
         holder.title.setText(String.format("%s %s", user.firstName, user.lastName));
-        holder.username.setText(user.username);
+        holder.username.setText(String.format("%s - %s", user.username, user.userLevel));
         holder.delete.setVisibility(canDelete.apply(user) ? View.VISIBLE : View.GONE);
         holder.delete.setOnClickListener(view -> onClickDeleteSubject.onNext(user));
         holder.itemView.setOnClickListener(view -> onClickSubject.onNext(user));
