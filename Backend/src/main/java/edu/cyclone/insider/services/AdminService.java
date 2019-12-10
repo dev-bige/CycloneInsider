@@ -35,7 +35,7 @@ public class AdminService {
             InsiderUser user = userService.getByUUID(userId);
             if (user.getProfPending()) {
                 user.setProfPending(false);
-                user.setUserLevel(UserLevel.ADMIN);
+                user.setUserLevel(UserLevel.PROFESSOR);
                 return userService.save(user);
             }
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This user is not waiting on validation of being a professor");
