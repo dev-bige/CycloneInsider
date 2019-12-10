@@ -4,7 +4,7 @@
     <item
         app:showAsAction="always"
         android:id="@+id/menu_post_list_invite"
-        app:iconTint="?attr/colorOnPrimary"
+        app:iconTint="@android:color/white"
         android:icon="@drawable/ic_person_black_24dp"
         android:title="Invite"/>
 </menu>

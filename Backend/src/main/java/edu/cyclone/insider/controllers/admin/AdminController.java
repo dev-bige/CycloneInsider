@@ -25,7 +25,8 @@ public class AdminController {
     @Autowired
     public AdminController(UserService userService,
                            AdminService adminService,
-                           UserStateService userStateService) {
+                           UserStateService userStateService,
+                           RoomMembershipService roomMembershipService) {
         this.userService = userService;
         this.adminService = adminService;
         this.userStateService = userStateService;
@@ -65,7 +66,7 @@ public class AdminController {
 
     @RequestMapping(value = "rooms/{roomUuid}/users/{userUuid}", method = RequestMethod.DELETE)
     public void kickUser(@PathVariable("userUuid") UUID userUuid,@PathVariable("roomUuid") UUID room_uuid) {
-        roomMembershipService.banUserFromRoom(userUuid,room_uuid);
+        this.roomMembershipService.deleteMembership(room_uuid, userUuid);
     }
 
     @RequestMapping(value = "users/{userUuid}", method = RequestMethod.DELETE)

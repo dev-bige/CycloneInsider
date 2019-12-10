@@ -22,6 +22,7 @@ import io.reactivex.subjects.PublishSubject;
 
 public class UserListRecyclerViewAdapter extends RecyclerView.Adapter<UserListRecyclerViewAdapter.ViewHolder> {
     private final PublishSubject<InsiderUserModel> onClickSubject = PublishSubject.create();
+    private final PublishSubject<InsiderUserModel> onClickDeleteSubject = PublishSubject.create();
     UserStateService userStateService;
     Function<InsiderUserModel, Boolean> canDelete = user -> this.userStateService.isAdmin();
     private List<InsiderUserModel> userList = new ArrayList<>();
@@ -48,9 +49,13 @@ public class UserListRecyclerViewAdapter extends RecyclerView.Adapter<UserListRe
         holder.title.setText(String.format("%s %s", user.firstName, user.lastName));
         holder.username.setText(user.username);
         holder.delete.setVisibility(canDelete.apply(user) ? View.VISIBLE : View.GONE);
+        holder.delete.setOnClickListener(view -> onClickDeleteSubject.onNext(user));
         holder.itemView.setOnClickListener(view -> onClickSubject.onNext(user));
     }
 
+    public Observable<InsiderUserModel> getOnClickDelete() {
+        return onClickDeleteSubject.hide();
+    }
 
     public void setCanDelete(Function<InsiderUserModel, Boolean> canDelete) {
         this.canDelete = canDelete;

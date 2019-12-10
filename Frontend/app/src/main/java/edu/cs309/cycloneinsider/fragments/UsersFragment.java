@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
@@ -49,6 +51,16 @@ public class UsersFragment extends Fragment {
         view.findViewById(R.id.new_post_button).setVisibility(View.GONE);
         userListViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserListViewModel.class);
         userListRecyclerAdapter.setCanDelete(userListViewModel::canDelete);
+        userListRecyclerAdapter.getOnClickDelete().subscribe(insiderUserModel -> {
+            new MaterialAlertDialogBuilder(getContext())
+                    .setTitle("Are you sure you want to delete " + insiderUserModel.getUsername() + "?")
+                    .setPositiveButton("Yes", (dialogInterface, i) -> {
+                        userListViewModel.onDeletePressed(insiderUserModel);
+                    })
+                    .setNegativeButton("No", (dialogInterface, i) -> {})
+                    .create().show();
+
+        });
 
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(userListViewModel::refresh);
