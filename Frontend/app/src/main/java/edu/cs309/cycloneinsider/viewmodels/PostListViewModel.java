@@ -71,6 +71,13 @@ public class PostListViewModel extends ViewModel {
                 .subscribe(canCreateInvite::postValue);
     }
 
+    public Observable<Response<Void>> deleteRoom() {
+        if(roomUUID != null) {
+            return this.cycloneInsiderService.deleteRoom(roomUUID);
+        }
+        return Observable.just(Response.success(null));
+    }
+
     public String getRoomUUID() {
         return roomUUID;
     }

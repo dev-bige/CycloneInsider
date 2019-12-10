@@ -7,4 +7,8 @@
         app:iconTint="@android:color/white"
         android:icon="@drawable/ic_person_black_24dp"
         android:title="Invite"/>
+
+    <item
+        android:id="@+id/menu_post_list_delete_room"
+        android:title="Delete Room" />
 </menu>

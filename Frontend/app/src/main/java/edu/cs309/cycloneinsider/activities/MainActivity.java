@@ -11,6 +11,7 @@ import android.view.SubMenu;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -158,6 +159,10 @@ public class MainActivity extends InsiderActivity {
         Intent intent = new Intent(this, CreatePostActivity.class);
         startActivity(intent);
         return;
+    }
+
+    public void selectDrawerItem(@IdRes int id) {
+        selectDrawerItem(this.navigationView.getMenu().findItem(id));
     }
 
     public void selectDrawerItem(MenuItem menuItem) {

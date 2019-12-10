@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
 import edu.cs309.cycloneinsider.R;
+import edu.cs309.cycloneinsider.api.UserStateService;
 import edu.cs309.cycloneinsider.api.models.CreateRoomRequestModel;
 import edu.cs309.cycloneinsider.di.ViewModelFactory;
 import edu.cs309.cycloneinsider.viewmodels.CreateRoomViewModel;
@@ -21,6 +22,8 @@ public class CreateRoomActivity extends InsiderActivity implements View.OnClickL
 
     @Inject
     ViewModelFactory viewModelFactory;
+    @Inject
+    UserStateService userStateService;
     private CreateRoomViewModel viewModel;
 
     @Override
@@ -49,7 +52,9 @@ public class CreateRoomActivity extends InsiderActivity implements View.OnClickL
 
         viewModel.getCreateRoomResponse().observe(this, roomModelResponse -> {
             if (roomModelResponse.isSuccessful()) {
-                finish();
+                this.userStateService.refreshMemberships(() -> {
+                    finish();
+                });
             }
         });
     }

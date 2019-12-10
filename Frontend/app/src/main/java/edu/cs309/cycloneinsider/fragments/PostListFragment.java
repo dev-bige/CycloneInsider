@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -26,11 +28,14 @@ import dagger.android.support.AndroidSupportInjection;
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.activities.CreatePostActivity;
 import edu.cs309.cycloneinsider.activities.InviteActivity;
+import edu.cs309.cycloneinsider.activities.MainActivity;
 import edu.cs309.cycloneinsider.activities.PostDetailActivity;
+import edu.cs309.cycloneinsider.api.UserStateService;
 import edu.cs309.cycloneinsider.api.models.PostModel;
 import edu.cs309.cycloneinsider.di.ViewModelFactory;
 import edu.cs309.cycloneinsider.fragments.adapters.PostListRecyclerViewAdapter;
 import edu.cs309.cycloneinsider.viewmodels.PostListViewModel;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
 public class PostListFragment extends Fragment {
@@ -39,6 +44,8 @@ public class PostListFragment extends Fragment {
     ViewModelFactory viewModelFactory;
     @Inject
     PostListRecyclerViewAdapter mAdapter;
+    @Inject
+    UserStateService userStateService;
     private String roomUUID;
     private LinearLayoutManager layoutManager;
     private Disposable postClicks;
@@ -105,6 +112,21 @@ public class PostListFragment extends Fragment {
             bundle.putString("ROOM_ID", roomUUID);
             fragment.setArguments(bundle);
             getActivity().getSupportFragmentManager().beginTransaction().addToBackStack(null).setCustomAnimations(R.anim.nav_default_pop_enter_anim, R.anim.nav_default_pop_exit_anim).replace(R.id.container, fragment).commit();
+        }
+
+        if(item.getItemId() == R.id.menu_post_list_delete_room) {
+            new MaterialAlertDialogBuilder(getContext())
+                    .setTitle("Are you sure you want to delete this room?")
+                    .setMessage("It's contents will be deleted and cannot be recovered")
+                    .setPositiveButton("Yes", (dialogInterface, i) -> {
+                        this.viewModel.deleteRoom().observeOn(AndroidSchedulers.mainThread()).subscribe(response -> {
+                            this.userStateService.refreshMemberships(() -> {
+                                ((MainActivity) getActivity()).selectDrawerItem(R.id.nav_front_page);
+                            });
+                        });
+                    })
+                    .setNegativeButton("No", (dialogInterface, i) -> {})
+                    .create().show();
         }
         return super.onOptionsItemSelected(item);
     }

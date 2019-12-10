@@ -121,4 +121,7 @@ public interface CycloneInsiderService {
 
     @DELETE("/admin/rooms/{roomUuid}/users/{userUuid}")
     Observable<Response<Void>> kickUser(@Path("roomUuid") String roomUuid, @Path("userUuid") String userUuid);
+
+    @DELETE("/rooms/{roomUuid}")
+    Observable<Response<Void>> deleteRoom(@Path("roomUuid") String roomUUID);
 }
