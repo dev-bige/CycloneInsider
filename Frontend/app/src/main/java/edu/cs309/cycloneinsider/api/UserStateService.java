@@ -16,6 +16,7 @@ import edu.cs309.cycloneinsider.api.models.FavoritePostModel;
 import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
 import edu.cs309.cycloneinsider.api.models.MembershipModel;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
 import io.reactivex.subjects.BehaviorSubject;
 import retrofit2.Response;
@@ -84,6 +85,7 @@ public class UserStateService {
                     }
                     return memberships;
                 })
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(membershipModels -> memberships.onNext(membershipModels), e -> {}, onComplete == null ? () -> {} : onComplete);
     }
 

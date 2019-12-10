@@ -47,7 +47,7 @@ public class UserListViewModel extends ViewModel {
             }
         }
 
-        return this.userStateService.isAdmin();
+        return this.userStateService.isAdmin() && !user.getAdmin();
     }
 
     public void setRoomId(String roomId) {
