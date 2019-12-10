@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import dagger.android.support.DaggerFragment;
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.activities.MainActivity;
+import edu.cs309.cycloneinsider.api.UserStateService;
 import edu.cs309.cycloneinsider.api.models.RoomModel;
 import edu.cs309.cycloneinsider.di.ViewModelFactory;
 import edu.cs309.cycloneinsider.fragments.adapters.RoomListRecyclerViewAdapter;
@@ -30,6 +31,8 @@ import io.reactivex.disposables.Disposable;
 public class JoinRoomFragment extends DaggerFragment {
     @Inject
     public ViewModelFactory viewModelFactory;
+    @Inject
+    UserStateService userStateService;
     private LinearLayoutManager layoutManager;
     private RoomListRecyclerViewAdapter mAdapter;
     private Disposable onClickSubscription;
@@ -73,7 +76,7 @@ public class JoinRoomFragment extends DaggerFragment {
 
         viewModel.getRoomMembershipResponse().observe(this, roomMembershipModelResponse -> {
             if (roomMembershipModelResponse.isSuccessful()) {
-                ((MainActivity) getActivity()).loadRooms(() -> {
+                userStateService.refreshMemberships(() -> {
                     ((MainActivity) getActivity()).selectRoom(roomMembershipModelResponse.body().getRoom().uuid);
                 });
             }

@@ -14,6 +14,7 @@ import edu.cs309.cycloneinsider.api.Session;
 import edu.cs309.cycloneinsider.api.TokenRenewInterceptor;
 import edu.cs309.cycloneinsider.api.UserStateService;
 import edu.cs309.cycloneinsider.fragments.adapters.PostListRecyclerViewAdapter;
+import edu.cs309.cycloneinsider.fragments.adapters.UserListRecyclerViewAdapter;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -75,5 +76,10 @@ public abstract class ApplicationModule {
     @Provides
     static CommentsListAdapter provideCommentsListAdapter(UserStateService userStateService) {
         return new CommentsListAdapter(userStateService);
+    }
+
+    @Provides
+    static UserListRecyclerViewAdapter provideUserListRecyclerViewAdapter(UserStateService userStateService) {
+        return new UserListRecyclerViewAdapter(userStateService);
     }
 }

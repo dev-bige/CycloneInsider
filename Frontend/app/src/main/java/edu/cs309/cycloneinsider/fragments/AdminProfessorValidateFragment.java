@@ -34,6 +34,7 @@ public class AdminProfessorValidateFragment extends Fragment {
     ViewModelFactory viewModelFactory;
     AdminProfessorValidateViewModel viewModel;
     private SwipeRefreshLayout swipeRefreshLayout;
+    @Inject
     UserListRecyclerViewAdapter professorListRecyclerViewAdapter;
     private LinearLayoutManager layoutManager;
     private Disposable onClickSubscription;
@@ -68,7 +69,6 @@ public class AdminProfessorValidateFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
-        professorListRecyclerViewAdapter = new UserListRecyclerViewAdapter();
         layoutManager = new LinearLayoutManager(getContext());
 
         recyclerView.setLayoutManager(layoutManager);

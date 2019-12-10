@@ -3,6 +3,9 @@ package edu.cs309.cycloneinsider.api;
 
 import android.annotation.SuppressLint;
 
+import androidx.annotation.Nullable;
+
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +14,9 @@ import javax.inject.Singleton;
 
 import edu.cs309.cycloneinsider.api.models.FavoritePostModel;
 import edu.cs309.cycloneinsider.api.models.InsiderUserModel;
+import edu.cs309.cycloneinsider.api.models.MembershipModel;
 import io.reactivex.Observable;
+import io.reactivex.functions.Action;
 import io.reactivex.subjects.BehaviorSubject;
 import retrofit2.Response;
 
@@ -19,6 +24,7 @@ import retrofit2.Response;
 public class UserStateService {
     private CycloneInsiderService cycloneInsiderService;
     private BehaviorSubject<InsiderUserModel> currentUser = BehaviorSubject.create();
+    private BehaviorSubject<Map<String, MembershipModel>> memberships = BehaviorSubject.create();
     private BehaviorSubject<Map<String, FavoritePostModel>> favoritesMap = BehaviorSubject.create();
 
     @Inject
@@ -28,7 +34,7 @@ public class UserStateService {
     }
 
     public Observable<InsiderUserModel> getUserAsync() {
-        return currentUser;
+        return currentUser.hide();
     }
 
     public InsiderUserModel getUser() {
@@ -50,6 +56,7 @@ public class UserStateService {
                 .map(Response::body)
                 .subscribe(insiderUserModel -> currentUser.onNext(insiderUserModel));
         this.refreshFavorites();
+        this.refreshMemberships(null);
     }
 
     @SuppressLint("CheckResult")
@@ -64,6 +71,37 @@ public class UserStateService {
                     return stringFavoritePostModelHashMap;
                 })
                 .subscribe(favoritesMap -> this.favoritesMap.onNext(favoritesMap));
+    }
+
+    @SuppressLint("CheckResult")
+    public void refreshMemberships(@Nullable Action onComplete) {
+        this.cycloneInsiderService.getMemberships().filter(Response::isSuccessful)
+                .map(Response::body)
+                .map(membershipModels -> {
+                    Map<String, MembershipModel> memberships = new HashMap<>();
+                    for (MembershipModel membershipModel : membershipModels) {
+                        memberships.put(membershipModel.room.uuid, membershipModel);
+                    }
+                    return memberships;
+                })
+                .subscribe(membershipModels -> memberships.onNext(membershipModels), e -> {}, onComplete == null ? () -> {} : onComplete);
+    }
+
+    public Observable<MembershipModel> getMembershipAsync(String room_uuid) {
+        return this.memberships
+                .map(stringMembershipModelMap -> stringMembershipModelMap.get(room_uuid));
+    }
+
+    public MembershipModel getMembership(String room_uuid) {
+        return this.memberships.getValue().get(room_uuid);
+    }
+
+    public Observable<Collection<MembershipModel>> getMembershipsAsync() {
+        return memberships.map(stringMembershipModelMap -> stringMembershipModelMap.values());
+    }
+
+    public Collection<MembershipModel> getMemberships() {
+        return memberships.getValue().values();
     }
 
     public Observable<Boolean> isFavoritePost(String uuid) {

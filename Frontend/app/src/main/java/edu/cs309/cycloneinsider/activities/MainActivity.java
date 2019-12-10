@@ -20,6 +20,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -66,44 +68,6 @@ public class MainActivity extends InsiderActivity {
             }
         }
         return null;
-    }
-
-    @SuppressLint("CheckResult")
-    public void loadRooms(Action complete) {
-
-        cycloneInsiderService
-                .getMemberships()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    if (classrooms == null) {
-                        MenuItem item = navigationView.getMenu().findItem(R.id.classrooms);
-                        classrooms = item.getSubMenu();
-                        classrooms.clear();
-                    } else {
-                        classrooms.clear();
-                    }
-                    if (response.code() == 200) {
-                        Log.d(TAG, "onCreate: " + response);
-
-                        memberships = response.body();
-                        for (MembershipModel membership : memberships) {
-                            classrooms.add(membership.room.name);
-                        }
-                        navigationView.invalidate();
-                    }
-                    if (first) {
-                        navigationView.setCheckedItem(R.id.nav_front_page);
-                        selectDrawerItem(navigationView.getCheckedItem());
-                        first = false;
-                    }
-                }, error -> {
-                    Log.d(TAG, error.toString());
-                }, complete);
-    }
-
-    public void loadRooms() {
-        loadRooms(() -> {
-        });
     }
 
     @Override
@@ -153,7 +117,26 @@ public class MainActivity extends InsiderActivity {
             finish();
         });
 
-        this.loadRooms();
+        this.userStateService.getMembershipsAsync()
+                .subscribe(memberships -> {
+                    if (classrooms == null) {
+                        MenuItem item = navigationView.getMenu().findItem(R.id.classrooms);
+                        classrooms = item.getSubMenu();
+                        classrooms.clear();
+                    } else {
+                        classrooms.clear();
+                    }
+                    for (MembershipModel membership : memberships) {
+                        classrooms.add(membership.room.name);
+                    }
+                    navigationView.invalidate();
+                    if (first) {
+                        navigationView.setCheckedItem(R.id.nav_front_page);
+                        selectDrawerItem(navigationView.getCheckedItem());
+                        first = false;
+                    }
+                    this.memberships = new ArrayList<>(memberships);
+                });
     }
 
     @Override

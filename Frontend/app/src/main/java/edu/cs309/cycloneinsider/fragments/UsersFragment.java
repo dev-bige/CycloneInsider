@@ -27,7 +27,8 @@ public class UsersFragment extends Fragment {
     ViewModelFactory viewModelFactory;
     private UserListViewModel userListViewModel;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private UserListRecyclerViewAdapter userListRecyclerAdapter;
+    @Inject
+    UserListRecyclerViewAdapter userListRecyclerAdapter;
     private LinearLayoutManager layoutManager;
 
     @Override
@@ -47,7 +48,7 @@ public class UsersFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         view.findViewById(R.id.new_post_button).setVisibility(View.GONE);
         userListViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserListViewModel.class);
-
+        userListRecyclerAdapter.setCanDelete(userListViewModel::canDelete);
 
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(userListViewModel::refresh);
@@ -55,7 +56,6 @@ public class UsersFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
 
-        userListRecyclerAdapter = new UserListRecyclerViewAdapter();
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(userListRecyclerAdapter);

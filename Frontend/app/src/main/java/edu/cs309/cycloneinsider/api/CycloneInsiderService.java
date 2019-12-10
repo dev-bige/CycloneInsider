@@ -115,4 +115,10 @@ public interface CycloneInsiderService {
 
     @GET("/users/all")
     Observable<Response<List<InsiderUserModel>>> findUsers(@Query("roomId") String roomId);
+
+    @DELETE("/admin/users/{userUuid}")
+    Observable<Response<Void>> banUser(@Path("userUuid") String userUuid);
+
+    @DELETE("/admin/rooms/{roomUuid}/users/{userUuid}")
+    Observable<Response<Void>> kickUser(@Path("roomUuid") String roomUuid, @Path("userUuid") String userUuid);
 }

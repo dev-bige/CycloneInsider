@@ -24,6 +24,7 @@ import dagger.android.support.AndroidSupportInjection;
 import edu.cs309.cycloneinsider.R;
 import edu.cs309.cycloneinsider.activities.InsiderActivity;
 import edu.cs309.cycloneinsider.activities.MainActivity;
+import edu.cs309.cycloneinsider.api.UserStateService;
 import edu.cs309.cycloneinsider.api.models.RoomModel;
 import edu.cs309.cycloneinsider.di.ViewModelFactory;
 import edu.cs309.cycloneinsider.fragments.adapters.RoomListRecyclerViewAdapter;
@@ -39,6 +40,8 @@ public class RoomInvitationFragment extends Fragment {
 
     @Inject
     ViewModelFactory viewModelFactory;
+    @Inject
+    UserStateService userStateService;
     private RoomInvitationViewModel roomInvitationViewModel;
 
     @Override
@@ -89,12 +92,8 @@ public class RoomInvitationFragment extends Fragment {
         });
 
         roomInvitationViewModel.getJoinRoomMembership().observe(this, roomMembershipModelResponse -> {
-            ((MainActivity) getActivity()).loadRooms(() -> {
-                if (roomMembershipModelResponse.isSuccessful()) {
-                    ((MainActivity) getActivity()).loadRooms(() -> {
-                        ((MainActivity) getActivity()).selectRoom(roomMembershipModelResponse.body().getRoom().getUuid());
-                    });
-                }
+            this.userStateService.refreshMemberships(() -> {
+                ((MainActivity) getActivity()).selectRoom(roomMembershipModelResponse.body().getRoom().getUuid());
             });
         });
 
