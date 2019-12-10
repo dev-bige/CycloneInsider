@@ -103,8 +103,6 @@ public class MainActivity extends InsiderActivity {
             ((TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_header_username)).setText(userResponse.getUsername());
             if (!userResponse.getAdmin() && !userResponse.getProfessor()) {
                 navigationView.getMenu().findItem(R.id.nav_create_room).setVisible(false);
-            } else if (!userResponse.getAdmin()) {
-                navigationView.getMenu().findItem(R.id.nav_create_room).setVisible(false);
             }
 
             if (!userResponse.getAdmin()) {
